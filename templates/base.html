@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Nsspr.UW</title>
+        <meta name="description" content="">
+        <meta name="HandheldFriendly" content="True">
+        <meta name="MobileOptimized" content="320">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+        <meta http-equiv="cleartype" content="on">
+        
+        {% load staticfiles %}
+        {% load compress %}
+        
+        <!-- favicon and mobile device icons-->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="{% static "vendor/ico/apple-touch-icon-144x144-precomposed.png" %}">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="{% static "vendor/ico/apple-touch-icon-114x114-precomposed.png" %}">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="{% static "vendor/ico/apple-touch-icon-72x72-precomposed.png" %}">
+        <link rel="apple-touch-icon-precomposed" sizes="57x57" href="{% static "vendor/ico/apple-touch-icon-57x57-precomposed.png" %}"> 
+        <link rel="shortcut icon" href="{% static "vendor/ico/favicon.ico" %}">
+        
+        <!-- windows8 - tile icon  & color -->
+        <meta name="msapplication-TileImage" content="{% static "vendor/ico/apple-touch-icon-144x144-precomposed.png" %}">
+        <meta name="msapplication-TileColor" content="#222222">
+        
+        <!-- critical css (above the fold styles) -->
+        {% compress css inline %}
+            <link rel="stylesheet" href="{% static "vendor/css/normalize-3.0.1.min.css" %}">
+        {% endcompress %}
+        
+        <!-- regular css -->
+        {% compress css %}
+        
+            <link rel="stylesheet" href="{% static 'css/nsspr.css' %}" rel="stylesheet" type="text/css">           
+
+            {% if not low_fidelity %}
+            <!-- bootstrap & font awesome -->
+            <link rel="stylesheet" href="{% static "vendor/css/bootstrap-3.3.2.min.css" %}">
+            <link rel="stylesheet" href="{% static "vendor/css/font-awesome-4.0.3.min.css" %}">
+            <!-- insert your webfonts here -->
+            {% endif %}
+            
+            <!-- insert your mobile styles here -->
+            {% if not request.is_mobile and not request.is_tablet %}
+            <!-- insert your desktop styles here -->
+            {% endif %}
+
+        <link rel="stylesheet" href="{% static "css/mini.css" %}"/>
+	<link rel="stylesheet" href="{% static "css/body.css" %}"/>
+        <link rel="stylesheet" href="{% static "css/main.css" %}">
+
+        {% endcompress %}
+        
+        {% if not less_compiled %}
+            <!-- less.js -->
+            <script src="{% static 'vendor/js/less-2.0.0.min.js' %}" type="text/javascript"></script>
+        {% endif %}
+        
+        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
+    </head>
+    <body>
+      <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+            <!-- add the container class back to align the header with the content -->
+            <div  class="container">
+    	        <h1>Nsspr.UW</h1>
+                <p>Define yourself at the UW</p>
+            </div>
+		</div>
+		
+        <div id="content">
+        
+            <!-- pjax loading -->
+            <div id="pjax-loading" style="display:none;">loading...</div>
+            
+            <!-- all pjax content will render inside of this id -->
+            <div id="pjax-container">
+                {% block content %}{% endblock %}
+            </div>            
+        
+        </div>
+                     
+        <div id="footer">
+            <!-- example of request.is_mobile and request.is_tablet usage in templates -->    
+            {% if request.is_mobile %}
+            <div class="text-muted credit">
+                <ul>
+                    <li>Brought to you by UW-IT.</li>
+                    <li><a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a></li>
+                    <li><a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a></li>
+                    <li><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu">Log out</a></li>
+                </ul>
+            </div>
+            {% else %}
+            <div class="text-muted credit">
+                <ul>
+                    <li>Brought to you by UW-IT.</li>
+                    <li><a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a></li>
+                    <li><a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a></li>
+                    <li style="border-right: none;"><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu">Log out</a></li>
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        
+        {% if devtools_bar %}
+        <!-- devtools bar -->
+        <div id="dev_device">
+            <span class="label label-device">
+            Device: {% if request.is_mobile %}Mobile{% elif request.is_tablet %}Tablet{% else %}Desktop{%endif %}    
+            </span>
+        </div>
+        <div id="dev_viewport">
+            <span class="label label-fold">The fold</span>
+        </div>
+        {% endif %}
+                
+        <!-- javascript -->
+        {% compress js %}
+
+            <script src="{% static "vendor/js/jquery-1.11.2.min.js" %}"></script>
+            <script src="{% static "vendor/js/jquery-pjax-1.9.3.min.js" %}"></script>
+
+                    
+            {% if not low_fidelity %}
+            <script src="{% static "vendor/js/modernizr-2.6.2.min.js" %}"></script>
+            <script src="{% static "vendor/js/bootstrap-3.3.2.min.js" %}"></script>
+            {% endif %}
+            
+            <script src="{% static "js/nsspr.js" %}"></script>
+
+            <!-- app js goes here -->
+            <script>
+              pdp_name_url = '/id/api/name';
+              pdp_pub_url = '/id/api/publish';
+            </script>
+            
+        {% endcompress %}
+        
+        {% if google_analytics %}
+            <!-- google analytics -->
+            <script>
+                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+                
+                ga('create', '{{ GOOGLE_ANALYTICS_KEY }}');
+                ga('send', 'pageview');        
+            </script>
+        {% endif %}
+        
+    </body>
+</html>

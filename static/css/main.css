@@ -1,0 +1,232 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+/*boundless fonts*/
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../assets/fonts/encodesanscondensed-400-regular-webfont.eot');
+  src: url('../assets/fonts/encodesanscondensed-400-regular-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/encodesanscondensed-400-regular-webfont.woff') format('woff'), url('../assets/fonts/encodesanscondensed-400-regular-webfont.ttf') format('truetype'), url('../assets/fonts/encodesanscondensed-400-regular-webfont.svg#encodesanscondensed-400-regular-webfont') format('svg');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../assets/fonts/encodesanscondensed-500-medium-webfont.eot');
+  src: url('../assets/fonts/encodesanscondensed-500-medium-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/encodesanscondensed-500-medium-webfont.woff') format('woff'), url('../assets/fonts/encodesanscondensed-500-medium-webfont.ttf') format('truetype'), url('../assets/fonts/encodesanscondensed-500-medium-webfont.svg#encodesanscondensed-500-medium-webfont') format('svg');
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../assets/fonts/encodesanscompressed-600-semibold-webfont.eot');
+  src: url('../assets/fonts/encodesanscompressed-600-semibold-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/encodesanscompressed-600-semibold-webfont.woff') format('woff'), url('../assets/fonts/encodesanscompressed-600-semibold-webfont.ttf') format('truetype'), url('../assets/fonts/encodesanscompressed-600-semibold-webfont.svg#encodesanscompressed-600-semibold-webfont') format('svg');
+  font-weight: 600;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../assets/fonts/encodesanscompressed-700-bold-webfont.eot');
+  src: url('../assets/fonts/encodesanscompressed-700-bold-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/encodesanscompressed-700-bold-webfont.woff') format('woff'), url('../assets/fonts/encodesanscompressed-700-bold-webfont.ttf') format('truetype'), url('../assets/fonts/encodesanscompressed-700-bold-webfont.svg#encodesanscompressed-700-bold-webfont') format('svg');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../assets/fonts/encodesanscompressed-800-extrabold-webfont.eot');
+  src: url('../assets/fonts/encodesanscompressed-800-extrabold-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/encodesanscompressed-800-extrabold-webfont.woff') format('woff'), url('../assets/fonts/encodesanscompressed-800-extrabold-webfont.ttf') format('truetype'), url('../assets/fonts/encodesanscompressed-800-extrabold-webfont.svg#encodesanscompressed-800-extrabold-webfont') format('svg');
+  font-weight: 800;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Encode Sans Compressed';
+  src: url('../assets/fonts/encodesanscompressed-900-black-webfont.eot');
+  src: url('../assets/fonts/encodesanscompressed-900-black-webfont.eot?#iefix') format('embedded-opentype'), url('../assets/fonts/encodesanscompressed-900-black-webfont.woff') format('woff'), url('../assets/fonts/encodesanscompressed-900-black-webfont.ttf') format('truetype'), url('../assets/fonts/encodesanscompressed-900-black-webfont.svg#encodesanscompressed-900-black-webfont') format('svg');
+  font-weight: 900;
+  font-style: normal;
+}
+
+/* headers */ 
+/* customize font-size */
+h1, h2, h3 { font-weight: bold; }
+
+h2 { 
+  font-size: 20px; 
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+h3 {
+  font-size: 16px;
+}
+
+p, ul li {
+  font-size: 14px;
+  line-height: 150%;
+  color: #3d3d3d;
+  font-weight: normal;
+}
+
+
+.jumbotron {
+  background-color: #4b2e83;
+  height: 150px;
+  padding: 0px 10px;
+  margin-bottom: 0px; 
+  
+}
+
+
+/* customize header & tagline */
+.jumbotron h1, .jumbotron p {
+  color: #fff;
+  font-size: 30px;
+
+}
+
+/* tagline */
+.jumbotron p {
+  color:#ccc;
+  font-size: 16px;
+}
+
+/* logout */
+#logout {
+  float:right;
+  margin:20px;
+}
+
+
+/* style text input fields */
+
+#fieldset_wrapper {
+  padding: 20px;
+  border: 1px solid #efefef;
+  border-radius: 3px;
+}
+
+#fieldset_wrapper legend {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+/* styling the character counter */
+.alert-warning, .alert-info, .alert-danger {
+  opacity: 0.65;
+  border-radius: 2px;
+  height: 40px;
+}
+
+.alert-info {
+  display: none;
+}
+
+.alert-warning {
+  background-color: #d9d9d9;
+  border-color: #ccc;
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.alert-warning p {
+  line-height: 100%;
+}
+
+
+.row input {
+  width: 100%;
+  height: 32px;
+  line-height: 32px;
+}
+
+div.namefield { margin-bottom: 15px; }
+div.namefield label { margin-bottom: 0px; }
+
+/* resize input text */
+input[type="text"] {
+  font-size: 14px;
+}
+
+
+/* styling the save message */
+#savetext {
+	display:none;
+	color: green;
+}
+
+/* Styling the error message */
+#errormessage {
+  color: #c61029;
+  font-size: 14px;
+}
+
+/* Styling the save button */
+#save {
+	float: left;
+  width: 200px;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
+/* area showing save-messages */
+.save-message {
+  padding: 20px 0px;
+}
+
+.save-message .save-success {
+  text-align: center;
+  padding: 5px 0px;
+}
+
+.save-failure {
+  text-align: center;
+  padding: 5px 0px;
+  opacity: 1;
+  height: 100%;
+  border-radius: 4px; }
+
+.general-error {
+  text-align: center;
+  padding: 5px 0px;
+  opacity: 1;
+  height: 100%;
+  border-radius: 4px; }
+
+.nav-tabs { padding-top: 10px; }
+
+/* styling disabled button */
+.btn.disabled, .btn[disabled], fieldset[disabled] .btn
+{
+  background-color: #d9d9d9;
+  border-color: #ccc;
+  color: #3d3d3d;
+
+}
+
+/* footer */
+#footer .credit {
+  margin-left: 30px; 
+}
+
+#footer a { color: #bdc3c7; text-decoration: underline; }
+
+#footer .credit ul { 
+    line-height: 11px;
+    list-style: outside none none;
+    margin-bottom: 0.5em;
+    padding: 0; 
+}
+
+#footer .credit ul li { 
+    border-right: 1px solid #bdc3c7;
+    color: #bdc3c7;
+    display: inline-block;
+    margin-right: 3px;
+    padding-right: 5px;
+    font-size: 12px;
+}
+
+
+
+
