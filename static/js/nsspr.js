@@ -23,6 +23,10 @@ app.controller('NetidCtrl', ['$http', '$log', function ($http, $log) {
     this.show_smsform = 0;
     this.show_emailform = 0;
     this.show_codeform = 0;
+    this.show_gateform = 0;
+    this.show_gateform_eid = 0;
+    this.show_gateform_sid = 0;
+    this.show_gateform_bd = 0;
 
     this.sms_number = '***.***.*123';
     this.email_address = 'z***12@gm***.com';
@@ -39,7 +43,10 @@ app.controller('NetidCtrl', ['$http', '$log', function ($http, $log) {
                 $log.info( _this.netid_info);
                 _this.show_idform = 0;
                 _this.show_id = 1;
-                _this.show_smsform = 1;
+                _this.show_gateform = 1;
+                if ( typeof _this.netid_info['birthdate'] != 'undefined') _this.show_gateform_bd = 1;
+                if ( typeof _this.netid_info['eid'] != 'undefined') _this.show_gateform_eid = 1;
+                if ( typeof _this.netid_info['sid'] != 'undefined') _this.show_gateform_sid = 1;
             })
             .error(function (data, status) {
                 $log.info('name get status returned error, status ' + status);
@@ -47,6 +54,12 @@ app.controller('NetidCtrl', ['$http', '$log', function ($http, $log) {
             });
     };
 
+    this.checkGateInfo = function () {
+        $log.info('check gate');
+        _this.show_gateform_id = 0;
+        _this.show_gateform = 0;
+        _this.show_smsform = 1;
+    };
     this.sendSMS = function () {
         $log.info('send sms');
         _this.show_smsform = 0;
