@@ -128,12 +128,15 @@
             <script src="{% static "vendor/js/bootstrap-3.3.2.min.js" %}"></script>
             {% endif %}
             
-            <script src="{% static "js/nsspr.js" %}"></script>
+{% if model == "recover" %}
+            <script src="{% static "js/recover.js" %}"></script>
+{% endif %}
+{% if model == "configure" %}
+            <script src="{% static "js/configure.js" %}"></script>
+{% endif %}
+
 
             <!-- app js goes here -->
-            <script>
-             
-            </script>
             
         {% endcompress %}
         
