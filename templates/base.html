@@ -128,11 +128,17 @@
             <script src="{% static "vendor/js/bootstrap-3.3.2.min.js" %}"></script>
             {% endif %}
             
-{% if model == "recover" %}
+{% if app_name == "recover" %}
             <script src="{% static "js/recover.js" %}"></script>
 {% endif %}
-{% if model == "configure" %}
+{% if app_name == "configure" %}
             <script src="{% static "js/configure.js" %}"></script>
+{% endif %}
+{% if app_name == "qna" %}
+            <script src="{% static "js/qna.js" %}"></script>
+{% endif %}
+{% if app_name == "password" %}
+            <script src="{% static "js/password.js" %}"></script>
 {% endif %}
 
 
