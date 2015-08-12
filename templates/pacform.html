@@ -1,0 +1,27 @@
+
+
+         {% verbatim %}
+                <div id="pac_form">
+                <form role="form" name="netid.pacform">
+                    <div id="fieldset_wrapper">
+                        <fieldset>
+                            <legend></legend>
+                                <div class="col-md-4 idfield">
+                                    <input type="text" name="{{x['n']}}" ng-model="netid.pac[i]"
+                                           ng-pattern="valid_chars" value=""
+                                           maxlength="48"
+                                           required="required"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <button type="submit" id="pac_next" class="btn btn-primary" ng-click="netid.checkPac()"
+                            ng-disabled="netid.pacform.$pristine"
+                            >Next
+                    </button>
+
+                </form>
+                </div>
+         {% endverbatim %}
+
