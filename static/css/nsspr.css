@@ -4161,3 +4161,10 @@ label.screen-reader {
     border: 1px solid #ddd !important;
   }
 }
+
+.password-x {
+  width:300px;
+  height: 10px;
+
+}
+
