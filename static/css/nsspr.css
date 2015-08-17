@@ -4163,8 +4163,18 @@ label.screen-reader {
 }
 
 .password-x {
-  width:300px;
   height: 10px;
 
+}
+
+.visuallyhidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px; 
 }
 
