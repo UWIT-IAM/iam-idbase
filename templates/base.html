@@ -45,9 +45,9 @@
             {% if not request.is_mobile and not request.is_tablet %}
             <!-- insert your desktop styles here -->
             {% endif %}
-
-        <link rel="stylesheet" href="{% static "css/mini.css" %}"/>
-	<link rel="stylesheet" href="{% static "css/body.css" %}"/>
+<!--
+        <link rel="stylesheet" href="{% static "css/mini.css" %}"/> -->
+		<link rel="stylesheet" href="{% static "css/body.css" %}"/> 
         <link rel="stylesheet" href="{% static "css/main.css" %}">
 
         {% endcompress %}
@@ -65,7 +65,7 @@
         <div class="jumbotron">
             <!-- add the container class back to align the header with the content -->
             <div  class="container">
-    	        <h1>UWNetID.UW</h1>
+    	        <h1>Identity.UW</h1>
                 <p>Identify yourself at the UW</p>
             </div>
 		</div>
@@ -87,21 +87,28 @@
             {% if request.is_mobile %}
             <div class="text-muted credit">
                 <ul>
-                    <li>Brought to you by UW-IT.</li>
+	                <li><a href="#">Help</a></li>
                     <li><a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a></li>
                     <li><a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a></li>
                     <li><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu">Log out</a></li>
                 </ul>
             </div>
+            <p class="text-muted credit">
+	            ©2015 University of Washington
+	        </p>
             {% else %}
             <div class="text-muted credit">
                 <ul>
-                    <li>Brought to you by UW-IT.</li>
+	                <li><a href="#">Help</a></li>
+
                     <li><a href="http://www.washington.edu/online/terms/" target="_blank">Terms of Use</a></li>
                     <li><a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy Policy</a></li>
                     <li style="border-right: none;"><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu">Log out</a></li>
                 </ul>
             </div>
+            <p class="text-muted credit">
+	            ©2015 University of Washington
+	        </p>
             {% endif %}
         </div>
         
