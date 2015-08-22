@@ -19,7 +19,7 @@ app.controller('QnaCtrl', ['$http', '$log', function ($http, $log) {
     this.qna = [];
 
     this.checkQnA = function () {
-        $log.info('checkQnA');
+        $log.info('In qna.js, checkQnA');
         $log.info(_this.qna)
         for (i=0;i<_this.qna.length;i++) {
            $log.info('ans to ' + i + ' is ' + _this.qna[i]);
