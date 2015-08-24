@@ -1,7 +1,6 @@
 {% extends "base.html" %}
 
 {% block content %}
-{% verbatim %}
     <div  class="container">
       <h2>Welcome to identity.UW, NETID ! </h2>
       <h3>Set up your Preferred name <h3>
@@ -9,9 +8,8 @@
 
  
         <ul>
-        <li><a href="/nsspr/recover">password recovery</a></li>
-        <li><a href="/nsspr/configure">password recovery set up</a></li>
+        <li><a href="{{recover_url}}">password recovery</a></li>
+        <li><a href="{{configure_URL}}">password recovery set up</a></li>
 
     </div>
-{% endverbatim %}
 {% endblock %}
