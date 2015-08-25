@@ -219,6 +219,7 @@ input[type="text"] {
 #footer{
 	border-top: #eee 1px solid;
 	padding-top: 20px;
+	margin-top: 50px;
 }
 
 #footer .credit {
