@@ -29,7 +29,7 @@ app.controller('QnaCtrl', ['$http', '$log', function ($http, $log) {
 
 
     this.checkQnAforreal = function () {
-        $log.info('check qna');
+        $log.info('In checkQnAforreal, check qna');
         data = {'lname': _this.gate.lname, 'bdate': _this.gate.bdate, 'eid': _this.gate.eid, 'sid': _this.gate.sid};
         $log.info (data);
         $http.post(recover_api_checkgate + _this.netid.id, data )
