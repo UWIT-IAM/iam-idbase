@@ -13,7 +13,7 @@
                     <h2>UW NetID password recovery</h2>
                 </div>
                 <div ng-show="netid.getStatus >= 400">
-                    <p class="general-error alert alert-danger" role="alert">Error trying to get uwnetid information</p>
+                    <p class="general-error alert alert-danger" role="alert">Error trying to get question and answer information</p>
                 </div>
 
                 <div>
@@ -43,7 +43,7 @@
 
                     <button type="submit" id="qna_next" class="btn btn-primary" ng-click="netid.checkQnA()"
                             ng-disabled="netid.qnaform.$pristine"
-                            >Next qna only
+                            >Next
                     </button>
 
                 </form>
