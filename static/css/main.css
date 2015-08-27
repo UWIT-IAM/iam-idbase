@@ -54,8 +54,14 @@ h1, h2, h3 { font-weight: bold; }
 h2 { 
   font-size: 32px; 
   color: #4b2e83;
-  margin-top: 30px;
+  margin-top: 1em;
   margin-bottom: 5px;
+}
+
+h1 small,
+h2 small{
+	font-weight: normal;
+	color:#4b2e83;
 }
 
 h3 {
