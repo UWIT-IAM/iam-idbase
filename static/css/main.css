@@ -79,7 +79,29 @@ p, ul li {
   color: #3d3d3d;
   font-weight: normal;
 }
+/* Nav bar */
+.topnav {
+	background-color: #452c7a;
+	height: 42px;
+}
 
+#navigation a {
+	color:white;
+	font-size: 1.286em;
+}
+#navigation li a:hover {
+		background-color:#3a2664;
+		border: none;
+		text-decoration:none;
+		border-radius: 0px;	
+		}
+#navigation li a:focus { /* To-do: cleanup */
+		background-color:#3a2664;
+		border: none;
+		text-decoration:none;
+		border-radius: 0px;	
+		}
+/* Home page leading paragraph */
 .intro{
 	font-size: 24px;
 	color: #777;
@@ -88,7 +110,7 @@ p, ul li {
 
 .jumbotron {
   background-color: #4b2e83;
-  height: 150px;
+  height: 110px;
   padding: 0px 10px;
   margin-bottom: 0px; 
   
@@ -238,7 +260,7 @@ input[type="text"] {
 
 #footer a { color: #777; text-decoration: none; }
  a:hover, a:focus {
-  color: #85754d;
+  color: #b5754d;
   border-bottom: 1px solid #BDBDBD;
 }
 
