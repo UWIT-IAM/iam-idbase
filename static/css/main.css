@@ -58,7 +58,6 @@ h2 {
   margin-bottom: 5px;
 }
 
-h1 small,
 h2 small{
 	font-weight: normal;
 	color:#4b2e83;
@@ -97,16 +96,19 @@ p, ul li {
 
 
 /* customize header & tagline */
-.jumbotron h1, .jumbotron p {
+.jumbotron h1 a, .jumbotron p {
   color: #fff;
   font-size: 30px;
 
 }
 
 /* tagline */
-.jumbotron p {
-  color:#ccc;
+.tagline {
+  color:#e9e6f0; /* light lavendar from UW banding */
   font-size: 16px;
+  font-family:open sans, sans-serif;
+  font-weight:100;
+  padding-left: 1em;
 }
 
 /* logout */
@@ -234,7 +236,11 @@ input[type="text"] {
   
 }
 
-#footer a { color: #bdc3c7; text-decoration: underline; }
+#footer a { color: #777; text-decoration: none; }
+ a:hover {
+  color: #85754d;
+  border-bottom: 1px solid #BDBDBD;
+}
 
 #footer .credit ul { 
     line-height: 11px;

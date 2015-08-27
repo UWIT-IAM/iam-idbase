@@ -66,15 +66,16 @@
     </head>
     <body>
       <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="jumbotron">
+        <div class="jumbotron" role="banner">
             <!-- add the container class back to align the header with the content -->
             <div  class="container">
-    	        <h1>Identity.UW</h1>
-                <p>Identify yourself at the UW</p>
+    	        <h1><a href="#">Identity.UW</a><span class="tagline">Identify yourself at the UW</span></h1> 
             </div>
 		</div>
-		
-        <div id="content">
+
+<!-- Add global navigation here -->	
+	
+        <div id="content" role="main">
         
             <!-- pjax loading -->
             <div id="pjax-loading" style="display:none;">loading...</div>
@@ -86,7 +87,7 @@
         
         </div>
                      
-        <div id="footer">
+        <div id="footer" role="contentinfo">
             <!-- example of request.is_mobile and request.is_tablet usage in templates -->    
             {% if request.is_mobile %}
             <div class="text-muted credit">
