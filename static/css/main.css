@@ -237,10 +237,11 @@ input[type="text"] {
 }
 
 #footer a { color: #777; text-decoration: none; }
- a:hover {
+ a:hover, a:focus {
   color: #85754d;
   border-bottom: 1px solid #BDBDBD;
 }
+
 
 #footer .credit ul { 
     line-height: 11px;
