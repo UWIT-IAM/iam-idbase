@@ -89,18 +89,24 @@ p, ul li {
 	color:white;
 	font-size: 1.286em;
 }
-#navigation li a:hover {
-		background-color:#3a2664;
-		border: none;
-		text-decoration:none;
-		border-radius: 0px;	
-		}
-#navigation li a:focus { /* To-do: cleanup */
-		background-color:#3a2664;
-		border: none;
-		text-decoration:none;
-		border-radius: 0px;	
-		}
+
+/* Tweaking Bootstrap navigation style */	
+.nav> li > a:hover,
+.nav> li > a:focus {
+	text-decoration: none;
+	background-color:#3a2664;
+}	
+.nav-pills > li > a {
+	border-radius: 0px;
+	border: none;
+	text-decoration:none;
+}	
+.nav-pills > li.active > a,
+.nav-pills > li.active > a:hover,
+.nav-pills > li.active > a:focus {
+  background-color:#3a2664;
+}
+
 /* Home page leading paragraph */
 .intro{
 	font-size: 24px;
@@ -118,7 +124,7 @@ p, ul li {
 
 
 /* customize header & tagline */
-.jumbotron h1 a, .jumbotron p {
+.jumbotron h1, .jumbotron h1 a, .jumbotron p {
   color: #fff;
   font-size: 30px;
 
