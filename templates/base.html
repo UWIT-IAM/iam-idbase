@@ -97,6 +97,7 @@
         </div>
                      
         <div id="footer" role="contentinfo">
+	        <div class="container">
             <!-- example of request.is_mobile and request.is_tablet usage in templates -->    
             {% if request.is_mobile %}
             <div class="text-muted credit">
@@ -127,6 +128,7 @@
 	            ©2015 University of Washington
 	        </p>
             {% endif %}
+            </div>  <!-- end of container -->
         </div>
         
         {% if devtools_bar %}

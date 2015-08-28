@@ -260,7 +260,7 @@ input[type="text"] {
 }
 
 #footer .credit {
-  margin-left: 30px; 
+  margin-left: 15px; 
   
 }
 
@@ -287,6 +287,8 @@ input[type="text"] {
     font-size: 12px;
 }
 
-
+#footer .credit ul li:last-child { 
+	    border: 0px;
+}
 
 
