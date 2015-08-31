@@ -2,19 +2,22 @@
 
 {% block content %}
     <div  class="container">
-      <h2>Welcome, <small>Insert FullName here!</small></h2>
+      <h2>Welcome, <small>{{user_name}}</small></h2>
       <p class="intro">Identity.UW is your tool to set the preferred name or set up your NetID account recovery settings.</p>
-     <div class="uw-body"><h3><a href="https://identity-dev.s.uw.edu/id/">Set up your Preferred name  </a> for <a href="http://www.washington.edu/home/peopledir/" target="_blank">UW Directory</a> </h3>
+      <div class="uw-body"><h3><a href="{{pdp_url}}/">Set up your Preferred name</a></h3>
 	  <p>You can set a preferred name to be used in place of your legal name wherever possible. If you are listed in the <a href="http://www.washington.edu/home/peopledir/" target="_blank">UW directory</a>, your preferred name will be visible there immediately.</p></div>
 	  
-      <div class="uw-body"><h3><a href="configure">Set up your Account recovery options</a></h3> 
-	      <p>Your <a href="configure">NetID account recovery options</a> give you a way to access your account if you forget your password.
+      <div class="uw-body"><h3><a href="{{configure_url}}/">Set up your UW NetID account recovery options</a></h3> 
+             <p>Your <a href="{{configure_url}}/">UW NetID account recovery options</a> give you a way to access your account if you forget your pass
  </p>
 	  </div>
 
-      <div class="uw-body"><h3><a href="recover">Forgot password?</a></h3> 
-	      <p>Your <a href="recover">Adding this for now to make it easier</a> to develop.
- </p>
+<p>
+<hr>
+<p>
+      <div class="uw-body"><a href="{{recover_url}}/">Go to recover pages</a> 
+             <p>Just for easier access by developers of the site.
+
 	  </div>
 
  
