@@ -171,6 +171,10 @@ label{
 	font-weight:600;
 }
 /* style text input fields */
+fieldset{
+	padding-bottom: 10px;
+}
+
 #fieldset_wrapper {
   padding: 20px;
   border: 1px solid #efefef;
