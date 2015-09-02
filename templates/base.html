@@ -66,21 +66,24 @@
         <div class="jumbotron" role="banner">
             <!-- add the container class back to align the header with the content -->
             <div  class="container">
-    	        <h1><a href="nsspr">Identity.UW</a><span class="tagline italic">Define yourself at the UW</span></h1> 
+    	        <h1><a href="/">Identity.UW</a><span class="tagline italic">Define yourself at the UW</span></h1> 
             </div>
 		</div>
 
 		<!-- Add NetID at the Global Nav location for V1.0  -->
 		<div class="topnav">
 			
+{% if netid %}
+
 			<div  class="container"> 
 				 <ul> 
 					 <li class="netid-row netid-navbar">
-						UW NetID: {{ display_netid }} ( {{ name }} )
+						UW NetID: {{ netid }} ( {{ display_name }} )
 				 	</li>
 				<li id="logout"><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu" class="graytext">Log out</a></li>
 				</ul>
 			</div>
+{% endif %}
 		</div><!-- End of nav banner  -->
 	
         <div id="content" role="main">
