@@ -79,6 +79,20 @@ p, ul li {
   color: #3d3d3d;
   font-weight: normal;
 }
+
+/* styling text */
+.bold {
+	font-weight: bold;
+}
+
+.italic{
+	font-style: italic;
+}
+
+.graytext{
+	color: #aaa;
+}
+
 /* Nav bar */
 .topnav {
 	background-color: #452c7a;
@@ -142,19 +156,29 @@ p, ul li {
 
 /* logout */
 #logout {
+font-size: 14px;	
   float:right;
-  margin:20px;
+  padding: 10px;
+  display:inline-block;
+ /* margin:20px; */
 }
 
-/* NETID callout */
+/* NETID callout in UI*/
 .netid-row {
 	font-weight: bold;
 	font-size: 14px;
 	color: #777;
 	display: inline-block;
+}
+/* NETID in Nav bar for V1 */
+.netid-navbar{
+	padding: 10px 0px;
+	color:#e9e6f0;
+	font-weight: 200;
+	margin-left: -10px;
+}
 	
 }
-
 /* style Module box */
 .graybox{
 	padding-top: 15px;
@@ -213,7 +237,7 @@ fieldset{
   width: 100%;
   height: 32px;
   line-height: 32px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
 
 div.namefield { margin-bottom: 15px; }
