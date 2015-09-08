@@ -326,6 +326,8 @@ input[type="text"] {
 	border-top: #eee 1px solid;
 	padding-top: 20px;
 	margin-top: 50px;
+	color: #777;
+	font-size: 12px;
 }
 
 #footer .credit {
@@ -334,11 +336,15 @@ input[type="text"] {
 }
 
 #footer a { color: #777; text-decoration: none; }
- a:hover, a:focus {
+ a:hover {
   color: #b5754d;
   border-bottom: 1px solid #BDBDBD;
 }
 
+a:focus {
+  color: #b5754d;
+  border: 1px solid blue; /* STYLE MORE LATER! */
+}
 
 #footer .credit ul { 
     line-height: 11px;
@@ -349,7 +355,6 @@ input[type="text"] {
 
 #footer .credit ul li { 
     border-right: 1px solid #bdc3c7;
-    color: #bdc3c7;
     display: inline-block;
     margin-right: 3px;
     padding-right: 5px;
@@ -358,7 +363,9 @@ input[type="text"] {
 
 #footer .credit ul li:last-child { 
 	    border: 0px;
+	    color: #777;
 }
+
 
 /* COPIED FROM NSSPR.CSS: JIM'S ADDITION    */
 .password-x {
