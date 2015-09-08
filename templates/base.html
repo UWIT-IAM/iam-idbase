@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Account Recovery</title>
+        <title>Identity.UW</title>
         <meta name="description" content="">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
@@ -62,20 +62,20 @@
     </head>
     <body>
       <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="jumbotron" role="banner">
+        <div class="jumbotron">
             <!-- add the container class back to align the header with the content -->
-            <div  class="container">
-    	        <h1><a href="/">Identity.UW</a><span class="tagline">Define yourself at the UW</span></h1> 
+            <div  class="container" >
+    	        <h1 role="banner"><a href="/">Identity.UW</a><span class="tagline">Define yourself at the UW</span></h1> 
             </div>
 		</div>
 
 		<!-- Add NetID at the Global Nav location for V1.0  -->
-		<div class="topnav">
+		<div class="topnav" role="complementary" aria-labelledby="netid-info" >
 			
 {% if netid %}
 
-			<div  class="container"> 
-				 <ul> 
+			<div  class="container" > 
+				 <ul id="netid-info"> 
 					 <li class="netid-row netid-navbar">
 						UW NetID: {{ netid }} ( {{ display_name }} )
 				 	</li>
@@ -97,7 +97,7 @@
         
         </div>
                      
-        <div id="footer" role="contentinfo">
+        <div id="footer" role="contentinfo" aria-label="Help, Terms, and links to UW sites">
 	        <div class="container">
             <!-- example of request.is_mobile and request.is_tablet usage in templates -->    
             {% if request.is_mobile %}
