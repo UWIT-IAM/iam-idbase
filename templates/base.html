@@ -72,12 +72,12 @@
 		<!-- Add NetID at the Global Nav location for V1.0  -->
 		<div class="topnav" role="complementary" aria-labelledby="netid-info" >
 			
-{% if netid %}
+{% if banner_netid %}
 
 			<div  class="container" > 
 				 <ul id="netid-info"> 
 					 <li class="netid-row netid-navbar">
-						UW NetID: {{ netid }} ( {{ display_name }} )
+						UW NetID: {{ banner_netid }} ( {{ display_name }} )
 				 	</li>
 				<li id="logout"><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu" class="graytext">Log out</a></li>
 				</ul>
