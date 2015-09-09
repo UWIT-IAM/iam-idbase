@@ -98,6 +98,11 @@ p, ul li {
 	font-size: 80%;
 }
 
+.fallback-btn-link{
+	padding-left: 0px;
+	margin: 10px 0px;
+	font-size: 14px;
+}
 
 /* Nav bar */
 .topnav {
