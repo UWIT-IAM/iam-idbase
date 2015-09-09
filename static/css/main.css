@@ -47,7 +47,7 @@
   font-style: normal;
 }
 
-/* headers */ 
+/* GLOBAL */ 
 /* customize font-size */
 h1, h2, h3 { font-weight: bold; }
 
@@ -98,6 +98,7 @@ p, ul li {
 	font-size: 80%;
 }
 
+
 /* Nav bar */
 .topnav {
 	background-color: #452c7a;
@@ -124,13 +125,6 @@ p, ul li {
 .nav-pills > li.active > a:hover,
 .nav-pills > li.active > a:focus {
   background-color:#3a2664;
-}
-
-/* Home page leading paragraph */
-.intro{
-	font-size: 24px;
-	color: #777;
-	/*font-family: Open Sans, sans-serif; */
 }
 
 .jumbotron {
@@ -176,6 +170,7 @@ font-size: 14px;
 	color: #777;
 	display: inline-block;
 }
+
 /* NETID in Nav bar for V1 */
 .netid-navbar{
 	padding: 10px 0px;
@@ -184,7 +179,7 @@ font-size: 14px;
 	margin-left: -10px;
 }
 	
-}
+
 /* style Module box */
 .graybox{
 	padding-top: 15px;
@@ -202,7 +197,7 @@ font-size: 14px;
 	padding-left: 20px;
 	padding-right: 20px;
 	margin: 5px 0px;
-	border: 1px solid #eee;
+	border: 1px solid #efefef;
 	border-radius: 3px;
 	margin: 15px 0px;
 }
@@ -320,6 +315,13 @@ input[type="text"] {
   color: #3d3d3d;
 
 }
+
+/* Email recovery big button tweak */
+#emailnonebutton{
+	padding-left: 17px;
+	padding-right: 18px;
+}
+
 
 /* footer */
 #footer{
