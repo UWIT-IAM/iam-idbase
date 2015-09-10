@@ -368,9 +368,13 @@ a:focus {
 
 
 /* COPIED FROM NSSPR.CSS: JIM'S ADDITION    */
-.password-x {
+/* style the password strength bar */
+.password-bar {
   height: 10px;
-
+}
+/* style the password strength verdict (text) */
+.password-verdict {
+  font-size:10pt; 
 }
 
 .visuallyhidden {
