@@ -384,6 +384,7 @@ a:focus {
 /* style the password strength verdict (text) */
 .password-verdict {
   font-size:14px; 
+  margin-top: -30px;
 }
 .password-short {
   color: #d00000;
