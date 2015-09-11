@@ -96,12 +96,17 @@ p, ul li {
 }
 .input-error-text{
 	font-size: 80%;
+	color: #d24436;
 }
 
 .fallback-btn-link{
 	padding-left: 0px;
 	margin: 10px 0px;
 	font-size: 14px;
+}
+/* overwrite blue color for A11y */
+a{
+	color:#007bc8;
 }
 
 /* Nav bar */
@@ -387,16 +392,16 @@ a:focus {
   margin-top: -30px;
 }
 .password-short {
-  color: #d00000;
+  color: #d24436;
 }
 .password-weak {
   color: #ffa500;
 }
 .password-fair {
-  color: #8b8b00;
+  color: #7b7b00;
 }
 .password-good {
-  color: #20b2aa;
+  color: #0a946b;
 }
 .password-strong {
   color: #007000;
