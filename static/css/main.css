@@ -373,21 +373,17 @@ a:focus {
 	    color: #777;
 }
 
-/* Create new pw screen's PW strength meter   */
-.password-bar {
-   height: 10px;
-   margin-left: -12px;
-   display: none;
-}
 
 /* COPIED FROM NSSPR.CSS: JIM'S ADDITION    */
 /* style the password strength bar */
 .password-bar {
   height: 10px;
+  margin-left: -12px;
+  display: none;
 }
 /* style the password strength verdict (text) */
 .password-verdict {
-  font-size:10pt; 
+  font-size:14px; 
 }
 
 .visuallyhidden {
