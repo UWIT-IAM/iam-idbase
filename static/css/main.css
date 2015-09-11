@@ -385,6 +385,21 @@ a:focus {
 .password-verdict {
   font-size:14px; 
 }
+.password-short {
+  color: #d00000;
+}
+.password-weak {
+  color: #ffa500;
+}
+.password-fair {
+  color: #8b8b00;
+}
+.password-good {
+  color: #20b2aa;
+}
+.password-strong {
+  color: #007000;
+}
 
 .visuallyhidden {
   border: 0;
