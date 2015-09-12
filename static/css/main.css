@@ -80,7 +80,7 @@ p, ul li {
   font-weight: normal;
 }
 
-/* styling text */
+/* styling text: Global */
 .bold {
 	font-weight: bold;
 }
@@ -136,6 +136,7 @@ a{
 .nav-pills > li.active > a:focus {
   background-color:#3a2664;
 }
+
 
 .jumbotron {
   background-color: #4b2e83;
@@ -221,6 +222,11 @@ fieldset{
 	padding-bottom: 10px;
 }
 
+.userinfo{
+	font-size: 150%;
+	color:#777;
+	line-height: 2;
+}
 #fieldset_wrapper {
   padding: 20px;
   border: 1px solid #efefef;
