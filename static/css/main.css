@@ -103,6 +103,7 @@ p, ul li {
 	padding-left: 0px;
 	margin: 10px 0px;
 	font-size: 14px;
+	color:#007bc8;
 }
 /* overwrite blue color for A11y */
 a{
