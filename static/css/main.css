@@ -324,6 +324,15 @@ input[type="text"] {
 
 .nav-tabs { padding-top: 10px; }
 
+
+/* styling default button */
+.btn-default{
+	background-color: #7377a;
+	color:#fff;
+	border-color: #adadad;
+
+}
+
 /* styling disabled button */
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn
 {
