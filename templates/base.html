@@ -69,10 +69,9 @@
             </div>
 		</div>
 
+      {% if banner_netid %}
 		<!-- Add NetID at the Global Nav location for V1.0  -->
 		<div class="topnav" role="complementary" aria-labelledby="netid-info" >
-			
-{% if banner_netid %}
 
 			<div  class="container" > 
 				 <ul id="netid-info"> 
@@ -82,8 +81,8 @@
 				<li id="logout"><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu" class="graytext">Log out</a></li>
 				</ul>
 			</div>
-{% endif %}
 		</div><!-- End of nav banner  -->
+      {% endif %}
 	
         <div id="content" role="main" aria-labelledby="page-header">
         
