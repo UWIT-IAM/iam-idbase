@@ -110,6 +110,12 @@ a{
 	color:#007bc8;
 }
 
+.site-name{
+	color: #fff;
+	font-size: 30px;
+
+}
+
 /* Nav bar */
 .topnav {
 	background-color: #452c7a;
