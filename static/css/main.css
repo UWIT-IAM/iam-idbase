@@ -51,6 +51,7 @@
 /* customize font-size */
 h1, h2, h3 { font-weight: bold; }
 
+/* NTS: will be h3 style soon*/
 h2 { 
   font-size: 32px; 
   color: #4b2e83;
@@ -78,6 +79,27 @@ p, ul li {
   line-height: 150%;
   color: #3d3d3d;
   font-weight: normal;
+}
+
+/* NTS: New H1 style!   */
+.page-header {
+  border-bottom: 0px;	
+}
+.page-header h1{
+  font-size: 32px; 
+  color: #4b2e83;
+  margin-top: 1em;
+  margin-bottom: 10px;
+}
+
+.page-header h1 small{
+  color: #595959;
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 15px;
+  margin-bottom: 5px;
+  display:block;
+
 }
 
 /* styling text: Global */
@@ -109,6 +131,8 @@ p, ul li {
 a{
 	color:#007bc8;
 }
+
+
 
 .site-name{
 	color: #fff;
@@ -154,12 +178,12 @@ a{
 }
 
 
-/* customize header & tagline */
+/* customize header & tagline -- UNUSED -- 
 .jumbotron h1, .jumbotron h1 a, .jumbotron p {
   color: #fff;
   font-size: 30px;
-
 }
+*/
 
 /* tagline */
 .tagline {
