@@ -130,8 +130,6 @@ a{
 	color:#007bc8;
 }
 
-
-
 .site-name{
 	color: #fff;
 	font-size: 30px;
@@ -218,7 +216,12 @@ font-size: 14px;
 	font-weight: 200;
 	margin-left: -10px;
 }
+/* Recovery opts view H2 styling */
+.option-heading{
+	font-size: 14px;
+	font-weight: 400;
 	
+}	
 
 /* style Module box */
 .graybox{
