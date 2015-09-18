@@ -74,7 +74,7 @@ h4 {
   font-size: 16px;
 }
 
-p, ul li {
+p, ul li, .qna-heading{
   font-size: 14px;
   line-height: 150%;
   color: #3d3d3d;
