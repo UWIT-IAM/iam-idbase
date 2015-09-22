@@ -64,25 +64,31 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
         <div class="jumbotron">
             <!-- add the container class back to align the header with the content -->
-            <div  class="container" >
-    	        <div role="banner" ><a href="/" class="site-name" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span></div> 
-            </div>
-		</div>
+            <div class="container" >
+    	        <div role="banner" class="banner"><a href="/" class="site-name" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
+    	        
+	    	        {% if banner_netid %}
+					<!-- Add NetID at the Global Nav location for V1.0  -->
+					<div class="topnav" >
+	
+							 <ul id="netid-info"> 
+								 <li class="netid-row netid-navbar">
+									UW NetID: {{ banner_netid }} ( {{ display_name }} )
+							 	</li>
+							<li id="logout"><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu" class="graytext">Log out</a></li>
+							</ul>
+						</div> <!-- topnav  -->
+	
+					{% endif %}       
+    	        	
+    	        </div> <!-- banner -->
+            </div><!-- container -->
+ 
+    
+            
+		</div><!-- jumbotron  -->
 
-      {% if banner_netid %}
-		<!-- Add NetID at the Global Nav location for V1.0  -->
-		<div class="topnav" >
 
-			<div  class="container" > 
-				 <ul id="netid-info"> 
-					 <li class="netid-row netid-navbar">
-						UW NetID: {{ banner_netid }} ( {{ display_name }} )
-				 	</li>
-				<li id="logout"><a href="https://weblogin.washington.edu/?logout_action=0&two=idp&one=idp.u.washington.edu" class="graytext">Log out</a></li>
-				</ul>
-			</div>
-		</div><!-- End of nav banner  -->
-      {% endif %}
 	
         <div id="content" role="main" >
         

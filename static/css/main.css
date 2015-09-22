@@ -49,7 +49,8 @@
 
 /* GLOBAL */ 
 /* customize font-size */
-h1, h2, h3 { font-weight: bold; }
+h1, h2, h3 { font-weight: bold; 
+}
 
 /* NTS: will be h3 style soon*/
 h2 { 
@@ -100,6 +101,11 @@ p, ul li, .qna-heading{
 
 }
 
+.uw-body{
+	padding:0px;
+	
+}
+
 /* styling text: Global */
 .bold {
 	font-weight: bold;
@@ -130,16 +136,29 @@ a{
 	color:#007bc8;
 }
 
+/* spacing in header  */
+.banner{
+	padding-top: 20px;
+    height: 140px;
+}
 .site-name{
 	color: #fff;
-	font-size: 30px;
-
+	font-size: 37px;
+	font-family: "Encode Sans Compressed", sans-serif;
+	font-weight: 700;
+	line-height: 1.3;
+	margin: 0.67em 0;
 }
 
-/* Nav bar */
+/* net-id  */
 .topnav {
-	background-color: #452c7a;
+	background-color: #4b2e83;
 	height: 42px;
+	margin-top: 30px;
+}
+/* to align   */
+.topnav ul{
+	margin-left: -15px;
 }
 
 #navigation a {
@@ -167,7 +186,6 @@ a{
 
 .jumbotron {
   background-color: #4b2e83;
-  height: 110px;
   padding: 0px 10px;
   margin-bottom: 0px; 
   
