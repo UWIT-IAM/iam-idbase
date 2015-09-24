@@ -1,9 +1,11 @@
 <!DOCTYPE html>
-<html class="no-js" lang="EN">
+<html ng-app="identityApp" class="no-js" lang="EN">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Identity.UW</title>
+        {% verbatim %}
+        <title ng-controller="TitleCtrl as title" ng-bind="title.Page.title()">Identity.UW</title>
+        {% endverbatim %}
         <meta name="description" content="">
         <meta name="HandheldFriendly" content="True">
         <meta name="MobileOptimized" content="320">
@@ -159,7 +161,8 @@
             <script src="{% static "vendor/js/modernizr-2.6.2.min.js" %}"></script>
             <script src="{% static "vendor/js/bootstrap-3.3.2.min.js" %}"></script>
             {% endif %}
-            
+
+            <script src="{% static "js/identity.js" %}"></script>
 {% if app_name == "recover" %}
             <script src="{% static "js/recover.js" %}"></script>
 {% endif %}
