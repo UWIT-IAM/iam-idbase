@@ -28,3 +28,14 @@ app.controller('TitleCtrl', ['TitleSvc', function(TitleSvc){
     var _this = this;
     this.Page = TitleSvc;
 }]);
+
+app.directive('setFocus', function($timeout) {
+  return function(scope, element, attrs) {
+    scope.$watch(attrs.setFocus,
+      function (conditional) {
+        $timeout(function() {
+            conditional && element[0].focus();
+        });
+      },true);
+  };
+});
