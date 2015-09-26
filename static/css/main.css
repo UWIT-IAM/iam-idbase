@@ -75,7 +75,7 @@ h4 {
   font-size: 16px;
 }
 
-p, ul li, .qna-heading{
+p, ul li, .qna-heading, .req-input-text{
   font-size: 14px;
   line-height: 150%;
   color: #3d3d3d;
@@ -221,13 +221,14 @@ font-size: 14px;
 
 /* NETID callout in UI*/
 .netid-row {
-	font-weight: bold;
+	font-weight: 600;
 	font-size: 14px;
-	color: #777;
+	color: #595959;
 	display: inline-block;
 }
 
-/* NETID in Nav bar for V1 */
+
+/* NETID in Nav bar : UNUSED */
 .netid-navbar{
 	padding: 10px 0px;
 	color:#e9e6f0;
@@ -263,9 +264,10 @@ font-size: 14px;
 	margin: 15px 0px;
 }
 	
-label{
+label, legend.dob{
 	font-size: 14px; /* 0.83em is tiny bit larger than 14px */
 	font-weight:600;
+	margin-bottom: 5px;
 }
 /* style text input fields */
 fieldset{
