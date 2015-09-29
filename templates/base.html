@@ -51,6 +51,8 @@
 	<link rel="stylesheet" href="{% static "css/body.css" %}"/> 
         <link rel="stylesheet" href="{% static "css/main.css" %}">
 
+            <script src="{% static "vendor/js/jquery-1.11.2.min.js" %}"></script>
+            <script src="{% static "vendor/js/jquery-pjax-1.9.3.min.js" %}"></script>
         {% endcompress %}
         
         {% if not less_compiled %}
@@ -154,8 +156,6 @@
         <!-- javascript -->
         {% compress js %}
 
-            <script src="{% static "vendor/js/jquery-1.11.2.min.js" %}"></script>
-            <script src="{% static "vendor/js/jquery-pjax-1.9.3.min.js" %}"></script>
                     
             {% if not low_fidelity %}
             <script src="{% static "vendor/js/modernizr-2.6.2.min.js" %}"></script>
