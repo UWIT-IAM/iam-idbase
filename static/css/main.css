@@ -386,6 +386,7 @@ input[type="text"] {
 /* Overriding small button style */
 .btn-xs {
     padding: 1px 10px;
+    margin-left: 10px;
 }
 
 /* styling disabled button */
