@@ -383,6 +383,10 @@ input[type="text"] {
 	border-color: #adadad;
 
 }
+/* Overriding small button style */
+.btn-xs {
+    padding: 1px 10px;
+}
 
 /* styling disabled button */
 .btn.disabled, .btn[disabled], fieldset[disabled] .btn
