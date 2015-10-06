@@ -1,0 +1,1 @@
+font-awesome is added for icons in a separate folder per dev request.  
