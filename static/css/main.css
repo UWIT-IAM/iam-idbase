@@ -427,7 +427,7 @@ input[type="text"] {
 
 a:focus {
   color: #b5754d;
-  border: 1px solid blue; /* STYLE MORE LATER! */
+  border: 1px dotted ; /* STYLE MORE LATER! */
 }
 
 #footer .credit ul { 
