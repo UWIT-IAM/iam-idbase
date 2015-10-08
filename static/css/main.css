@@ -455,13 +455,11 @@ a:focus {
 /* style the password strength bar */
 .password-bar {
   height: 10px;
-  margin-left: -12px;
   display: none;
 }
 /* style the password strength verdict (text) */
 .password-verdict {
   font-size:14px; 
-  margin-top: -30px;
 }
 .password-short {
   color: #d24436;
