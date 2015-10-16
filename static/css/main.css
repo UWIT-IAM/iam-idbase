@@ -131,7 +131,8 @@ p, ul li, .qna-heading, .req-input-text{
 	font-size: 14px;
 	color:#007bc8;
 }
-/* overwrite blue color for A11y */
+
+/* Hyperlink style: overwrite blue color for A11y */
 a{
 	color:#007bc8;
 }
@@ -269,13 +270,34 @@ label, legend.dob{
 	font-weight:600;
 	margin-bottom: 5px;
 }
+
+
+/* Modal */
+.modal {
+  text-align: center;
+}
+@media screen and (min-width: 480px) { 
+  .modal:before {
+    display: inline-block;
+    vertical-align: middle;
+    content: " ";
+    height: 100%;
+  }
+}
+
+.modal-dialog {
+  display: inline-block;
+  text-align: left;
+  vertical-align: middle;
+}
+
 /* style text input fields */
 fieldset{
 	padding-bottom: 10px;
 }
 
 .userinfo{
-	font-size: 150%;
+	font-size: 125%;
 	color:#777;
 	line-height: 2;
 }
@@ -375,8 +397,13 @@ input[type="text"] {
 
 .nav-tabs { padding-top: 10px; }
 
+/*  BUTTONS  */
 
 /* styling default button */
+.first-btn{
+	margin-right: 15px;
+}
+
 .btn-default{
 	background-color: #73777a;
 	color:#fff;
