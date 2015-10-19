@@ -95,7 +95,35 @@
             <!-- all pjax content will render inside of this id -->
             <div id="pjax-container">
                 {% block content %}{% endblock %}
-            </div>            
+            </div>
+            <!-- Expiration modal -->
+            <div class="modal fade bs-modal-sm" id="timeoutModal" tabindex="-1" role="dialog"
+                 ng-controller="TimeoutCtrl as timeout"
+                 aria-labelledby="modalTitle">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="modalTitle">Time out</h4>
+                        </div>
+                        <!-- /.modal-header -->
+                        <div class="modal-body" id="expired_message">
+                            <p> Your account recovery settings session has timed out.</p>
+
+                            <P>
+                                <form><button type="button" class="btn btn-primary first-btn"
+                                        ng-click="timeout.reload()">
+                                    Restart
+                                </button></form>
+                        </div>
+                        <!-- /.modal-body -->
+                    </div>
+                    <!-- /.modal-content -->
+                </div>
+                <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
         
         </div>
                      

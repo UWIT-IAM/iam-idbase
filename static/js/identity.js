@@ -24,9 +24,31 @@ app.factory('TitleSvc', function(){
   };
 });
 
+app.factory('TimeoutSvc', function(){
+    var _this = this;
+    _this.reloadFunc = function() {window.location.reload();};
+
+    return {
+        setReloadFunc: function(func) { _this.reloadFunc = func; },
+        reload: function() {_this.reloadFunc();},
+        showTimeout: function() {
+            $('#timeoutModal')
+                .modal('show')
+                .on('shown.bs.modal', function() { $('#timeoutModal').find('button.btn-primary').focus();
+            });
+        }
+    };
+});
+
 app.controller('TitleCtrl', ['TitleSvc', function(TitleSvc){
     var _this = this;
     this.Page = TitleSvc;
+}]);
+
+app.controller('TimeoutCtrl', ['TimeoutSvc', function(TimeoutSvc){
+    this.reload = function() {
+        TimeoutSvc.reload();
+    };
 }]);
 
 app.directive('setFocus', function($timeout) {
