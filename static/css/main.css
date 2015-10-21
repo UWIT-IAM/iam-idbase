@@ -350,6 +350,12 @@ input[type="text"] {
   font-size: 14px;
 }
 
+/* resize dropdown text*/
+select { 
+  font-size: 14px; /* NEED TO REFINE CROSS BROWSER ISSUE dropdown text */
+  font-family: inherit;
+}
+ 
 
 /* styling the save message */
 #savetext {
@@ -515,7 +521,7 @@ a:focus {
   width: 1px; 
 }
 
-
+ /* Not used modal style */
 .nsspr-opener-overlay {
   /* A white div that covers the whole screen during startup */
   position:absolute;
