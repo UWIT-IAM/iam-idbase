@@ -352,8 +352,10 @@ input[type="text"] {
 
 /* resize dropdown text*/
 select { 
-  font-size: 14px; /* NEED TO REFINE CROSS BROWSER ISSUE dropdown text */
+  font-size: 1em; /* NEED TO REFINE CROSS BROWSER ISSUE dropdown text */
   font-family: inherit;
+  width: 100%;
+  margin-bottom: 15px;
 }
  
 
