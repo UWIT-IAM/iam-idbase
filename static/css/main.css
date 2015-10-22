@@ -82,6 +82,31 @@ p, ul li, .qna-heading, .req-input-text{
   font-weight: normal;
 }
 
+/* Terms & Conditions style   */
+.tnc-header {
+	font-size: 16px;
+	font-weight: bold;
+	color:#4b2e83;
+}
+.tnc-title {
+	font-size: 14px;
+	font-weight: bold;
+}
+.tnc-checkbox{
+	margin-bottom: 15px;
+}
+
+.tnc-box {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: 1px solid #efefef;
+	border-radius: 3px;
+	background-color: #f5faff;
+	margin: 15px 0px 5px 0px;
+}
+
 /* NTS: New H1 style!   */
 
 .page-title h1{
@@ -259,7 +284,6 @@ font-size: 14px;
 	padding-bottom: 20px;
 	padding-left: 20px;
 	padding-right: 20px;
-	margin: 5px 0px;
 	border: 1px solid #efefef;
 	border-radius: 3px;
 	margin: 15px 0px;
