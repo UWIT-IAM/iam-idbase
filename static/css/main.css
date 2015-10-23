@@ -150,6 +150,8 @@ p, ul li, .qna-heading, .req-input-text{
 	color: #d24436;
 }
 
+/* Sytled links  */
+
 .fallback-btn-link{
 	padding-left: 0px;
 	margin: 10px 0px;
@@ -157,10 +159,17 @@ p, ul li, .qna-heading, .req-input-text{
 	color:#007bc8;
 }
 
+/* spacing in header  */
+.return-link{
+	font-size: 14px;
+	margin-bottom: 10px;
+	margin-top: 15px;
+}
 /* Hyperlink style: overwrite blue color for A11y */
 a{
 	color:#007bc8;
 }
+
 
 /* spacing in header  */
 .banner{
