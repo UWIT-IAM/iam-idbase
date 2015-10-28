@@ -150,6 +150,8 @@ p, ul li, .qna-heading, .req-input-text{
 	color: #d24436;
 }
 
+
+
 /* Sytled links  */
 
 .fallback-btn-link{
@@ -346,11 +348,19 @@ fieldset{
 }
 
 /* styling the character counter */
-.alert-warning, .alert-info, .alert-danger {
+.alert-warning, .alert-info, alert-danger {
   opacity: 0.65;
   border-radius: 2px;
-  height: 40px;
+  height: 40px; 
 }
+
+/* styling tweak for NSSPR  */
+ .global-error {
+  opacity: 1;
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
 
 .alert-info {
   display: none;
