@@ -88,12 +88,12 @@
 
 	
         <div id="content" role="main" >
-<!-- ADD 500 ERROR MODULE HERE -->    
-	<div class="container">
-		<div id="serverError" class="alert alert-danger global-error" role="alert" aria-live="assertive">
-			We are experiencing a technical issues. Please try later or contact UW-IT Service Center (206)221-5000. 		
-		</div><!-- ./alert-danger -->
-	</div><!-- ./container -->
+            <!-- Unrecoverable error alert that persists for the duration of the page. -->
+            <div class="container" ng-controller="ErrorCtrl as errorHandler" ng-show="errorHandler.errorState.isErrorSet" ng-cloak>
+                <div id="serverError" class="alert alert-danger global-error" role="alert" aria-live="assertive">
+                    We are experiencing technical issues. Please try later or contact UW-IT Service Center (206) 221-5000.
+                </div> <!-- ./alert-danger -->
+            </div> <!-- ./container -->
             <!-- pjax loading -->
             <div id="pjax-loading" style="display:none;">loading...</div>
             
@@ -142,8 +142,7 @@
                     <li><a href="http://www.washington.edu/online/terms/" target="_blank" title="Read Service Terms and conditions">Terms</a></li>
                     <li><a href="http://www.washington.edu/online/privacy/" target="_blank" title="Read UW's privacy policy ">Privacy</a></li>
                     <li><a href="http://www.myuw.washington.edu" target="_blank" title="Go to MyUW">MyUW</a></li>
-                    <li><a href="http://www.washington.edu/home/peopledir/" target="_blank" title="Go to UW Directories">UW Directories</a></li>                    
->
+                    <li><a href="http://www.washington.edu/home/peopledir/" target="_blank" title="Go to UW Directories">UW Directories</a></li>
                 </ul>
             </div>
             <div class="credit">
