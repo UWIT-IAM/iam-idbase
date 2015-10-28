@@ -51,6 +51,32 @@ app.controller('TimeoutCtrl', ['TimeoutSvc', function(TimeoutSvc){
     };
 }]);
 
+// Our service to handle general errors (401 - invalid session, 500 - server error)
+app.factory('ErrorSvc', ['$log', 'TimeoutSvc', function($log, TimeoutSvc){
+    var _this = this;
+    this.state = {isErrorSet: false};
+    this.handleError = function(data, status) {
+        if (status == 401) {
+            $log.info('expired session, ', data);
+            TimeoutSvc.showTimeout();
+        } else if (status == 500) {
+            $log.info('500 error from server,', data);
+            _this.state.isErrorSet = true;
+        }
+    };
+
+    return {
+        handleError: _this.handleError,
+        state: _this.state
+    };
+}]);
+
+app.controller('ErrorCtrl', ['ErrorSvc', function(ErrorSvc){
+    this.errorState = ErrorSvc.state;
+}]);
+
+// This only works well when there's only one set-focus directive in the DOM (which we do through ng-if)
+// This could probably be made better or supposedly get declared differently with HTML5.
 app.directive('setFocus', function($timeout) {
   return function(scope, element, attrs) {
     scope.$watch(attrs.setFocus,
