@@ -82,30 +82,6 @@ p, ul li, .qna-heading, .req-input-text{
   font-weight: normal;
 }
 
-/* Terms & Conditions style   */
-.tnc-header {
-	font-size: 16px;
-	font-weight: bold;
-	color:#4b2e83;
-}
-.tnc-title {
-	font-size: 14px;
-	font-weight: bold;
-}
-.tnc-checkbox{
-	margin-bottom: 15px;
-}
-
-.tnc-box {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	padding-left: 20px;
-	padding-right: 20px;
-	border: 1px solid #efefef;
-	border-radius: 3px;
-	background-color: #f5faff;
-	margin: 15px 0px 5px 0px;
-}
 
 /* NTS: New H1 style!   */
 
@@ -131,7 +107,7 @@ p, ul li, .qna-heading, .req-input-text{
 	
 }
 
-/* styling text: Global */
+/*  +++ styling text: GLOBAL +++ */
 .bold {
 	font-weight: bold;
 }
@@ -147,7 +123,7 @@ p, ul li, .qna-heading, .req-input-text{
 }
 .input-error-text{
 	font-size: 80%;
-	color: #d24436;
+	color: #c61029;
 }
 
 
@@ -273,12 +249,47 @@ font-size: 14px;
 	font-weight: 200;
 	margin-left: -10px;
 }
+
+/* Terms & Conditions style   */
+.tnc-header {
+	font-size: 16px;
+	font-weight: bold;
+	color:#4b2e83;
+}
+.tnc-title {
+	font-size: 14px;
+	font-weight: bold;
+}
+.tnc-checkbox{
+	margin-bottom: 15px;
+}
+
+.tnc-box {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: 1px solid #efefef;
+	border-radius: 3px;
+	background-color: #f5faff;
+	margin: 15px 0px 5px 0px;
+}
+
 /* Recovery opts view H2 styling */
 .option-heading{
 	font-size: 14px;
 	font-weight: 400;
 	
 }	
+
+/* Recovery: unverified tag */
+.unverified-tag{
+	font-size: inherit;
+	color: #c61029;
+	font-size:14px;
+	font-style: italic;
+}
+
 
 /* style Module box */
 .graybox{
@@ -307,10 +318,13 @@ label, legend.dob{
 	margin-bottom: 5px;
 }
 
-/* Inline help text */
+/* Inline help text - Gate Q form */
+/* ID# help text */
 .help-id{
 	font-size: 75%;
+	line-height: 1;
 }
+
 /* Modal */
 .modal {
   text-align: center;
