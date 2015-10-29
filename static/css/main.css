@@ -176,7 +176,8 @@ a{
 /* spacing in header  */
 .banner{
 	padding-top: 20px;
-    height: 140px;
+	padding-bottom: 20px;
+    /*height: 140px;*/
 }
 .site-name{
 	color: #fff;
@@ -190,12 +191,13 @@ a{
 /* net-id  */
 .topnav {
 	background-color: #4b2e83;
-	height: 42px;
+	/* height: 42px;*/
 	margin-top: 30px;
 }
 /* to align   */
 .topnav ul{
 	margin-left: -15px;
+	margin-bottom: 0px;
 }
 
 #navigation a {
@@ -251,7 +253,7 @@ a{
 #logout {
 font-size: 14px;	
   float:right;
-  padding: 10px;
+  padding: 6px 10px;
   display:inline-block;
  /* margin:20px; */
 }
@@ -267,7 +269,6 @@ font-size: 14px;
 
 /* NETID in Nav bar : UNUSED */
 .netid-navbar{
-	padding: 10px 0px;
 	color:#e9e6f0;
 	font-weight: 200;
 	margin-left: -10px;
