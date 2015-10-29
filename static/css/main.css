@@ -306,7 +306,10 @@ label, legend.dob{
 	margin-bottom: 5px;
 }
 
-
+/* Inline help text */
+.help-id{
+	font-size: 75%;
+}
 /* Modal */
 .modal {
   text-align: center;
@@ -395,7 +398,7 @@ input[type="text"] {
 
 /* resize dropdown text*/
 select { 
-  font-size: 14px; /* NEED TO REFINE CROSS BROWSER ISSUE dropdown text */
+  /* font-size: 14px; /* FF renders the dropdown text larger for a11y  */
   font-family: inherit;
   width: 100%;
   margin-bottom: 15px;
