@@ -1,4 +1,4 @@
-var app = angular.module('identityApp', []);
+var app = angular.module('identityApp', ['ng']);
 
 
 // disable security checks on html
