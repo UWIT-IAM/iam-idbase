@@ -486,7 +486,7 @@ select {
 }
 
 /* styling disabled button */
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn
+.btn.disabled, .btn[disabled], .btn-primary[disabled]:hover, fieldset[disabled] .btn
 {
   background-color: #d9d9d9;
   border-color: #ccc;
