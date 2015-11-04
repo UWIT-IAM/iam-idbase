@@ -16,8 +16,9 @@ app.config(['$httpProvider', function ($httpProvider) {
 app.factory('TitleSvc', function(){
   return {
       title: function() {
-          if ($('h1') && $('h1')[0] && $('h1')[0].innerText) {
-              return $('h1')[0].innerText;
+          if ($('h1') && $('h1')[0]){
+              if($('h1')[0].innerText){ return $('h1')[0].innerText;}
+              if($('h1')[0].textContent){ return $('h1')[0].textContent;}
           }
           return 'Identity.UW';
       }

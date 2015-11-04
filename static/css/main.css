@@ -82,30 +82,6 @@ p, ul li, .qna-heading, .req-input-text{
   font-weight: normal;
 }
 
-/* Terms & Conditions style   */
-.tnc-header {
-	font-size: 16px;
-	font-weight: bold;
-	color:#4b2e83;
-}
-.tnc-title {
-	font-size: 14px;
-	font-weight: bold;
-}
-.tnc-checkbox{
-	margin-bottom: 15px;
-}
-
-.tnc-box {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	padding-left: 20px;
-	padding-right: 20px;
-	border: 1px solid #efefef;
-	border-radius: 3px;
-	background-color: #f5faff;
-	margin: 15px 0px 5px 0px;
-}
 
 /* NTS: New H1 style!   */
 
@@ -131,7 +107,7 @@ p, ul li, .qna-heading, .req-input-text{
 	
 }
 
-/* styling text: Global */
+/*  +++ styling text: GLOBAL +++ */
 .bold {
 	font-weight: bold;
 }
@@ -147,7 +123,7 @@ p, ul li, .qna-heading, .req-input-text{
 }
 .input-error-text{
 	font-size: 80%;
-	color: #d24436;
+	color: #c61029;
 }
 
 
@@ -176,7 +152,8 @@ a{
 /* spacing in header  */
 .banner{
 	padding-top: 20px;
-    height: 140px;
+	padding-bottom: 20px;
+    /*height: 140px;*/
 }
 .site-name{
 	color: #fff;
@@ -190,12 +167,13 @@ a{
 /* net-id  */
 .topnav {
 	background-color: #4b2e83;
-	height: 42px;
+	/* height: 42px;*/
 	margin-top: 30px;
 }
 /* to align   */
 .topnav ul{
 	margin-left: -15px;
+	margin-bottom: 0px;
 }
 
 #navigation a {
@@ -251,7 +229,7 @@ a{
 #logout {
 font-size: 14px;	
   float:right;
-  padding: 10px;
+  padding: 6px 10px;
   display:inline-block;
  /* margin:20px; */
 }
@@ -267,17 +245,51 @@ font-size: 14px;
 
 /* NETID in Nav bar : UNUSED */
 .netid-navbar{
-	padding: 10px 0px;
 	color:#e9e6f0;
 	font-weight: 200;
 	margin-left: -10px;
 }
+
+/* Terms & Conditions style   */
+.tnc-header {
+	font-size: 16px;
+	font-weight: bold;
+	color:#4b2e83;
+}
+.tnc-title {
+	font-size: 14px;
+	font-weight: bold;
+}
+.tnc-checkbox{
+	margin-bottom: 15px;
+}
+
+.tnc-box {
+	padding-top: 15px;
+	padding-bottom: 15px;
+	padding-left: 20px;
+	padding-right: 20px;
+	border: 1px solid #efefef;
+	border-radius: 3px;
+	background-color: #f5faff;
+	margin: 15px 0px 5px 0px;
+}
+
 /* Recovery opts view H2 styling */
 .option-heading{
 	font-size: 14px;
 	font-weight: 400;
 	
 }	
+
+/* Recovery: unverified tag */
+.unverified-tag{
+	font-size: inherit;
+	color: #c61029;
+	font-size:14px;
+	font-style: italic;
+}
+
 
 /* style Module box */
 .graybox{
@@ -306,6 +318,12 @@ label, legend.dob{
 	margin-bottom: 5px;
 }
 
+/* Inline help text - Gate Q form */
+/* ID# help text */
+.help-id{
+	font-size: 75%;
+	line-height: 1;
+}
 
 /* Modal */
 .modal {
@@ -395,7 +413,7 @@ input[type="text"] {
 
 /* resize dropdown text*/
 select { 
-  font-size: 14px; /* NEED TO REFINE CROSS BROWSER ISSUE dropdown text */
+  /* font-size: 14px; /* FF renders the dropdown text larger for a11y  */
   font-family: inherit;
   width: 100%;
   margin-bottom: 15px;
@@ -468,7 +486,7 @@ select {
 }
 
 /* styling disabled button */
-.btn.disabled, .btn[disabled], fieldset[disabled] .btn
+.btn.disabled, .btn[disabled], .btn-primary[disabled]:hover, fieldset[disabled] .btn
 {
   background-color: #d9d9d9;
   border-color: #ccc;
