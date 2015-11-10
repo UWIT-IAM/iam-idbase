@@ -354,6 +354,16 @@ fieldset{
 	color:#777;
 	line-height: 2;
 }
+.userinfo-btns{
+	margin:10px 0px;
+}
+.truncate {
+  width: 424px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 #fieldset_wrapper {
   padding: 20px;
   border: 1px solid #efefef;
