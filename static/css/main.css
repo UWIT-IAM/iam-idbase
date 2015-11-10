@@ -419,6 +419,7 @@ div.namefield label { margin-bottom: 0px; }
 /* resize input text */
 input[type="text"] {
   font-size: 14px;
+  color:#333;
 }
 
 /* resize dropdown text*/
