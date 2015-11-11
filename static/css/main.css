@@ -349,21 +349,23 @@ label, legend.dob{
 fieldset{
 	padding-bottom: 10px;
 }
-
+.userinfo-unit{
+	display: block;
+}
 .userinfo{
 	font-size: 125%;
 	color:#777;
 	line-height: 2;
 }
 .userinfo-btns{
-	margin:10px 0px;
+
 	float: right;
 }
-.truncate {
+/*.truncate {
   width: 424px;
   white-space: nowrap;
   overflow: hidden;
-}
+}*/
 
 #fieldset_wrapper {
   padding: 20px;
@@ -491,6 +493,11 @@ select {
 	border-color: #adadad;
 
 }
+/* adding margin for big button */
+/*.bigbtn{
+	margin: 15px 0px; 
+}*/
+
 /* Overriding small button style */
 .btn-xs {
     padding: 1px 10px;
