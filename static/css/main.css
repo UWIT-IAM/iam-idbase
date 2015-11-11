@@ -288,6 +288,7 @@ font-size: 14px;
 	color: #c61029;
 	font-size:14px;
 	font-style: italic;
+	padding-left:10px;
 }
 
 
@@ -305,9 +306,9 @@ font-size: 14px;
 .graybox2{
 	display: inline-block;
 	padding-top: 15px;
-	padding-bottom: 20px;
-	padding-left: 20px;
-	padding-right: 20px;
+	padding-bottom: 15px;
+	padding-left: 15px;
+	padding-right: 15px;
 	border: 1px solid #efefef;
 	border-radius: 3px;
 	margin: 15px 0px;
@@ -355,7 +356,7 @@ fieldset{
 .userinfo{
 	font-size: 125%;
 	color:#777;
-	line-height: 2;
+	line-height: 1.5;
 }
 .userinfo-btns{
 
