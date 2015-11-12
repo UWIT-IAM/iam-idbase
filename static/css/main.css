@@ -311,7 +311,7 @@ font-size: 14px;
 	padding-right: 15px;
 	border: 1px solid #efefef;
 	border-radius: 3px;
-	margin: 15px 0px;
+	margin: 15px ;
 }
 	
 label, legend.dob{
@@ -495,9 +495,9 @@ select {
 
 }
 /* adding margin for big button */
-/*.bigbtn{
-	margin: 15px 0px; 
-}*/
+.bigbtn{
+	margin: 10px 0px; 
+}
 
 /* Overriding small button style */
 .btn-xs {
