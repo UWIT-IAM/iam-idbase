@@ -82,6 +82,13 @@ p, ul li, .qna-heading, .req-input-text{
   font-weight: normal;
 }
 
+/* Tweaking  <br> for 2 SMS # and/or emails case */
+.userinfo-br {
+   display: block;
+   line-height:50%;
+   margin-top: 10px;
+   content: "";
+}
 
 /* NTS: New H1 style!   */
 
