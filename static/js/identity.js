@@ -88,3 +88,65 @@ app.directive('setFocus', function($timeout) {
       },true);
   };
 });
+
+app.factory('LocationTabSvc', ['$location', '$window', function($location, $window){
+    var _this = this;
+    this.page = {name: '', history: [''], stepCounter: 1};
+    this.reloadPages = [];
+    return {
+        // Call this on successful location change. We inspect the url to see if
+        // it's one of the pages in our history, and set the view accordingly.
+        locationChange: function(newUrl){
+            // this swallows up everything up to the last slash
+            newPageName = newUrl.replace(/^.*\//, '');
+
+            // this picks up events not handled by setPage (back/forward button or
+            // visiting the link directly.
+            if(newPageName != _this.page.name){
+                // if the new page is in our history change the page and stepCounter
+                if(_this.page.history.indexOf(newPageName) != -1) {
+                    _this.page.stepCounter = _this.page.history.indexOf(newPageName) + 1;
+                    _this.page.name = newPageName;
+                }
+            }
+        },
+        // Change the currently-active page, updating the history and stepCounter as necessary.
+        setPage: function(name){
+            // while the current page isn't the last page in our history, pop history until it is
+            // before advancing.
+            while(_this.page.history.indexOf(_this.page.name) != _this.page.history.length - 1){
+                _this.page.history.pop();
+            }
+
+            _this.page.name = name;
+            // call for a reload for any page in setReloadPages.
+            if(_this.reloadPages.indexOf(name) != -1){ $window.location = name;}
+            else {
+                if(_this.page.history.indexOf(name) == -1){
+                    _this.page.history.push(name);
+                }
+                _this.page.stepCounter = _this.page.history.indexOf(name) + 1;
+                // this adjusts the url without reloading it.
+                $location.path(name);
+            }
+        },
+        // set the pages that, when set, will trigger a reload.
+        setReloadPages: function(pages){ _this.reloadPages = pages; },
+        // set the initial page, with initialPages being the collection
+        // of pages allowed at load time (other than '', our main page).
+        init: function(initialPages){
+            // remove the leading /
+            var locationPath = $location.path().replace(/^\//, '');
+            if(initialPages && initialPages.indexOf(locationPath) != -1){
+                _this.page.name = locationPath;
+            }
+            else if (locationPath){
+                // if a path other than our initial ones, replace the current
+                // url with our base.
+                $location.path('').replace();
+            }
+        },
+        // This page represents the currently active page.
+        page: _this.page
+    };
+}]);
