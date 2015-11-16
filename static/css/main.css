@@ -355,6 +355,11 @@ label, legend.dob{
   vertical-align: middle;
 }
 
+/* Shrink the size for modal header */
+.modal-title {
+	font-size: 16px; 
+}
+
 /* style text input fields */
 fieldset{
 	padding-bottom: 10px;
