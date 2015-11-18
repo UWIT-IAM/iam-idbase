@@ -25,9 +25,9 @@ app.factory('TitleSvc', function(){
   };
 });
 
-app.factory('TimeoutSvc', function(){
+app.factory('TimeoutSvc', ['$window', function($window){
     var _this = this;
-    _this.reloadFunc = function() {window.location.reload();};
+    _this.reloadFunc = function() {$window.location.reload();};
 
     return {
         setReloadFunc: function(func) { _this.reloadFunc = func; },
@@ -39,7 +39,7 @@ app.factory('TimeoutSvc', function(){
             });
         }
     };
-});
+}]);
 
 app.controller('TitleCtrl', ['TitleSvc', function(TitleSvc){
     var _this = this;
