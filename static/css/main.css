@@ -47,7 +47,7 @@
   font-style: normal;
 }
 
-/* GLOBAL */ 
+/* ++++++++++++++++++++++++++ GLOBAL ++++++++++++++++++++++++++ */ 
 /* customize font-size */
 h1, h2, h3 { font-weight: bold; 
 }
@@ -75,7 +75,7 @@ h4 {
   font-size: 16px;
 }
 
-p, ul li, .qna-heading, .req-input-text{
+p, ul li, ol li, .qna-heading, .req-input-text{
   font-size: 14px;
   line-height: 150%;
   color: #3d3d3d;
@@ -115,7 +115,7 @@ p, ul li, .qna-heading, .req-input-text{
 	
 }
 
-/*  +++ styling text: GLOBAL +++ */
+/*  ++++++++++++++++ styling text: GLOBAL +++++++++++++ */
 .bold {
 	font-weight: bold;
 }
@@ -256,6 +256,13 @@ font-size: 14px;
 	color:#e9e6f0;
 	font-weight: 200;
 	margin-left: -10px;
+}
+
+/*  ++++++++++++++++ SECTION OR VIEW +++++++++++++ */
+
+/* OL for PIN screen */
+ol.no-number{
+	list-style-type: none;
 }
 
 /* Terms & Conditions style   */
@@ -506,6 +513,7 @@ select {
 	background-color: #73777a;
 	color:#fff;
 	border-color: #adadad;
+	margin-top: 5px;
 
 }
 /* adding margin for big button */
