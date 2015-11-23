@@ -137,13 +137,20 @@ p, ul li, ol li, .qna-heading, .req-input-text{
 
 
 /* Sytled links  */
-
-.fallback-btn-link{
+.fallback-btn-link {
 	padding-left: 0px;
 	margin: 10px 0px;
 	font-size: 14px;
 	color:#0077c2;
 }
+	.fallback-btn-link:hover {
+	  color: #b5754d;
+	}
+	.fallback-btn-link:focus {
+	  color: #b5754d;
+	  border: 1px dotted ;
+	}
+
 
 /* spacing in header  */
 .return-link{
@@ -560,12 +567,12 @@ select {
 #footer a { color: #777; text-decoration: none; }
  a:hover {
   color: #b5754d;
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 1px solid ;
 }
 
 a:focus {
   color: #b5754d;
-  border: 1px dotted ; /* STYLE MORE LATER! */
+  border: 1px dotted ;
 }
 
 #footer .credit ul { 
