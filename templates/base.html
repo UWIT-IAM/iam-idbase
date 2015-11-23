@@ -100,7 +100,8 @@
             <div id="pjax-container">
                 {% block content %}{% endblock %}
             </div>
-            <!-- Expiration modal -->
+
+<!-- ERROR modal -->
             <div class="modal fade bs-modal-sm" id="timeoutModal" tabindex="-1" role="dialog"
                  ng-controller="TimeoutCtrl as timeout"
                  aria-labelledby="modalTitle">
@@ -109,11 +110,11 @@
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                     aria-hidden="true">&times;</span></button>
-                            <h3 class="modal-title" id="modalTitle">Time out</h3>
+                            <h3 class="modal-title" id="modalTitle">Error</h3>
                         </div>
                         <!-- /.modal-header -->
                         <div class="modal-body" id="expired_message">
-                            <p> Your session has timed out.</p>
+                            <p> Your session became invalid. </p>
 
                             <P>
                                 <form><button type="button" class="btn btn-primary first-btn"
