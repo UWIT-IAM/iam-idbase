@@ -47,7 +47,7 @@
   font-style: normal;
 }
 
-/* GLOBAL */ 
+/* ++++++++++++++++++++++++++ GLOBAL ELEMENTS ++++++++++++++++++++++++++ */ 
 /* customize font-size */
 h1, h2, h3 { font-weight: bold; 
 }
@@ -75,7 +75,7 @@ h4 {
   font-size: 16px;
 }
 
-p, ul li, .qna-heading, .req-input-text{
+p, ul li, ol li, .qna-heading, .req-input-text{
   font-size: 14px;
   line-height: 150%;
   color: #3d3d3d;
@@ -115,7 +115,13 @@ p, ul li, .qna-heading, .req-input-text{
 	
 }
 
-/*  +++ styling text: GLOBAL +++ */
+
+/*  ++++++++++++++++ styling text: GLOBAL +++++++++++++ */
+h2.section-title{
+	font-size: 24px;
+	font-weight: 700;
+	/* -webkit-font-smoothing:antialiased;*/
+}
 .bold {
 	font-weight: bold;
 }
@@ -132,18 +138,28 @@ p, ul li, .qna-heading, .req-input-text{
 .input-error-text{
 	font-size: 80%;
 	color: #c61029;
+	line-height: 1.5;
+	margin-bottom: 5px;
 }
 
 
 
 /* Sytled links  */
-
-.fallback-btn-link{
+.fallback-btn-link {
 	padding-left: 0px;
 	margin: 10px 0px;
 	font-size: 14px;
 	color:#0077c2;
 }
+	.fallback-btn-link:hover {
+	  color: #b5754d;
+	}
+	.fallback-btn-link:focus {
+	  color: #b5754d;
+	  border: 1px dotted ;
+	  text-decoration: none;
+	}
+
 
 /* spacing in header  */
 .return-link{
@@ -258,6 +274,14 @@ font-size: 14px;
 	margin-left: -10px;
 }
 
+/*  ++++++++++++++++ SECTION OR VIEW +++++++++++++ */
+
+/* OL for PIN screen */
+ol.no-number{
+	list-style-type: none;
+	margin-left: -20px;
+}
+
 /* Terms & Conditions style   */
 .tnc-header {
 	font-size: 16px;
@@ -329,6 +353,14 @@ label, legend.dob{
 	margin-bottom: 5px;
 }
 
+.form-group{
+	margin-bottom: 5px;
+}
+
+/* TWEAK THE SPACING#gate_form_view .fieldset{
+	padding-bottom: 5px;
+}*/
+
 /* Inline help text - Gate Q form */
 /* ID# help text */
 .help-id{
@@ -340,6 +372,10 @@ label, legend.dob{
 .modal {
   text-align: center;
 }
+.modal-content {
+	display: inline-block;
+}
+
 @media screen and (min-width: 480px) { 
   .modal:before {
     display: inline-block;
@@ -357,13 +393,20 @@ label, legend.dob{
 
 /* Shrink the size for modal header */
 .modal-title {
-	font-size: 16px; 
+	font-size: 18px; 
 }
 
 /* style text input fields */
+
+#dobform fieldset{
+	padding-bottom: 0px;
+}
+
 fieldset{
 	padding-bottom: 10px;
 }
+
+
 .userinfo-unit{
 	display: block;
 }
@@ -445,7 +488,7 @@ select {
   /* font-size: 14px; /* FF renders the dropdown text larger for a11y  */
   font-family: inherit;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
  
 
@@ -506,6 +549,7 @@ select {
 	background-color: #73777a;
 	color:#fff;
 	border-color: #adadad;
+	margin-top: 5px;
 
 }
 /* adding margin for big button */
@@ -552,12 +596,12 @@ select {
 #footer a { color: #777; text-decoration: none; }
  a:hover {
   color: #b5754d;
-  border-bottom: 1px solid #BDBDBD;
+  border-bottom: 1px solid ;
 }
 
 a:focus {
   color: #b5754d;
-  border: 1px dotted ; /* STYLE MORE LATER! */
+  border: 1px dotted ;
 }
 
 #footer .credit ul { 
