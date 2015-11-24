@@ -116,6 +116,11 @@ p, ul li, ol li, .qna-heading, .req-input-text{
 }
 
 /*  ++++++++++++++++ styling text: GLOBAL +++++++++++++ */
+h2.section-title{
+	font-size: 24px;
+	font-weight: 700;
+	/* -webkit-font-smoothing:antialiased;*/
+}
 .bold {
 	font-weight: bold;
 }
