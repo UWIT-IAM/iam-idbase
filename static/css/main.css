@@ -47,7 +47,7 @@
   font-style: normal;
 }
 
-/* ++++++++++++++++++++++++++ GLOBAL ++++++++++++++++++++++++++ */ 
+/* ++++++++++++++++++++++++++ GLOBAL ELEMENTS ++++++++++++++++++++++++++ */ 
 /* customize font-size */
 h1, h2, h3 { font-weight: bold; 
 }
@@ -115,6 +115,7 @@ p, ul li, ol li, .qna-heading, .req-input-text{
 	
 }
 
+
 /*  ++++++++++++++++ styling text: GLOBAL +++++++++++++ */
 h2.section-title{
 	font-size: 24px;
@@ -137,6 +138,8 @@ h2.section-title{
 .input-error-text{
 	font-size: 80%;
 	color: #c61029;
+	line-height: 1.5;
+	margin-bottom: 5px;
 }
 
 
@@ -349,6 +352,14 @@ label, legend.dob{
 	font-weight:600;
 	margin-bottom: 5px;
 }
+
+.form-group{
+	margin-bottom: 5px;
+}
+
+/* TWEAK THE SPACING#gate_form_view .fieldset{
+	padding-bottom: 5px;
+}*/
 
 /* Inline help text - Gate Q form */
 /* ID# help text */
