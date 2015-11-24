@@ -393,9 +393,16 @@ label, legend.dob{
 }
 
 /* style text input fields */
+
+#dobform fieldset{
+	padding-bottom: 0px;
+}
+
 fieldset{
 	padding-bottom: 10px;
 }
+
+
 .userinfo-unit{
 	display: block;
 }
@@ -477,7 +484,7 @@ select {
   /* font-size: 14px; /* FF renders the dropdown text larger for a11y  */
   font-family: inherit;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
  
 
