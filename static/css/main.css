@@ -177,22 +177,36 @@ a{
 .banner{
 	padding-top: 20px;
 	padding-bottom: 20px;
+	position: relative;
     /*height: 140px;*/
 }
 .site-name{
 	color: #fff;
-	font-size: 37px;
+	font-size: 32px;
 	font-family: "Encode Sans Compressed", sans-serif;
 	font-weight: 700;
 	line-height: 1.3;
 	margin: 0.67em 0;
 }
 
+/* W logo in purple banner */	
+.header-w {
+   position: absolute; 
+    right: 15px;
+    bottom: -1px;
+}
+
+.header-w img {
+    width: inherit;
+    vertical-align: middle;
+}
+
 /* net-id  */
 .topnav {
 	background-color: #4b2e83;
 	/* height: 42px;*/
-	margin-top: 30px;
+	margin-top: 20px;
+	margin-bottom: 10px;
 }
 /* to align   */
 .topnav ul{
@@ -241,7 +255,7 @@ a{
 /* tagline */
 .tagline {
   color:#e9e6f0; /* light lavendar from UW banding */
-  font-size: 16px;
+  font-size: 12px;
   font-family:open sans, sans-serif;
   font-weight:100;
   font-style: italic;
@@ -252,10 +266,9 @@ a{
 /* logout */
 #logout {
 font-size: 14px;	
-  float:right;
-  padding: 6px 10px;
+   /* float:right;*/
   display:inline-block;
- /* margin:20px; */
+  margin-left: -10px;
 }
 
 /* NETID callout in UI*/
@@ -264,6 +277,7 @@ font-size: 14px;
 	font-size: 14px;
 	color: #595959;
 	display: inline-block;
+	padding-right: 40px;
 }
 
 
