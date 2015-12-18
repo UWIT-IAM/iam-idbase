@@ -64,20 +64,19 @@
     	        <div role="banner" class="banner"><a href="/" class="site-name" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
     	        
 	    	        {% if banner_netid %}
+                    <div id="logout"><a href="/logout.cgi" class="graytext">Log out</a></div>
+
 					<!-- Add NetID at the Global Nav location for V1.0  -->
 					<div class="topnav" >
-	
-							 <ul id="netid-info"> 
-								 <li class="netid-row netid-navbar">
+
+							 <div id="netid-info" class="netid-row netid-navbar">
 									UW NetID: {{ banner_netid }} ( {{ display_name }} )
-							 	</li>
-							<li id="logout"><a href="/logout.cgi" class="graytext">Log out</a></li>
-							</ul>
+							</div>
 						</div> <!-- topnav  -->
 	
 					{% endif %}       
     	        <!-- W logo -->	
-    	        	<div class="header-w" role="presentation"><img src="/static/assets/images/w-logo-white.png" alt="UW logo">
+    	        	<div class="header-w" role="presentation"><img src="{% static "assets/images/w-logo-white.png" %}" alt="UW logo">
             		</div><!-- /W logo -->	
     	        </div> <!-- banner -->
             </div><!-- container -->

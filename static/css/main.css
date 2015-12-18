@@ -265,8 +265,8 @@ a{
 
 /* logout */
 #logout {
-font-size: 14px;	
-   /* float:right;*/
+  font-size: 14px;
+  float:right;
   display:inline-block;
   margin-left: -10px;
 }
