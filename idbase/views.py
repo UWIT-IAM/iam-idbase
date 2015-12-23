@@ -11,4 +11,4 @@ def index(request, template=None):
             'logged_in_person': {'netid': 'foo', 'banner_netid': 'foo2', 'name': 'FooMan'},
             'is_debug': settings.DEBUG}
 
-    return render(request, 'index.html', conf)
+    return render(request, 'idbase/index.html', conf)
