@@ -8,7 +8,7 @@ def index(request, template=None):
 
     #person = PersonDAO(request.session, netid=netid)
     conf = {'urls': settings.CORE_URLS,
-            'person': {'netid': 'foo', 'banner_netid': 'foo2', 'name': 'FooMan'},
+            'logged_in_person': {'netid': 'foo', 'banner_netid': 'foo2', 'name': 'FooMan'},
             'is_debug': settings.DEBUG}
 
     return render(request, 'index.html', conf)
