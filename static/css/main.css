@@ -172,46 +172,28 @@ a{
 	color:#0077c2;
 }
 
-
-/* spacing in header  */
-.banner{
-	padding-top: 20px;
-	padding-bottom: 20px;
-	position: relative;
-    /*height: 140px;*/
+.banner {
+  padding-top: 20px;
 }
+
 .site-name{
 	color: #fff;
-	font-size: 32px;
+	font-size: 37px;
 	font-family: "Encode Sans Compressed", sans-serif;
 	font-weight: 700;
 	line-height: 1.3;
-	margin: 0.67em 0;
+    padding-bottom: 20px;
 }
 
-/* W logo in purple banner */	
+.banner-row {
+  position: relative;
+}
+
+/* W logo in purple banner */
 .header-w {
-   position: absolute; 
-    right: 15px;
-    bottom: -1px;
-}
-
-.header-w img {
-    width: inherit;
-    vertical-align: middle;
-}
-
-/* net-id  */
-.topnav {
-	background-color: #4b2e83;
-	/* height: 42px;*/
-	margin-top: 20px;
-	margin-bottom: 10px;
-}
-/* to align   */
-.topnav ul{
-	margin-left: -15px;
-	margin-bottom: 0px;
+  position: absolute;
+  bottom: -1px;
+  right: 0;
 }
 
 #navigation a {
@@ -240,22 +222,15 @@ a{
 .jumbotron {
   background-color: #4b2e83;
   padding: 0px 10px;
-  margin-bottom: 0px; 
+  margin-bottom: 0px;
   
 }
 
 
-/* customize header & tagline -- UNUSED -- 
-.jumbotron h1, .jumbotron h1 a, .jumbotron p {
-  color: #fff;
-  font-size: 30px;
-}
-*/
-
 /* tagline */
 .tagline {
   color:#e9e6f0; /* light lavendar from UW banding */
-  font-size: 12px;
+  font-size: 16px;
   font-family:open sans, sans-serif;
   font-weight:100;
   font-style: italic;
@@ -266,13 +241,12 @@ a{
 /* logout */
 #logout {
   font-size: 14px;
-  float:right;
-  display:inline-block;
-  margin-left: -10px;
+  display: inline-block;
+  white-space: nowrap;
 }
 
-/* NETID callout in UI*/
-.netid-row {
+
+.netid-gate-row {
 	font-weight: 600;
 	font-size: 14px;
 	color: #595959;
@@ -281,13 +255,11 @@ a{
 }
 
 
-/* NETID in Nav bar : UNUSED */
 .netid-navbar{
-	color:#e9e6f0;
-	font-weight: 200;
-	margin-left: -10px;
+  font-size: 14px;
+  color:#e9e6f0;
+  font-weight: 200;
 }
-
 /*  ++++++++++++++++ SECTION OR VIEW +++++++++++++ */
 
 /* OL for PIN screen */
@@ -451,7 +423,7 @@ fieldset{
 }
 
 /* styling the character counter */
-.alert-warning, .alert-info, alert-danger {
+.alert-warning, .alert-info, .alert-danger {
   opacity: 0.65;
   border-radius: 2px;
   height: 40px; 

@@ -58,32 +58,33 @@
     </head>
     <body>
       <!-- Main jumbotron for a primary marketing message or call to action -->
-        <div class="jumbotron">
-            <!-- add the container class back to align the header with the content -->
-            <div class="container" >
-    	        <div role="banner" class="banner"><a href="/" class="site-name" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
-    	        
-	    	        {% if banner_netid %}
-                    <div id="logout"><a href="/logout.cgi" class="graytext">Log out</a></div>
+      <div class="jumbotron">
+          <!-- add the container class back to align the header with the content -->
+          <div role="banner" class="container banner">
+              <div class="row banner-row">
+                  <div class="col-xs-10">
+                      <div class="row">
+                          <div class="col-xs-10 site-name">
+                              <a href="/" class="site-name" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
+                          </div>
+                      </div>
+                      {% if banner_netid %}
+                          <div class="row">
+                              <div class="col-xs-10 netid-navbar">UW NetID: {{ banner_netid }} ( {{ display_name }} )
+                              </div>
+                              <div class="col-xs-2 text-right" id="logout"><a href="/logout.cgi" class="graytext">Log
+                                  out</a>
+                              </div>
+                          </div>
+                      {% endif %}
+                  </div>
+                  <div class="col-xs-2 pull-right header-w" role="presentation">
+                      <img src="{% static "assets/images/w-logo-white.png" %}" alt="UW logo">
+                  </div><!-- /W logo -->
+              </div> <!-- row -->
+          </div> <!-- container -->
 
-					<!-- Add NetID at the Global Nav location for V1.0  -->
-					<div class="topnav" >
-
-							 <div id="netid-info" class="netid-row netid-navbar">
-									UW NetID: {{ banner_netid }} ( {{ display_name }} )
-							</div>
-						</div> <!-- topnav  -->
-	
-					{% endif %}       
-    	        <!-- W logo -->	
-    	        	<div class="header-w" role="presentation"><img src="{% static "assets/images/w-logo-white.png" %}" alt="UW logo">
-            		</div><!-- /W logo -->	
-    	        </div> <!-- banner -->
-            </div><!-- container -->
- 
-    
-            
-		</div><!-- jumbotron  -->
+      </div><!-- jumbotron  -->
 
 
 	
