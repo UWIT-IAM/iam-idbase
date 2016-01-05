@@ -1,11 +1,5 @@
 var app = angular.module('identityApp', ['ng']);
 
-
-// disable security checks on html
-//app.config(function($sceProvider) {
-//	$sceProvider.enabled(false);
-//    });
-
 // add xsrf protection as needed
 app.config(['$httpProvider', function ($httpProvider) {
 	    $httpProvider.defaults.xsrfCookieName = 'csrftoken';
@@ -148,5 +142,17 @@ app.factory('LocationTabSvc', ['$location', '$window', function($location, $wind
         },
         // This page represents the currently active page.
         page: _this.page
+    };
+}]);
+
+
+// Add this directive to activate a tooltip in angular.
+app.directive('uwTooltip', ['$log', function($log){
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs){
+            $log.info('tooltip set?');
+            $(element).tooltip();
+        }
     };
 }]);
