@@ -185,6 +185,10 @@ a{
     padding-bottom: 20px;
 }
 
+.site-name > a {
+  color: #fff;
+}
+
 .banner-row {
   position: relative;
 }
