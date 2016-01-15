@@ -43,7 +43,7 @@
         
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular-aria.js"></script>
-        <base href="{{ app.base|default_if_none:"/" }}" />
+        <base href="{{ app.base_url|default_if_none:"/" }}" />
     </head>
     <body>
       <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -146,8 +146,8 @@
 
             <script src="{% static "idbase/js/identity.js" %}"></script>
              <!-- app js goes here -->
-            {% if app.js_loads %}
-                {% for js_load in app.js_loads %}
+            {% if app.javascript_loads %}
+                {% for js_load in app.javascript_loads %}
                     <script src="{% static "" %}js/{{ js_load }}"></script>
                 {% endfor %}
             {% endif %}
