@@ -199,7 +199,9 @@ h2.section-title{
 }
 /* Hyperlink style: overwrite blue color for A11y */
 a{
-	color:#0077c2;
+  color:#0077c2;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
 }
 
 .banner {
