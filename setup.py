@@ -1,7 +1,7 @@
 from setuptools import setup
 
 
-install_requires = ['Django', 'django-compressor']
+install_requires = ['Django']
 
 setup(name='idbase',
       version='0.1',
