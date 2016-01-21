@@ -20,6 +20,9 @@
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
             <link rel="stylesheet" href="{% static "idbase/css/main.css" %}">
+            {% for css_load in app.css_loads %}
+                <script src="{% static "" %}css/{{ css_load }}"></script>
+            {% endfor %}
 
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
@@ -124,11 +127,9 @@
             <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
             <script src="{% static "idbase/js/identity.js" %}"></script>
              <!-- app js goes here -->
-            {% if app.javascript_loads %}
-                {% for js_load in app.javascript_loads %}
-                    <script src="{% static "" %}js/{{ js_load }}"></script>
-                {% endfor %}
-            {% endif %}
+            {% for js_load in app.javascript_loads %}
+                <script src="{% static "" %}js/{{ js_load }}"></script>
+            {% endfor %}
         
     </body>
 </html>
