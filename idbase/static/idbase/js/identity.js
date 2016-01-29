@@ -156,3 +156,28 @@ app.directive('uwTooltip', ['$log', function($log){
         }
     };
 }]);
+
+
+app.factory('LoginSvc', ['$log', '$http', 'ErrorSvc', function($log, $http, ErrorSvc){
+    var _this = this;
+    this.loginInfo = {netid: null, name: null};
+    return {
+        doLogin: function() {
+            $log.info('doLogin');
+            $http.get('api/login')
+                .then(function (response) {
+                    $log.info(response);
+                    _this.loginInfo.netid = response.data.netid;
+                    _this.loginInfo.name = response.data.name;
+                })
+                .catch(function (response) {
+                    ErrorSvc.handleError(response.data, response.status);
+                });
+        },
+        info: _this.loginInfo
+    }
+}]);
+
+app.controller('LoginCtrl', ['LoginSvc', function(LoginSvc){
+    this.info = LoginSvc.info;
+}]);

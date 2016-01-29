@@ -42,15 +42,15 @@
                               <a href="/" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
                           </div>
                       </div>
-                      {% if logged_in_person %}
-                          <div class="row">
-                              <div class="col-xs-10 netid-navbar">UW NetID: {{ logged_in_person.netid }} ( {{ logged_in_person.name }} )
+                      {% verbatim %}
+                          <div ng-controller="LoginCtrl as login" ng-cloak ng-show="login.info.netid" class="row">
+                              <div class="col-xs-10 netid-navbar">UW NetID: {{ login.info.netid }} ( {{ login.info.name }} )
                               </div>
                               <div class="col-xs-2 text-right" id="logout"><a href="/logout.cgi" class="graytext">Log
                                   out</a>
                               </div>
                           </div>
-                      {% endif %}
+                      {% endverbatim %}
                   </div>
                   <div class="col-xs-2 pull-right header-w" role="presentation">
                       <img src="{% static "idbase/assets/images/w-logo-white.png" %}" alt="UW logo">
