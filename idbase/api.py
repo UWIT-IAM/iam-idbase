@@ -12,16 +12,22 @@ class RESTDispatch:
     Handles passing on the request to the correct view
     method based on the request type.
     """
+
+    def __init__(self, login_required=True):
+        self.login_required = login_required
+
     def run(self, *args, **named_args):
         request = args[0]
 
         try:
             method = request.META['REQUEST_METHOD']
 
-            if method in ('GET', 'POST', 'PUT', 'DELETE') and hasattr(self, method):
-                response = getattr(self, method)(*args, **named_args)
-            else:
+            if method not in ('GET', 'POST', 'PUT', 'DELETE') or not hasattr(self, method):
                 raise BadRequestError('invalid method {}'.format(method))
+            if self.login_required and not request.user.is_authenticated():
+                raise InvalidSessionError('Unauthenticated user')
+            response = getattr(self, method)(*args, **named_args)
+
         except BadRequestError as e:
             return self.http_error_response(e.message, status=400)
         except InvalidSessionError as e:
@@ -45,6 +51,6 @@ class RESTDispatch:
 
 class Login(RESTDispatch):
     def GET(self, request):
-        if not request.user.is_authenticated():
-            raise InvalidSessionError('This shouldn\'t happen')
-        return {'netid': request.user.username, 'name': 'Foo Man'}
+        return {
+            'netid': request.user.username if request.user.is_authenticated() else None,
+            'name': 'Place Holder'}

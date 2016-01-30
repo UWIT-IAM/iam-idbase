@@ -164,7 +164,7 @@ app.factory('LoginSvc', ['$log', '$http', 'ErrorSvc', function($log, $http, Erro
     return {
         doLogin: function() {
             $log.info('doLogin');
-            $http.get('api/login')
+            $http.get('/api/login')
                 .then(function (response) {
                     $log.info(response);
                     _this.loginInfo.netid = response.data.netid;
@@ -180,4 +180,5 @@ app.factory('LoginSvc', ['$log', '$http', 'ErrorSvc', function($log, $http, Erro
 
 app.controller('LoginCtrl', ['LoginSvc', function(LoginSvc){
     this.info = LoginSvc.info;
+    LoginSvc.doLogin();  // See if there's anything there
 }]);
