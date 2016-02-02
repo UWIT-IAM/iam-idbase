@@ -162,9 +162,9 @@ app.factory('LoginSvc', ['$log', '$http', 'ErrorSvc', function($log, $http, Erro
     var _this = this;
     this.loginInfo = {netid: null, name: null};
     return {
-        doLogin: function() {
-            $log.info('doLogin');
-            $http.get('/api/login')
+        checkLogin: function() {
+            $log.info('checkLogin');
+            $http.get('api/login')
                 .then(function (response) {
                     $log.info(response);
                     _this.loginInfo.netid = response.data.netid;
@@ -180,5 +180,5 @@ app.factory('LoginSvc', ['$log', '$http', 'ErrorSvc', function($log, $http, Erro
 
 app.controller('LoginCtrl', ['LoginSvc', function(LoginSvc){
     this.info = LoginSvc.info;
-    LoginSvc.doLogin();  // See if there's anything there
+    LoginSvc.checkLogin();
 }]);

@@ -3,7 +3,7 @@ from django.conf import settings
 
 def app_context(request):
     # Set some sensible defaults
-    app = {'base_url': '/', 'css_loads': [], 'javascript_loads': []}
+    app = {'base_url': '/', 'css_loads': [], 'javascript_loads': [], 'debug': settings.DEBUG}
 
     app_contexts = getattr(settings, 'APP_CONTEXTS', {})
 
@@ -13,11 +13,3 @@ def app_context(request):
         app.update(app_contexts['default'])
 
     return {'app': app}
-
-
-def set_logged_in_person(request, netid=None, name=None):
-    request.session['_logged_in_person'] = dict(netid=netid, name=name) if netid else None
-
-
-def logged_in_person_context(request):
-    return {'logged_in_person': request.session.get('_logged_in_person', None)}
