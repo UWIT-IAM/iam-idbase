@@ -86,6 +86,7 @@ app.directive('setFocus', function($timeout) {
 app.factory('LocationTabSvc', ['$location', '$window', function($location, $window){
     var _this = this;
     this.page = {name: '', history: [''], stepCounter: 1};
+    this.pageBase = '';
     this.reloadPages = [];
     return {
         // Call this on successful location change. We inspect the url to see if
@@ -114,30 +115,31 @@ app.factory('LocationTabSvc', ['$location', '$window', function($location, $wind
 
             _this.page.name = name;
             // call for a reload for any page in setReloadPages.
-            if(_this.reloadPages.indexOf(name) != -1){ $window.location = name;}
+            if(_this.reloadPages.indexOf(name) != -1){ $window.location = _this.pageBase + name;}
             else {
                 if(_this.page.history.indexOf(name) == -1){
                     _this.page.history.push(name);
                 }
                 _this.page.stepCounter = _this.page.history.indexOf(name) + 1;
                 // this adjusts the url without reloading it.
-                $location.path(name);
+                $location.path(_this.pageBase + name);
             }
         },
         // set the pages that, when set, will trigger a reload.
         setReloadPages: function(pages){ _this.reloadPages = pages; },
         // set the initial page, with initialPages being the collection
         // of pages allowed at load time (other than '', our main page).
-        init: function(initialPages){
+        init: function(initialPages, pageBase){
+            _this.pageBase = pageBase || '';
             // remove the leading /
-            var locationPath = $location.path().replace(/^\//, '');
+            var locationPath = $location.path().replace(new RegExp('/' + _this.pageBase), '');
             if(initialPages && initialPages.indexOf(locationPath) != -1){
                 _this.page.name = locationPath;
             }
             else if (locationPath){
                 // if a path other than our initial ones, replace the current
                 // url with our base.
-                $location.path('').replace();
+                $location.path(_this.pageBase).replace();
             }
         },
         // This page represents the currently active page.
@@ -158,27 +160,29 @@ app.directive('uwTooltip', ['$log', function($log){
 }]);
 
 
-app.factory('LoginSvc', ['$log', '$http', 'ErrorSvc', function($log, $http, ErrorSvc){
+app.factory('LoginStatusSvc', ['$log', '$http', 'ErrorSvc', function($log, $http, ErrorSvc){
     var _this = this;
     this.loginInfo = {netid: null, name: null};
     return {
         checkLogin: function() {
             $log.info('checkLogin');
-            $http.get('api/login')
+            $http.get('api/loginstatus')
                 .then(function (response) {
                     $log.info(response);
                     _this.loginInfo.netid = response.data.netid;
                     _this.loginInfo.name = response.data.name;
                 })
                 .catch(function (response) {
-                    ErrorSvc.handleError(response.data, response.status);
+                    if(response.status != 401) {
+                        ErrorSvc.handleError(response.data, response.status);
+                    }
                 });
         },
         info: _this.loginInfo
     }
 }]);
 
-app.controller('LoginCtrl', ['LoginSvc', function(LoginSvc){
-    this.info = LoginSvc.info;
-    LoginSvc.checkLogin();
+app.controller('LoginStatusCtrl', ['LoginStatusSvc', function(LoginStatusSvc){
+    this.info = LoginStatusSvc.info;
+    LoginStatusSvc.checkLogin();
 }]);

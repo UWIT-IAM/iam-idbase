@@ -43,8 +43,9 @@
                           </div>
                       </div>
                       {% verbatim %}
-                          <div ng-controller="LoginCtrl as login" ng-cloak ng-show="login.info.netid" class="row">
-                              <div class="col-xs-10 netid-navbar">UW NetID: {{ login.info.netid }} ( {{ login.info.name }} )
+                          <div ng-controller="LoginStatusCtrl as loginStatus" ng-cloak ng-show="loginStatus.info.netid" class="row">
+                              <div class="col-xs-10 netid-navbar">UW NetID: {{ loginStatus.info.netid }}
+                                  <span ng-show="loginStatus.info.name">( {{ loginStatus.info.name }} )</span>
                               </div>
                               <div class="col-xs-2 text-right" id="logout"><a href="/logout.cgi" class="graytext">Log
                                   out</a>
@@ -64,7 +65,7 @@
 	
         <div id="content" role="main" >
             <!-- Unrecoverable error alert that persists for the duration of the page. -->
-            <div class="container" ng-controller="ErrorCtrl as errorHandler" ng-show="errorHandler.errorState.isErrorSet" ng-cloak>
+            <div class="container" ng-controller="ErrorCtrl as errorHandler" ng-if="errorHandler.errorState.isErrorSet" ng-cloak>
                 <div id="serverError" class="alert alert-danger global-error" role="alert" aria-live="assertive">
                     We are experiencing technical issues. Please try later or contact UW-IT Service Center (206) 221-5000.
                 </div> <!-- ./alert-danger -->

@@ -49,8 +49,11 @@ class RESTDispatch:
         return HttpResponse(json.dumps(body), status=status, content_type='application/json')
 
 
-class Login(RESTDispatch):
+class LoginStatus(RESTDispatch):
     def GET(self, request):
+        if not request.user.is_authenticated():
+            raise InvalidSessionError()
+
         return {
-            'netid': request.user.username if request.user.is_authenticated() else None,
-            'name': 'Place Holder'}
+            'netid': request.user.netid,
+            'name': request.user.get_full_name()}
