@@ -16,7 +16,7 @@ class LoginUrlMiddleware(object):
 
     In this scenario, we have a login page that is protected by SSO, and
     multiple other SSO-protected pages that check federation status. Authenticate
-    only the REMOTE_USER variables on the configured LOGIN_URL.
+    only the REMOTE_USER variable when on the configured LOGIN_URL.
     """
     def process_request(self, request):
         """
@@ -27,22 +27,9 @@ class LoginUrlMiddleware(object):
             remote_user = request.META.get('REMOTE_USER', '')
             logger.info('authenticating ' + remote_user)
             request.session.flush()
-            user = LoginUrlRemoteUser(remote_user=remote_user)
-        else:
-            # Empty dictionary creates an unauthenticated user.
-            user = LoginUrlRemoteUser(**request.session.get('_login_url_remote_user', {}))
-        request.user = user
+            request.session['_login_url_remote_user'] = dict(remote_user=remote_user)
 
-    def process_response(self, request, response):
-        """
-        Store an authenticated user on the session.
-        """
-        if request.user.is_authenticated():
-            user = dict(remote_user=request.user.username, full_name=request.user.full_name)
-            if user != request.session.get('_login_url_remote_user', {}):
-                # Only update the session if something changed.
-                request.session['_login_url_remote_user'] = user
-        return response
+        request.user = LoginUrlRemoteUser(**request.session.get('_login_url_remote_user', {}))
 
 
 class SessionTimeoutMiddleware(object):
