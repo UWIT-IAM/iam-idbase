@@ -1,6 +1,8 @@
 from django.conf import settings
+from django.core.exceptions import ImproperlyConfigured
+from idbase.util import localized_datetime_string_now, datetime_diff_seconds
+from idbase.models import LoginUrlRemoteUser
 import logging
-import re
 
 logger = logging.getLogger(__name__)
 
@@ -16,7 +18,6 @@ class LoginUrlMiddleware(object):
     multiple other SSO-protected pages that check federation status. Authenticate
     only the REMOTE_USER variables on the configured LOGIN_URL.
     """
-
     def process_request(self, request):
         """
         Create a new login if on LOGIN_URL. Otherwise use an existing user if stored
@@ -44,33 +45,47 @@ class LoginUrlMiddleware(object):
         return response
 
 
-class LoginUrlRemoteUser(object):
+class SessionTimeoutMiddleware(object):
     """
-    An implementation of the django User interface that doesn't save to
-    or retrieve from a database.
+    Middleware to supplement built-in session expiration with an
+    independently-managed timeout. This allows us to set
+    SESSION_EXPIRE_AT_BROWSER_CLOSE to True while also having an expiration,
+    something the default session management doesn't allow for. Allows for setting
+    SESSION_TIMEOUT_DEFAULT_SECONDS, the absence of which will set a timeout of 20 minutes.
     """
+    def __init__(self):
+        if not settings.SESSION_EXPIRE_AT_BROWSER_CLOSE:
+            raise ImproperlyConfigured(
+                'SessionTimeoutMiddleware expects SESSION_EXPIRE_AT_BROWSER_CLOSE'
+                ' to be True.')
 
-    _is_authenticated = False
-    username = ''
-    netid = ''
-    full_name = None
-
-    def __init__(self, remote_user=None, full_name=None, **kwargs):
+    def process_request(self, request):
         """
-        Initialize a user, giving a remote_user if an authenticated user.
+        Invalidate a session if expiration is beyond the last session update.
         """
-        if remote_user:
-            self._is_authenticated = True
-            self.username = remote_user
-            if remote_user and remote_user.endswith('@washington.edu'):
-                self.netid = re.sub(r'@washington.edu$', '', remote_user)
-            self.full_name = full_name
+        last_update = request.session.get('_session_timeout_last_update', localized_datetime_string_now())
 
-    def get_username(self):
-        return self.username
+        # First check the session for an expiry, then the settings, then default to 20 minutes
+        expiry = request.session.get('_session_timeout_expiry', 0)
+        if not expiry:
+            expiry = getattr(settings, 'SESSION_TIMEOUT_DEFAULT_SECONDS', 20*60)
 
-    def is_authenticated(self):
-        return self._is_authenticated
+        diff = datetime_diff_seconds(last_update)
+        logger.info('Comparing last update diff of {diff} to expiry {expiry}'.format(diff=diff, expiry=expiry))
+        if diff > expiry:
+            logger.info('clearing session on inactivity')
+            request.session.flush()
 
-    def get_full_name(self):
-        return self.full_name
+    def process_response(self, request, response):
+        """
+        Reset the timeout if the session has been modified.
+        """
+        if request.session.modified:
+            request.session['_session_timeout_last_update'] = localized_datetime_string_now()
+        return response
+
+    def set_expiry(self, request, age=20*60):
+        """
+        Set an expiration at run-time to one shorter or longer than the default.
+        """
+        request.session['_session_timeout_expiry'] = age

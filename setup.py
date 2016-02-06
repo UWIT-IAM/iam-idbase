@@ -1,7 +1,7 @@
 from setuptools import setup
 
 
-install_requires = ['Django']
+install_requires = ['Django', 'pytz']
 
 setup(name='idbase',
       version='0.1',
