@@ -71,9 +71,8 @@ class SessionTimeoutMiddleware(object):
             expiry = getattr(settings, 'SESSION_TIMEOUT_DEFAULT_SECONDS', 20*60)
 
         diff = datetime_diff_seconds(last_update)
-        logger.info('Comparing last update diff of {diff} to expiry {expiry}'.format(diff=diff, expiry=expiry))
         if diff > expiry:
-            logger.info('clearing session on inactivity')
+            logger.info('Clearing session on inactivity (diff={diff}, expiry={expiry}'.format(diff=diff, expiry=expiry))
             request.session.flush()
 
     def process_response(self, request, response):
