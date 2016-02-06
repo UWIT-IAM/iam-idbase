@@ -1,2 +1,5 @@
 Django
 pytz
+mock
+pytest
+pytest-django
