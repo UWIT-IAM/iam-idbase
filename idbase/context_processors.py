@@ -3,7 +3,10 @@ from django.conf import settings
 
 def app_context(request):
     # Set some sensible defaults
-    app = {'base_url': '/', 'css_loads': [], 'javascript_loads': [], 'debug': settings.DEBUG}
+    app = {'base_url': '/',
+           'css_loads': [],
+           'javascript_loads': [],
+           'debug': settings.DEBUG}
 
     app_contexts = getattr(settings, 'APP_CONTEXTS', {})
 

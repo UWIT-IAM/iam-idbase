@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 import re
-from django.db import models
 
 
 class LoginUrlRemoteUser(object):
@@ -33,5 +32,3 @@ class LoginUrlRemoteUser(object):
 
     def get_full_name(self):
         return self.full_name
-
-

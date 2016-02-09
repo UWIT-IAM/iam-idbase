@@ -3,3 +3,5 @@ pytz
 mock
 pytest
 pytest-django
+pytest-pep8
+pytest-cov

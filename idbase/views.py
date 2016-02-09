@@ -4,10 +4,9 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-# Identity home page
-def index(request, template=None):
 
-    #person = PersonDAO(request.session, netid=netid)
+def index(request, template=None):
+    """Render the Identity home page."""
     conf = {'urls': settings.CORE_URLS}
 
     return render(request, 'idbase/index.html', conf)

@@ -1,11 +1,13 @@
 from django.http import HttpResponse
-from idbase.exceptions import BadRequestError, InvalidSessionError, NotFoundError
+from idbase.exceptions import BadRequestError, InvalidSessionError
+from idbase.exceptions import NotFoundError
 
 import json
 import logging
 
 
 logger = logging.getLogger(__name__)
+
 
 class RESTDispatch:
     """
@@ -22,7 +24,8 @@ class RESTDispatch:
         try:
             method = request.META['REQUEST_METHOD']
 
-            if method not in ('GET', 'POST', 'PUT', 'DELETE') or not hasattr(self, method):
+            if (method not in ('GET', 'POST', 'PUT', 'DELETE') or
+                    not hasattr(self, method)):
                 raise BadRequestError('invalid method {}'.format(method))
             if self.login_required and not request.user.is_authenticated():
                 raise InvalidSessionError('Unauthenticated user')
@@ -31,7 +34,10 @@ class RESTDispatch:
         except BadRequestError as e:
             return self.http_error_response(e.message, status=400)
         except InvalidSessionError as e:
-            return self.http_error_response(e.message if e.message else 'invalid session', status=401)
+            return self.http_error_response(e.message
+                                            if e.message
+                                            else 'invalid session',
+                                            status=401)
         except NotFoundError as e:
             return self.http_error_response(e.message, status=404)
         except Exception as e:
@@ -41,12 +47,13 @@ class RESTDispatch:
         if isinstance(response, HttpResponse):
             return response
         else:
-            return HttpResponse(json.dumps(response), status=200, content_type='application/json')
-
+            return HttpResponse(json.dumps(response), status=200,
+                                content_type='application/json')
 
     def http_error_response(self, message=None, status=500):
         body = {'error_message': message if message else 'unspecified reason'}
-        return HttpResponse(json.dumps(body), status=status, content_type='application/json')
+        return HttpResponse(json.dumps(body), status=status,
+                            content_type='application/json')
 
 
 class LoginStatus(RESTDispatch):
