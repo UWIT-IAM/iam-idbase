@@ -57,12 +57,7 @@ class SessionTimeoutMiddleware(object):
         last_update = request.session.get('_session_timeout_last_update',
                                           localized_datetime_string_now())
 
-        # First check the session for an expiry, then the settings, then
-        # default to 20 minutes
-        expiry = request.session.get('_session_timeout_expiry', 0)
-        if not expiry:
-            expiry = getattr(settings, 'SESSION_TIMEOUT_DEFAULT_SECONDS',
-                             20*60)
+        expiry = getattr(settings, 'SESSION_TIMEOUT_DEFAULT_SECONDS', 20*60)
 
         diff = datetime_diff_seconds(last_update)
         if diff > expiry:
@@ -79,10 +74,3 @@ class SessionTimeoutMiddleware(object):
             request.session['_session_timeout_last_update'] = \
                 localized_datetime_string_now()
         return response
-
-    def set_expiry(self, request, age=20*60):
-        """
-        Set an expiration at run-time to one shorter or longer than the
-        default.
-        """
-        request.session['_session_timeout_expiry'] = age

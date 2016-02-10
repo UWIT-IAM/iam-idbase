@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
+from idbase.exceptions import InvalidSessionError
 import logging
 
 logger = logging.getLogger(__name__)
@@ -18,4 +19,4 @@ def login(request):
         logger.info('User %s logged in' % (request.user.username))
         return redirect(request.GET.get('next', '/'))
     else:
-        raise Exception('no REMOTE_USER variable set')
+        raise InvalidSessionError('no REMOTE_USER variable set')
