@@ -27,7 +27,7 @@ def test_rest_dispatch_run_get_basic(rest_dispatch, req):
     response = rest_dispatch.run(req)
 
     assert response.status_code == 200
-    assert response.content == json.dumps({'foo': 'bar'})
+    assert response.content.decode() == json.dumps({'foo': 'bar'})
     assert (response._headers['content-type'] ==
             ('Content-Type', 'application/json'))
     rest_dispatch.GET.assert_called_once_with(req)
@@ -39,14 +39,15 @@ def test_rest_dispatch_run_http_response(rest_dispatch, req):
     response = rest_dispatch.run(req)
 
     assert response.status_code == 503
-    assert response.content == 'hello world'
+    assert response.content.decode() == 'hello world'
 
 
 def test_rest_dispatch_run_get_no_method(req):
     rd = RESTDispatch()
     response = rd.run(req)
     assert response.status_code == 400
-    assert json.loads(response.content).get('error_message', None) is not None
+    assert json.loads(response.content.decode()).get(
+        'error_message', None) is not None
 
 
 def test_rest_dispatch_run_invalid_session(rest_dispatch, req):
@@ -80,7 +81,7 @@ def test_rest_dispatch_no_login_necessary(req):
     response = rest_dispatch.run(req)
 
     assert response.status_code == 200
-    assert json.loads(response.content) == {'foo': 'bar'}
+    assert json.loads(response.content.decode()) == {'foo': 'bar'}
 
 
 def test_login_status_get(req):

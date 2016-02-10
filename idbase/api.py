@@ -30,14 +30,14 @@ class RESTDispatch:
             response = getattr(self, method)(request, *args, **named_args)
 
         except BadRequestError as e:
-            return self.http_error_response(e.message, status=400)
+            return self.http_error_response(str(e), status=400)
         except InvalidSessionError as e:
-            return self.http_error_response(e.message
-                                            if e.message
+            return self.http_error_response(str(e)
+                                            if str(e)
                                             else 'invalid session',
                                             status=401)
         except NotFoundError as e:
-            return self.http_error_response(e.message, status=404)
+            return self.http_error_response(str(e), status=404)
         except Exception as e:
             logger.exception(e)
             return self.http_error_response(message=None, status=500)
