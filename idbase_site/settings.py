@@ -104,3 +104,35 @@ STATIC_URL = '/static/'
 STATIC_ROOT = '/tmp/'  # defined to placate compressor
 
 CORE_URLS = ['id', 'resetpassword', 'recovery', 'home']
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': ('%(asctime)s %(levelname)s '
+                       '%(module)s.%(funcName)s():%(lineno)d: '
+                       '%(message)s')
+            },
+        },
+    'handlers': {
+        'console': {
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+            'stream': 'ext://sys.stdout',
+        },
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'idbase': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    }
+}

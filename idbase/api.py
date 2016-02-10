@@ -18,9 +18,7 @@ class RESTDispatch:
     def __init__(self, login_required=True):
         self.login_required = login_required
 
-    def run(self, *args, **named_args):
-        request = args[0]
-
+    def run(self, request, *args, **named_args):
         try:
             method = request.META['REQUEST_METHOD']
 
@@ -29,7 +27,7 @@ class RESTDispatch:
                 raise BadRequestError('invalid method {}'.format(method))
             if self.login_required and not request.user.is_authenticated():
                 raise InvalidSessionError('Unauthenticated user')
-            response = getattr(self, method)(*args, **named_args)
+            response = getattr(self, method)(request, *args, **named_args)
 
         except BadRequestError as e:
             return self.http_error_response(e.message, status=400)
