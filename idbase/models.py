@@ -32,3 +32,6 @@ class LoginUrlRemoteUser(object):
 
     def get_full_name(self):
         return self.full_name
+
+    def set_full_name(self, full_name):
+        self.full_name = full_name

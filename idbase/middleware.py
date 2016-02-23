@@ -34,6 +34,24 @@ class LoginUrlMiddleware(object):
         request.user = LoginUrlRemoteUser(
             **request.session.get('_login_url_remote_user', {}))
 
+    def process_response(self, request, response):
+        """
+        Check if the full_name changed and store it on the session.
+        """
+        user = LoginUrlRemoteUser(
+            **request.session.get('_login_url_remote_user', {}))
+        if (hasattr(request, 'user') and
+                user.username == request.user.username and
+                user.full_name != request.user.full_name):
+            # Update full_name if the username is the same both in the session
+            # and in our request, and the full_name is different.
+            # Extra paranoia in the event that our session gets cleared
+            # or the user changes during the request.
+            request.session['_login_url_remote_user'][
+                'full_name'] = request.user.full_name
+            request.session.modified = True
+        return response
+
 
 class SessionTimeoutMiddleware(object):
     """
@@ -74,3 +92,24 @@ class SessionTimeoutMiddleware(object):
             request.session['_session_timeout_last_update'] = \
                 localized_datetime_string_now()
         return response
+
+
+class MockLoginMiddleware(object):
+    """
+    Middleware to fake a shib-protected LOGIN_URL.
+    """
+
+    remote_user = 'user1e@washington.edu'
+
+    def __init__(self):
+        if not settings.DEBUG:
+            logger.error('MockLoginMiddleware shouldn\'t be set in a '
+                         'production environment')
+
+    def process_request(self, request):
+        """
+        Set a remote_user if on LOGIN_URL.
+        """
+        if (request.path == settings.LOGIN_URL and
+                'REMOTE_USER' not in request.META):
+            request.META['REMOTE_USER'] = self.remote_user
