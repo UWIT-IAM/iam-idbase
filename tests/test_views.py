@@ -10,6 +10,7 @@ def req(rf):
     req.user = lambda: None
     req.user.username = 'joe'
     req.user.is_authenticated = lambda: True
+    req.user.get_full_name = lambda: None
     return req
 
 
