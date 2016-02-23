@@ -19,8 +19,8 @@ def login(request):
     if request.user.is_authenticated():
         logger.info('User %s logged in' % (request.user.username))
         if (request.user.get_full_name() is None and
-                hasattr(settings, 'FULL_NAME_FUNCTION')):
-            mod, func = settings.FULL_NAME_FUNCTION.rsplit('.', 1)
+                hasattr(settings, 'GET_FULL_NAME_FUNCTION')):
+            mod, func = settings.GET_FULL_NAME_FUNCTION.rsplit('.', 1)
             module = import_module(mod)
             full_name_function = getattr(module, func)
             request.user.set_full_name(full_name_function(request))
