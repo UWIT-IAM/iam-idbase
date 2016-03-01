@@ -98,13 +98,13 @@ class MockLoginMiddleware(object):
     """
     Middleware to fake a shib-protected LOGIN_URL.
     """
-
-    remote_user = 'user1e@washington.edu'
-
     def __init__(self):
         if not settings.DEBUG:
             logger.error('MockLoginMiddleware shouldn\'t be set in a '
                          'production environment')
+        if not hasattr(settings, 'MOCK_LOGIN_USER'):
+            raise ImproperlyConfigured('MOCK_LOGIN_USER required.')
+        self.remote_user = settings.MOCK_LOGIN_USER
 
     def process_request(self, request):
         """
