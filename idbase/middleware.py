@@ -80,7 +80,7 @@ class SessionTimeoutMiddleware(object):
         diff = datetime_diff_seconds(last_update)
         if diff > expiry:
             logger.info(
-                'Clearing session on inactivity (diff={}, expiry={}'.format(
+                'Clearing session on inactivity (diff={}, expiry={})'.format(
                     diff, expiry))
             request.session.flush()
 

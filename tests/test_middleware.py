@@ -65,6 +65,31 @@ def test_login_url_middleware_login_page_unprotected(rf, session):
         '_login_url_remote_user': {'remote_user': ''}}
 
 
+def test_login_url_middleware_save_name(req):
+    req.session['_login_url_remote_user'] = dict(remote_user='foo@uw.edu')
+    req.session.modified = False
+    req.user = lambda: None  # poor man's SimpleNamespace
+    req.user.username = 'foo@uw.edu'
+    req.user.full_name = 'Bob'
+    response = LoginUrlMiddleware().process_response(req, 200)
+    assert response == 200
+    assert req.session['_login_url_remote_user'] == {
+        'remote_user': 'foo@uw.edu', 'full_name': 'Bob'}
+    assert req.session.modified
+
+
+def test_login_url_middleware_name_change_session_flush(req):
+    """Make sure we don't update the name if the session got flushed."""
+    orig_session = {k: v for k, v in req.session._session.items()}
+    req.user = lambda: None
+    req.user.username = 'foo@uw.edu'
+    req.user.full_name = 'Bob'
+    response = LoginUrlMiddleware().process_response(req, 200)
+    assert response == 200
+    assert req.session._session == orig_session
+    assert not req.session.modified
+
+
 @pytest.fixture(autouse=True)
 def mock_localized_datetime(monkeypatch):
     monkeypatch.setattr('idbase.middleware.localized_datetime_string_now',

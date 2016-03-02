@@ -10,7 +10,8 @@ def app_context(request):
 
     app_contexts = getattr(settings, 'APP_CONTEXTS', {})
 
-    if request.resolver_match.namespace in app_contexts:
+    if (hasattr(request, 'resolver_match') and
+            getattr(request.resolver_match, 'namespace', '') in app_contexts):
         app.update(app_contexts[request.resolver_match.namespace])
     elif 'default' in app_contexts:
         app.update(app_contexts['default'])
