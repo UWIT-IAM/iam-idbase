@@ -1,3 +1,7 @@
+[![Build Status](https://travis-ci.org/UWIT-IAM/iam-idbase.svg?branch=master)](https://travis-ci.org/UWIT-IAM/iam-idbase)
+[![Coverage Status](https://coveralls.io/repos/github/UWIT-IAM/iam-idbase/badge.svg?branch=master)](https://coveralls.io/github/UWIT-IAM/iam-idbase?branch=master)
+
+
 # iam-idbase
 A base look-and-feel package for apps designed to run on Identity.UW with django.
 
