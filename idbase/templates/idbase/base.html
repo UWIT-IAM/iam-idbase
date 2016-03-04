@@ -17,8 +17,8 @@
 
         <!-- regular css -->
             <!-- bootstrap & font awesome -->
-            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+            <link rel="stylesheet" href="{% static "vendor/bootstrap/3.3.6/css/bootstrap.min.css" %}">
+            <link rel="stylesheet" href="{% static "vendor/font-awesome/4.5.0/css/font-awesome.min.css" %}">
             <link rel="stylesheet" href="{% static "idbase/css/main.css" %}">
             {% for css_load in app.css_loads %}
                 <script src="{% static "" %}css/{{ css_load }}"></script>
@@ -26,8 +26,8 @@
 
             <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.js"></script>
-        <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.js"></script>
+        <script src="{% static "vendor/angularjs/1.4.8/angular.min.js" %}"></script>
+        <script src="{%  static "vendor/angularjs/1.4.8/angular-aria.min.js" %}"></script>
         <base href="{{ app.base_url|default_if_none:"/" }}" />
     </head>
     <body>
@@ -125,7 +125,7 @@
 
         <!-- javascript -->
 
-            <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+            <script src={% static "vendor/bootstrap/3.3.6/js/bootstrap.min.js" %}></script>
             <script src="{% static "idbase/js/identity.js" %}"></script>
              <!-- app js goes here -->
             {% for js_load in app.javascript_loads %}
