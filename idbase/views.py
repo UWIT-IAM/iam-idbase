@@ -9,7 +9,8 @@ logger = logging.getLogger(__name__)
 
 def index(request, template=None):
     """Render the Identity home page."""
-    conf = {'urls': settings.CORE_URLS}
+    conf = {'urls': settings.CORE_URLS,
+            'session_timeout': settings.SESSION_TIMEOUT_DEFAULT_SECONDS}
 
     return render(request, 'idbase/index.html', conf)
 

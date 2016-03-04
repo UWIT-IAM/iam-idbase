@@ -24,6 +24,10 @@ APP_CONTEXTS = {
 ```
 * Add some urls to handle login and loginstatus...
 ```
+...
+from idbase.views import login
+from idbase.api import LoginStatus
+
 urlpatterns = [
     url(r'^login$', login),
     url(r'^api/loginstatus$', LoginStatus().run),

@@ -2,28 +2,16 @@
 
 {% block content %}
     <div  class="container">
-<!-- NEW PAGE-TITLE -->	                 	
+    <!-- NEW PAGE-TITLE -->
 		<div class="page-title">
            <h1>Identity.UW enables you to...</h1>
-        </div><!-- end new H1 -->    
+        </div><!-- end new H1 -->
 
-            <div><h2 class="section-title"><a href="{{urls.pdp}}">Set up your Preferred name</a></h2>
-	  <p>You can set a preferred name to be used in place of your legal name in the UW directory. </p></div>
-	  
-      <div><h2 class="section-title"><a href="{{urls.recovery}}">Set up your UW NetID account recovery options</a></h2>
-             <p>Your UW NetID account recovery options give you a way to access your account if you get locked out.
- </p>
-	  </div>
+        <h2>Demo pages</h2>
+        <p>Such as this one!</p>
+        <h2>Demo logins</h2>
+        <p>By clicking <a href="secure">this link!</a></p>
 
-{% if is_debug %}
-<p>
-<hr>
-<p>
-      <div class="uw-body"><a href="{{urls.resetpassword}}">Go to recover pages</a>
-             <p>Just for easier access by developers of the site.
-
-
-	  </div>
-{% endif %}
-
+        <p>Your session should time out in {{ session_timeout }} seconds.</p>
+    </div>
 {% endblock %}

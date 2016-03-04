@@ -26,7 +26,11 @@ SECRET_KEY = 'load this secret externally'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+LOGIN_URL = '/login'
+MOCK_LOGIN_USER = 'javerage@washington.edu'
+GET_FULL_NAME_FUNCTION = 'idbase.util.mock_get_full_name'
+SESSION_TIMEOUT_DEFAULT_SECONDS = 20
 
 # Application definition
 
@@ -40,11 +44,12 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE_CLASSES = [
-    'django.middleware.security.SecurityMiddleware',
+    'idbase.middleware.MockLoginMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'idbase.middleware.SessionTimeoutMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'idbase.middleware.LoginUrlMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
