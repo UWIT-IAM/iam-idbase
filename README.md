@@ -43,3 +43,14 @@ urlpatterns = [
 ...
 {% endblock %}
 ```
+
+## Deploying
+Add a 'collectstatic' task to your deploy playbook.
+```
+  - name: collect {{app_name}} statics
+    django_manage:
+      command: collectstatic --no-input
+      app_path: "{{target_static_path}}"
+      python_path: "{{python_path}}"
+      virtualenv: "{{your_virtualenv}}"
+```
