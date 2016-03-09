@@ -21,7 +21,7 @@
             <link rel="stylesheet" href="{% static "vendor/font-awesome/4.5.0/css/font-awesome.min.css" %}">
             <link rel="stylesheet" href="{% static "idbase/css/main.css" %}">
             {% for css_load in app.css_loads %}
-                <link rel="stylesheet" href="{% static "" %}css/{{ css_load }}">
+                <link rel="stylesheet" href="{% static css_load %}">
             {% endfor %}
 
             <script src="{%  static "vendor/jquery/1.11.3/jquery.min.js" %}"></script>
@@ -129,7 +129,7 @@
             <script src="{% static "idbase/js/identity.js" %}"></script>
              <!-- app js goes here -->
             {% for js_load in app.javascript_loads %}
-                <script src="{% static "" %}js/{{ js_load }}"></script>
+                <script src="{% static js_load %}"></script>
             {% endfor %}
         
     </body>
