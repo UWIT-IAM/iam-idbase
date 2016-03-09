@@ -21,7 +21,7 @@
             <link rel="stylesheet" href="{% static "vendor/font-awesome/4.5.0/css/font-awesome.min.css" %}">
             <link rel="stylesheet" href="{% static "idbase/css/main.css" %}">
             {% for css_load in app.css_loads %}
-                <script src="{% static "" %}css/{{ css_load }}"></script>
+                <link rel="stylesheet" href="{% static "" %}css/{{ css_load }}">
             {% endfor %}
 
             <script src="{%  static "vendor/jquery/1.11.3/jquery.min.js" %}"></script>
