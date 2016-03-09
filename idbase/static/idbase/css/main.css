@@ -106,20 +106,7 @@ legend {
 h1, h2, h3 { font-weight: bold; 
 }
 
-/* NTS: will be h3 style soon*/
-h2 { 
-  font-size: 32px; 
-  color: #4b2e83;
-  margin-top: 1em;
-  margin-bottom: 10px;
-}
-
-h2 small{
-	font-weight: normal;
-	color:#4b2e83;
-}
-
-h3 {
+h2, h3 {
   font-size: 20px;
   margin-top: 15px;
   margin-bottom: 5px;
@@ -340,7 +327,6 @@ ol.no-number{
 
 /* Recovery: unverified tag */
 .unverified-tag{
-	font-size: inherit;
 	color: #c61029;
 	font-size:14px;
 	font-style: italic;
