@@ -87,18 +87,21 @@ DATABASES = {
     }
 }
 
+APP_CONTEXTS = {
+    'default': {
+        'base_url': '/',
+        'css_loads': ['idbase/css/demo.css'],
+        'javascript_loads': ['idbase/js/demo.js']
+    }
+}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/
 
 LANGUAGE_CODE = 'en-us'
-
 TIME_ZONE = 'UTC'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
 
