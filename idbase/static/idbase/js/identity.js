@@ -160,29 +160,46 @@ app.directive('uwTooltip', ['$log', function($log){
 }]);
 
 
-app.factory('LoginStatusSvc', ['$log', '$http', 'ErrorSvc', function($log, $http, ErrorSvc){
-    var _this = this;
-    this.loginInfo = {netid: null, name: null};
-    return {
-        checkLogin: function() {
-            $log.info('checkLogin');
-            $http.get('api/loginstatus')
-                .then(function (response) {
-                    $log.info(response);
-                    _this.loginInfo.netid = response.data.netid;
-                    _this.loginInfo.name = response.data.name;
-                })
-                .catch(function (response) {
-                    if(response.status != 401) {
-                        ErrorSvc.handleError(response.data, response.status);
-                    }
-                });
-        },
-        info: _this.loginInfo
-    }
-}]);
+function LoginStatus($log, $http, ErrorSvc, config) {
+    // Service returning information about an authenticated user.
 
-app.controller('LoginStatusCtrl', ['LoginStatusSvc', function(LoginStatusSvc){
-    this.info = LoginStatusSvc.info;
-    LoginStatusSvc.checkLogin();
+    var loginInfo = {netid: null, name: null};
+    if (config.defaultCheck){
+        $log.info('checkLogin: ' + config.api);
+        $http.get(config.api)
+            .then(function (response) {
+                $log.info(response);
+                loginInfo.netid = response.data.netid;
+                loginInfo.name = response.data.name;
+            })
+            .catch(function (response) {
+                if(response.status != 401) {
+                    ErrorSvc.handleError(response.data, response.status);
+                }
+            });
+    }
+
+    this.info = loginInfo;
+}
+
+
+app.provider('loginStatus', function loginStatusProvider() {
+    // Provider to allow configuration of api endpoint and default service behavior
+    var config = {api: 'api/loginstatus', defaultCheck: true};
+
+    this.api = function (value) {
+        config.api = value;
+    };
+    this.defaultCheck = function (value) {
+        config.defaultCheck = value;
+    };
+
+    this.$get = ['$log', '$http', 'ErrorSvc',
+        function loginStatusFactory($log, $http, ErrorSvc) {
+            return new LoginStatus($log, $http, ErrorSvc, config);
+        }];
+});
+
+app.controller('LoginStatusCtrl', ['loginStatus', function(loginStatus){
+    this.info = loginStatus.info;
 }]);
