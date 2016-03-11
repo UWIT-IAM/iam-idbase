@@ -10,7 +10,12 @@
         <h2>Demo pages</h2>
         <p>Such as this one!</p>
         <h2>Demo logins</h2>
-        <p>By clicking <a href="/secure">this link!</a></p>
+        <p>By clicking <a id="loginLink" href="/secure">this link!</a></p>
+        <h2>Test errors</h2>
+        <p ng-controller="MakeErrorCtrl as makeError">By clicking
+            <button id="badButton"
+                    type="button" class="btn btn-primary"
+                    ng-click="makeError.doIt()">this button!</button></p>
 
         <p>Your session should time out in {{ session_timeout }} seconds.</p>
     </div>
