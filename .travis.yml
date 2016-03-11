@@ -5,9 +5,13 @@ python:
 install: pip install -r requirements.txt
 before_script:
   - pip install python-coveralls selenium
-  # the following two tasks are only needed to run functional_tests.
+  # the following five tasks are only needed to run functional_tests.
   - python manage.py migrate
   - python manage.py runserver &
+  # for firefox
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3 # give xvfb some time to start
 script:
   - py.test --pep8 --cov idbase
   - py.test tests/functional_tests.py
