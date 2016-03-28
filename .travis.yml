@@ -15,4 +15,5 @@ before_script:
 script:
   - py.test --pep8 --cov idbase
   - py.test tests/functional_tests.py
+after_success:
   - coveralls
