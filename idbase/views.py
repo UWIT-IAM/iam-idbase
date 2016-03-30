@@ -19,6 +19,9 @@ def login(request):
     """This view gets SSO-protected and redirects to next."""
     if request.user.is_authenticated():
         logger.info('User %s logged in' % (request.user.username))
+        if not request.user.username.endswith('@washington.edu'):
+            # Non-uw possibility when using a federated idp for recovery.
+            return _login_error(request)
         if (request.user.get_full_name() is None and
                 hasattr(settings, 'GET_FULL_NAME_FUNCTION')):
             mod, func = settings.GET_FULL_NAME_FUNCTION.rsplit('.', 1)
@@ -27,4 +30,21 @@ def login(request):
             request.user.set_full_name(full_name_function(request))
         return redirect(request.GET.get('next', '/'))
     else:
-        raise InvalidSessionError('no REMOTE_USER variable set')
+        # This can happen if a user gets past weblogin but comes in with
+        # no attributes, which indicates a problem upstream.
+        return _login_error(request)
+
+
+def _login_error(request):
+    context = {}
+    if not request.user.is_authenticated():
+        logger.error('No REMOTE_USER variable set')
+    else:
+        logger.error('incorrect idp!!, REMOTE_USER={}'.format(
+            request.user.username))
+        context['non_uw_user'] = request.user.username
+
+    # end of the road.
+    request.session.flush()
+    return render(request, 'idbase/login-error.html', status=401,
+                  context=context)

@@ -14,17 +14,26 @@ Travis-CI. For the other details in running see .travis.yml.
 """
 
 from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from django.test import override_settings
 from pytest import fixture
 import logging
 import json
-from time import sleep
 
 logger = logging.getLogger(__name__)
 
 
 @fixture
-def site_root():
-    return 'http://localhost:8000'
+def site_root(live_server):
+    # django live_server always sets DEBUG to False. Override that for test.
+    settings_context = override_settings(DEBUG=True)
+    settings_context.__enter__()
+
+    def fin():
+        settings_context.__exit__(None, None, None)
+
+    return live_server.url
 
 
 def test_basic_site(phantom_browser, site_root):
@@ -37,7 +46,7 @@ def test_basic_site(phantom_browser, site_root):
 
     # check that our page's h1 is also the title, which ensures our basic
     # angular functionality is working.
-    assert "Identity.UW enables you to..." == browser.title
+    wait_for_title(browser)
 
     # get_log('har') on PhantomJS will get the browser's network traffic.
     log_entries = json.loads(
@@ -69,6 +78,7 @@ def test_error_message(firefox_browser, site_root):
     """
     browser = firefox_browser
     browser.get(site_root)
+    wait_for_title(browser)
     body = browser.find_element_by_xpath('/html/body').text
     assert "We are experiencing technical issues" not in body
     browser.find_element_by_id('badButton').click()
@@ -83,11 +93,16 @@ def test_login_status(firefox_browser, site_root):
     """
     browser = firefox_browser
     browser.get(site_root)
+    wait_for_title(browser)
     body = browser.find_element_by_xpath('/html/body').text
     assert "James Student" not in body
     browser.find_element_by_id('loginLink').click()
     body = browser.find_element_by_xpath('/html/body').text
     assert "James Student" in body
+
+
+def wait_for_title(browser, title_substring="Identity.UW enables you to..."):
+    WebDriverWait(browser, 5).until(EC.title_contains(title_substring))
 
 
 @fixture(scope='session')

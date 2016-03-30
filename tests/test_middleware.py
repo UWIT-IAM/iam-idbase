@@ -12,15 +12,6 @@ def settings(settings):
 
 
 @pytest.fixture
-def session():
-    engine = import_module('django.contrib.sessions.backends.signed_cookies')
-    store = engine.SessionStore()
-    store['active'] = True  # set something so we can check if it's cleared.
-    store.modified = False
-    return store
-
-
-@pytest.fixture
 def req(rf, session):
     """A mock Django request get with a mock session."""
     request = rf.get('/')
