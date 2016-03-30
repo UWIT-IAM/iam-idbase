@@ -1,0 +1,28 @@
+{% extends "idbase/base.html" %}
+
+{% block content %}
+
+    <div class="container" ng-cloak>
+
+        <div class="container">
+            <div id="error_page">
+                {% if non_uw_user %}
+                    <div ng-controller="LoginStatusCtrl as loginStatus">
+                    <h1 ng-init="loginStatus.info.netid = 'non-UW id {{ non_uw_user }}'">You're still logged in as a non-UW user <b>{{ non_uw_user }}</b>.</h1>
+                    <p>Please log out and log back in with your UW NetID.</p>
+                    </div>
+                {% else %} {# no_remote_user #}
+                    <div ng-controller="ErrorCtrl as error"
+                         ng-init="error.errorState.isErrorSet = true">
+                        <h1>Error logging in.</h1>
+                        <p>There was an error with your account. If the problem persists, please contact
+                            the UW-IT Service Center for assistance.
+                        </p>
+                    </div>
+                {% endif %}
+            </div>
+
+       </div>
+
+    </div>
+{% endblock %}
