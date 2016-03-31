@@ -104,7 +104,6 @@ class MockLoginMiddleware(object):
                          'production environment')
         if not hasattr(settings, 'MOCK_LOGIN_USER'):
             raise ImproperlyConfigured('MOCK_LOGIN_USER required.')
-        self.remote_user = settings.MOCK_LOGIN_USER
 
     def process_request(self, request):
         """
@@ -112,4 +111,4 @@ class MockLoginMiddleware(object):
         """
         if (request.path == settings.LOGIN_URL and
                 'REMOTE_USER' not in request.META):
-            request.META['REMOTE_USER'] = self.remote_user
+            request.META['REMOTE_USER'] = settings.MOCK_LOGIN_USER
