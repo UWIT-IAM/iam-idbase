@@ -16,20 +16,22 @@ A base look-and-feel package for apps designed to run on Identity.UW with django
 * Add 'idbase.middleware.SessionTimeoutMiddleware' to settings.MIDDLEWARE_CLASSES after SessionMiddleware.
 * Replace any authentication middleware in settings.MIDDLEWARE_CLASSES with 'idbase.middleware.LoginUrlMiddleware'.
 * Add 'idbase.context_processors.app_context' to your settings.TEMPLATES list of context_processors.
+* Declare a settings.LOGIN_URL and a settings.LOGOUT_URL
 * Declare a settings.APP_CONTEXT...
 ```
 APP_CONTEXTS = {
     'default': {'base_url': '/account/', 'css_loads': ['account.css'], 'javascript_loads': ['account.js']}
 }
 ```
-* Add some urls to handle login and loginstatus...
+* Add some urls to handle login, logout, and loginstatus...
 ```
 ...
-from idbase.views import login
+from idbase.views import login, logout
 from idbase.api import LoginStatus
 
 urlpatterns = [
     url(r'^login$', login),
+    url(r'^logout$', logout),
     url(r'^api/loginstatus$', LoginStatus().run),
     ...
 ]

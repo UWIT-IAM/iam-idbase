@@ -89,16 +89,37 @@ def test_error_message(firefox_browser, site_root):
 def test_login_status(firefox_browser, site_root):
     """
     Check that a login action shows the user their status.
-    The first assert could fail if they logged in in an earlier test.
     """
     browser = firefox_browser
-    browser.get(site_root)
+    browser.get(site_root + '/logout')
     wait_for_title(browser)
     body = browser.find_element_by_xpath('/html/body').text
     assert "James Student" not in body
     browser.find_element_by_id('loginLink').click()
     body = browser.find_element_by_xpath('/html/body').text
     assert "James Student" in body
+
+
+def test_login_non_uw(firefox_browser, site_root, settings):
+    settings.MOCK_LOGIN_USER = 'joe@example.com'
+    browser = firefox_browser
+    browser.get(site_root + '/logout')
+    wait_for_title(browser)
+    browser.get(site_root + '/secure')
+    wait_for_title(browser,
+                   title_substring="You're still logged in as a non-UW user.")
+
+
+def test_login_no_remote_user(firefox_browser, site_root, settings):
+    settings.MOCK_LOGIN_USER = ''
+    browser = firefox_browser
+    browser.get(site_root + '/logout')
+    wait_for_title(browser)
+    browser.get(site_root + '/secure')
+    wait_for_title(browser,
+                   title_substring="Error logging in.")
+    body = browser.find_element_by_xpath('/html/body').text
+    assert "We are experiencing technical issues" in body
 
 
 def wait_for_title(browser, title_substring="Identity.UW enables you to..."):
