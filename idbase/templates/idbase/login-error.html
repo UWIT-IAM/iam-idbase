@@ -8,7 +8,7 @@
             <div id="error_page">
                 {% if non_uw_user %}
                     <div ng-controller="LoginStatusCtrl as loginStatus">
-                    <h1 ng-init="loginStatus.info.netid = 'non-UW id {{ non_uw_user }}'">You're still logged in as a non-UW user <b>{{ non_uw_user }}</b>.</h1>
+                    <h1 ng-init="loginStatus.info.netid = 'external user'">You're still logged in as a non-UW user <b>{{ non_uw_user }}</b>.</h1>
                     <p>Please log out and log back in with your UW NetID.</p>
                     </div>
                 {% else %} {# no_remote_user #}

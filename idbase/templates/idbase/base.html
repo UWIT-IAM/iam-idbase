@@ -42,16 +42,16 @@
                               <a href="/" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
                           </div>
                       </div>
-                      {% verbatim %}
                           <div ng-controller="LoginStatusCtrl as loginStatus" ng-cloak ng-show="loginStatus.info.netid" class="row">
+                              {% verbatim %}
                               <div class="col-xs-10 netid-navbar">UW NetID: {{ loginStatus.info.netid }}
                                   <span ng-show="loginStatus.info.name">( {{ loginStatus.info.name }} )</span>
                               </div>
-                              <div class="col-xs-2 text-right" id="logout"><a href="/logout.cgi" class="graytext">Log
+                              {% endverbatim %}
+                              <div class="col-xs-2 text-right" id="logout"><a href="{{ app.logout_url }}" class="graytext">Log
                                   out</a>
                               </div>
                           </div>
-                      {% endverbatim %}
                   </div>
                   <div class="col-xs-2 pull-right header-w" role="presentation">
                       <img src="{% static "idbase/assets/images/w-logo-white.png" %}" alt="UW logo">
