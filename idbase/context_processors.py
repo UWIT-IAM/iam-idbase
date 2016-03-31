@@ -6,7 +6,8 @@ def app_context(request):
     app = {'base_url': '/',
            'css_loads': [],
            'javascript_loads': [],
-           'debug': settings.DEBUG}
+           'debug': settings.DEBUG,
+           'logout_url': getattr(settings, 'LOGOUT_URL', '/logout')}
 
     app_contexts = getattr(settings, 'APP_CONTEXTS', {})
 

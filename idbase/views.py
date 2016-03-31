@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.conf import settings
-from idbase.exceptions import InvalidSessionError
+from django.utils.http import is_safe_url
 import logging
 from importlib import import_module
 
@@ -28,11 +28,25 @@ def login(request):
             module = import_module(mod)
             full_name_function = getattr(module, func)
             request.user.set_full_name(full_name_function(request))
-        return redirect(request.GET.get('next', '/'))
+        return _safe_redirect(request)
     else:
         # This can happen if a user gets past weblogin but comes in with
         # no attributes, which indicates a problem upstream.
         return _login_error(request)
+
+
+def logout(request):
+    response = _safe_redirect(request)
+    logger.debug('Logging out {}'.format(request.user.username))
+    for cookie in request.COOKIES.keys():
+        response.delete_cookie(cookie)
+    return response
+
+
+def _safe_redirect(request):
+    """Return a redirect response to the 'next' parameter if safe."""
+    redirect_target = request.GET.get('next', '/')
+    return redirect(redirect_target if is_safe_url(redirect_target) else '/')
 
 
 def _login_error(request):
@@ -42,7 +56,7 @@ def _login_error(request):
     else:
         logger.error('incorrect idp!!, REMOTE_USER={}'.format(
             request.user.username))
-        context['non_uw_user'] = request.user.username
+        context['non_uw_user'] = True
 
     # end of the road.
     request.session.flush()
