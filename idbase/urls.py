@@ -8,7 +8,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^secure', login_required(views.index), name='secure'),
-    url(r'^login$', login),
-    url(r'^logout$', logout),
+    url(r'^login/$', login),
+    url(r'^logout/$', logout),
     url(r'^api/loginstatus$', LoginStatus().run),
 ]

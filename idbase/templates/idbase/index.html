@@ -1,5 +1,11 @@
 {% extends "idbase/base.html" %}
 
+{%  block js %}
+    {% load static %}
+    {{ block.super }}
+    <script src="{% static "idbase/js/demo.js" %}"></script>
+{% endblock %}
+
 {% block content %}
     <div  class="container">
     <!-- NEW PAGE-TITLE -->

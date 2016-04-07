@@ -26,9 +26,10 @@ SECRET_KEY = 'load this secret externally'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL']
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-LOGIN_URL = '/login'
-LOGOUT_URL = '/logout'
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
 MOCK_LOGIN_USER = 'javerage@washington.edu'
 GET_FULL_NAME_FUNCTION = 'idbase.util.mock_get_full_name'
 SESSION_TIMEOUT_DEFAULT_SECONDS = 20
@@ -70,7 +71,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'idbase.context_processors.app_context'
+                'idbase.context_processors.settings_context'
             ],
         },
     },
@@ -86,14 +87,6 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
-
-APP_CONTEXTS = {
-    'default': {
-        'base_url': '/',
-        'css_loads': ['idbase/css/demo.css'],
-        'javascript_loads': ['idbase/js/demo.js']
     }
 }
 

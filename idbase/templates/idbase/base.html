@@ -19,18 +19,19 @@
             <!-- bootstrap & font awesome -->
             <link rel="stylesheet" href="{% static "vendor/bootstrap/3.3.6/css/bootstrap.min.css" %}">
             <link rel="stylesheet" href="{% static "vendor/font-awesome/4.5.0/css/font-awesome.min.css" %}">
-            {%  compress css %}
-            <link rel="stylesheet" href="{% static "idbase/css/main.css" %}">
-            {% for css_load in app.css_loads %}
-                <link rel="stylesheet" href="{% static css_load %}">
-            {% endfor %}
+            {% compress css %}
+                {% block css %}
+                    <link rel="stylesheet" href="{% static "idbase/css/main.css" %}">
+                {% endblock %}
             {% endcompress %}
 
             <script src="{%  static "vendor/jquery/1.11.3/jquery.min.js" %}"></script>
 
         <script src="{% static "vendor/angularjs/1.4.8/angular.min.js" %}"></script>
         <script src="{%  static "vendor/angularjs/1.4.8/angular-aria.min.js" %}"></script>
-        <base href="{{ app.base_url|default_if_none:"/" }}" />
+        {% block base_href %}
+            <base href="{{ settings.HOME_URL|default:"/" }}" />
+        {% endblock %}
     </head>
     <body>
       <!-- Main jumbotron for a primary marketing message or call to action -->
@@ -50,7 +51,7 @@
                                   <span ng-show="loginStatus.info.name">( {{ loginStatus.info.name }} )</span>
                               </div>
                               {% endverbatim %}
-                              <div class="col-xs-2 text-right" id="logout"><a href="{{ app.logout_url }}" class="graytext">Log
+                              <div class="col-xs-2 text-right" id="logout"><a href="{{ settings.LOGOUT_URL|default:"logout/" }}" class="graytext">Log
                                   out</a>
                               </div>
                           </div>
@@ -128,12 +129,10 @@
         <!-- javascript -->
 
             <script src={% static "vendor/bootstrap/3.3.6/js/bootstrap.min.js" %}></script>
-            {%  compress js %}
-            <script src="{% static "idbase/js/identity.js" %}"></script>
-             <!-- app js goes here -->
-            {% for js_load in app.javascript_loads %}
-                <script src="{% static js_load %}"></script>
-            {% endfor %}
+            {% compress js %}
+                {% block js %}
+                    <script src="{% static "idbase/js/identity.js" %}"></script>
+                {% endblock %}
             {% endcompress %}
         
     </body>
