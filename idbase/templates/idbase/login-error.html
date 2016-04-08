@@ -9,8 +9,8 @@
                 {% if non_uw_user %}
                     <div ng-controller="LoginStatusCtrl as loginStatus">
                     <h1 ng-init="loginStatus.info.netid = 'external user'">You're still logged in as a non-UW user.</h1>
-                    <p>Please <a href="{{ app.logout_url }}">log out</a> and log back in with your UW NetID.</p>
-                    <p><a href="{{ app.logout_url }}">Log out</a></p>
+                    <p>Please <a href="{{ settings.LOGOUT_URL }}">log out</a> and log back in with your UW NetID.</p>
+                    <p><a href="{{ settings.LOGOUT_URL }}">Log out</a></p>
                     </div>
                 {% else %} {# no_remote_user #}
                     <div ng-controller="ErrorCtrl as error"
@@ -19,7 +19,7 @@
                         <p>There was an error with your account. If the problem persists, please contact
                             the UW-IT Service Center for assistance.
                         </p>
-                        <p><a href="{{ app.logout_url }}">Try logging in again.</a></p>
+                        <p><a href="{{ settings.LOGOUT_URL }}">Try logging in again.</a></p>
                     </div>
                 {% endif %}
             </div>

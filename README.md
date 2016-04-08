@@ -10,28 +10,60 @@ A base look-and-feel package for apps designed to run on Identity.UW with django
 * Angular app in identity.js for common site-wide behaviors.
 * middleware LoginUrlMiddleware and SessionTimeoutMiddleware for managing logins and sessions in a common way.
 * RESTDispatch class for creating new api endpoints.
+* settings_context context_processor for exposing settings to templates.
 
 ## Using it within a project
-* Add 'idbase' to your settings.INSTALLED_APPS
+* Add 'compressor' and 'idbase' to your settings.INSTALLED_APPS
 * Add 'idbase.middleware.SessionTimeoutMiddleware' to settings.MIDDLEWARE_CLASSES after SessionMiddleware.
 * Replace any authentication middleware in settings.MIDDLEWARE_CLASSES with 'idbase.middleware.LoginUrlMiddleware'.
-* Add 'idbase.context_processors.app_context' to your settings.TEMPLATES list of context_processors.
+* Add 'idbase.context_processors.settings_context' to your settings.TEMPLATES list of context_processors.
 * Declare a settings.LOGIN_URL and a settings.LOGOUT_URL
-* Declare a settings.APP_CONTEXT...
+* Declare the settings you want exposed to your templates...
 ```
-APP_CONTEXTS = {
-    'default': {'base_url': '/account/', 'css_loads': ['account.css'], 'javascript_loads': ['account.js']}
-}
+# settings.py
+
+LOGIN_URL = '/login/'
+LOGOUT_URL = '/logout/'
+GET_FULL_NAME_FUNCTION = 'myapp.util.get_full_name'
+INSTALLED_APPS = (
+     ...
+     'compressor',
+     'idbase',
+     ...)
+
+MIDDLEWARE_CLASSES = [
+    ...
+    'idbase.middleware.SessionTimeoutMiddleware',
+    'idbase.middleware.LoginUrlMiddleware,
+    ...
+]
+
+SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL', 'HOME_URL']
+
+TEMPLATES = [
+    {
+        ...
+        'OPTIONS': {
+            'context_processors': [
+                ...
+                'idbase.context_processors.settings_context'
+            ]}}]
+COMPRESS_ENABLED = True
+STATICFILES_FINDERS = (
+    ...
+    'compressor.finders.CompressorFinder',
+)
 ```
 * Add some urls to handle login, logout, and loginstatus...
 ```
-...
+# urls.py
+
 from idbase.views import login, logout
 from idbase.api import LoginStatus
 
 urlpatterns = [
-    url(r'^login$', login),
-    url(r'^logout$', logout),
+    url(r'^login/$', login),
+    url(r'^logout/$', logout),
     url(r'^api/loginstatus$', LoginStatus().run),
     ...
 ]
@@ -40,6 +72,16 @@ urlpatterns = [
 ```
 {% extends "idbase/base.html" %}
 
+{% block js %}
+  {{block.super}}
+  <link rel="stylesheet" href="{% static "css/more.css" %}">
+{% endblock %}
+
+{% block css %}
+  {{block.super}}
+  <script src="{% static "js/more.js" %}"></script>
+{% endblock %}
+
 {% block content %}
 <h1>Set up your account</h1>
 ...
@@ -47,11 +89,18 @@ urlpatterns = [
 ```
 
 ## Deploying
-Add a 'collectstatic' task to your deploy playbook.
+Add 'collectstatic' and 'compress' tasks to your deploy playbook.
 ```
   - name: collect {{app_name}} statics
     django_manage:
       command: collectstatic --noinput
+      app_path: "{{target_static_path}}"
+      python_path: "{{python_path}}"
+      virtualenv: "{{your_virtualenv}}"
+
+  - name: compress {{app_name}} statics
+    django_manage:
+      command: compress --force
       app_path: "{{target_static_path}}"
       python_path: "{{python_path}}"
       virtualenv: "{{your_virtualenv}}"
