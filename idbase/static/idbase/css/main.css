@@ -80,8 +80,8 @@ body {
 }
 
 .btn-default:hover, .btn-default:focus, .btn-default:active {
-  color: #ffffff;
-  background-color: #a1aab0;
+  color: #000000;
+  background-color: #ffffff;
   border-color: #adadad;
 }
 
@@ -555,10 +555,16 @@ select {
 }
 
 .btn-default{
-	background-color: #73777a;
-	color:#fff;
+	background-color: #ffffff;
+	color:#000000;
 	border-color: #adadad;
 }
+
+.edit-directory {
+    margin-left: 50px;
+}
+
+
 /* adding margin for big button */
 .bigbtn{
 	margin: 10px 0px; 
