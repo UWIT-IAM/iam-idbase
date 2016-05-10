@@ -160,6 +160,24 @@ app.directive('uwTooltip', ['$log', function($log){
 }]);
 
 
+var activateTab = function(text) {
+    var tab = $("div.idbase-navbar > ul > li > a")
+        .filter(function () {return $(this).text().includes(text);});
+    if (tab) tab.parent().addClass('active');
+};
+
+app.directive('uwActiveTab', [function(){
+    // Directive that will set the active tab in .idbase-navbar according
+    // to the attribute's text.
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs){
+            activateTab(attrs.uwActiveTab);
+        }
+    }
+}]);
+
+
 function LoginStatus($log, $http, ErrorSvc, config) {
     // Service returning information about an authenticated user.
 
