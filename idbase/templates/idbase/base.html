@@ -39,30 +39,35 @@
           <!-- add the container class back to align the header with the content -->
           <div role="banner" class="container banner">
               <div class="row banner-row">
-                  <div class="col-xs-10">
-                      <div class="row">
-                          <div class="col-xs-10 site-name">
+                  <div class="col-xs-8 site-name">
                               <a href="/" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
-                          </div>
-                      </div>
-                          <div ng-controller="LoginStatusCtrl as loginStatus" ng-cloak ng-show="loginStatus.info.netid" class="row">
-                              {% verbatim %}
-                              <div class="col-xs-10 netid-navbar">UW NetID: {{ loginStatus.info.netid }}
-                                  <span ng-show="loginStatus.info.name">( {{ loginStatus.info.name }} )</span>
-                              </div>
-                              {% endverbatim %}
-                              <div class="col-xs-2 text-right" id="logout"><a href="{{ settings.LOGOUT_URL|default:"logout/" }}" class="graytext">Log
-                                  out</a>
-                              </div>
-                          </div>
                   </div>
-                  <div class="col-xs-2 pull-right header-w" role="presentation">
-                      <img src="{% static "idbase/assets/images/w-logo-white.png" %}" alt="UW logo">
-                  </div><!-- /W logo -->
-              </div> <!-- row -->
+                  <div class="col-xs-4 netid-navbar"
+                       ng-controller="LoginStatusCtrl as loginStatus" ng-cloak
+                       ng-show="loginStatus.info.netid">
+                      {% verbatim %}
+                          <div>UW NetID: <b>{{ loginStatus.info.netid }}</b></div>
+                          {% endverbatim %}
+                          <div id="logout"><a href="{{ settings.LOGOUT_URL|default:"logout/" }}" class="graytext">Log out</a></div>
+                          {% verbatim %}
+                      {% endverbatim %}
+                  </div>
+
+              </div>
           </div> <!-- container -->
 
       </div><!-- jumbotron  -->
+      <div class="idbase-navbar" role="navigation">
+      <ul class="nav nav-pills">
+          {% block navbar %}
+          <li role="presentation"><a href="{{ settings.PROFILE_URL }}">Profile</a></li>
+          <li role="presentation"><a href="{{ settings.RECOVERY_OPTIONS_URL }}">Recovery options</a></li>
+          {% endblock %}
+          <li role="presentation" class="pull-right header-w">
+              <img src="{% static "idbase/assets/images/w-logo-white.png" %}" alt="UW logo">
+          </li>
+      </ul>
+      </div>
 
 
 	

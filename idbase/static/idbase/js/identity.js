@@ -160,26 +160,51 @@ app.directive('uwTooltip', ['$log', function($log){
 }]);
 
 
+var activateTab = function(text) {
+    var tab = $("div.idbase-navbar > ul > li > a")
+        .filter(function () {return $(this).text().includes(text);});
+    if (tab) tab.parent().addClass('active');
+};
+
+app.directive('uwActiveTab', [function(){
+    // Directive that will set the active tab in .idbase-navbar according
+    // to the element's text.
+    return {
+        restrict: 'E',
+        link: function(scope, element){
+            activateTab($(element).text());
+        }
+    }
+}]);
+
+
 function LoginStatus($log, $http, ErrorSvc, config) {
     // Service returning information about an authenticated user.
 
     var loginInfo = {netid: null, name: null};
-    if (config.defaultCheck){
-        $log.info('checkLogin: ' + config.api);
-        $http.get(config.api)
+    var getNetidPromise = null;
+    this.info = loginInfo;
+    this.getNetid = function(){
+        // return a promise for a netid. Null if not logged in.
+        if(getNetidPromise) return getNetidPromise;  // only get once.
+        getNetidPromise = $http.get(config.api)
             .then(function (response) {
                 $log.info(response);
                 loginInfo.netid = response.data.netid;
                 loginInfo.name = response.data.name;
+                return response.data.netid;
             })
             .catch(function (response) {
                 if(response.status != 401) {
                     ErrorSvc.handleError(response.data, response.status);
                 }
+                return null;
             });
+        return getNetidPromise;
+    };
+    if (config.defaultCheck){
+        this.getNetid();
     }
-
-    this.info = loginInfo;
 }
 
 

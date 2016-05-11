@@ -94,10 +94,10 @@ def test_login_status(firefox_browser, site_root):
     browser.get(site_root + '/logout')
     wait_for_title(browser)
     body = browser.find_element_by_xpath('/html/body').text
-    assert "James Student" not in body
+    assert "javerage" not in body
     browser.find_element_by_id('loginLink').click()
     body = browser.find_element_by_xpath('/html/body').text
-    assert "James Student" in body
+    assert "javerage" in body
 
 
 def test_login_non_uw(firefox_browser, site_root, settings):
