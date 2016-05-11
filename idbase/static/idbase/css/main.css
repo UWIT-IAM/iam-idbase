@@ -706,6 +706,7 @@ select {
     background-color: #35215d;
     border: 0;
     border-radius: 0;
+    height: 41px;  /* header-w icon height (33px) plus its offset (8px) */
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
