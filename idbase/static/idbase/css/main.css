@@ -720,3 +720,7 @@ select {
 .nav-pills>li>a:hover {
     color: #35215d;
 }
+
+uw-active-tab {
+    display: none
+}

@@ -168,11 +168,11 @@ var activateTab = function(text) {
 
 app.directive('uwActiveTab', [function(){
     // Directive that will set the active tab in .idbase-navbar according
-    // to the attribute's text.
+    // to the element's text.
     return {
-        restrict: 'A',
-        link: function(scope, element, attrs){
-            activateTab(attrs.uwActiveTab);
+        restrict: 'E',
+        link: function(scope, element){
+            activateTab($(element).text());
         }
     }
 }]);
