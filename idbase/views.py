@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.conf import settings
 from django.utils.http import is_safe_url
 import logging
+import re
 from importlib import import_module
 
 logger = logging.getLogger(__name__)
@@ -28,7 +29,8 @@ def login(request):
             module = import_module(mod)
             full_name_function = getattr(module, func)
             request.user.set_full_name(full_name_function(request))
-        return _safe_redirect(request)
+        next_url = request.GET.get('next', '/')
+        return redirect(next_url if is_safe_url(next_url) else '/')
     else:
         # This can happen if a user gets past weblogin but comes in with
         # no attributes, which indicates a problem upstream.
@@ -36,17 +38,24 @@ def login(request):
 
 
 def logout(request):
-    response = _safe_redirect(request)
-    logger.debug('Logging out {}'.format(request.user.username))
-    for cookie in request.COOKIES.keys():
-        response.delete_cookie(cookie)
+    """
+    Logout a user by removing all cookies that don't have the magic string
+    'persistent', and ret
+    """
+    next_param = request.GET.get('next', None)
+    next_url = (next_param
+                if next_param and is_safe_url(next_param)
+                else getattr(settings, 'LOGOUT_REDIRECT', '/'))
+    response = redirect(next_url)
+    logger.debug('Logging out {} and redirecting to {}'.format(
+        request.user.username, next_url))
+    # delete all cookies that don't contain the string 'persistent'
+    delete_keys = [key for key in request.COOKIES
+                   if not re.search(r'persistent', key, re.IGNORECASE)]
+    for key in delete_keys:
+        response.delete_cookie(key)
+
     return response
-
-
-def _safe_redirect(request):
-    """Return a redirect response to the 'next' parameter if safe."""
-    redirect_target = request.GET.get('next', '/')
-    return redirect(redirect_target if is_safe_url(redirect_target) else '/')
 
 
 def _login_error(request):
