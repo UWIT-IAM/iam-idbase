@@ -17,11 +17,11 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from django.test import override_settings
-from pytest import fixture
+from pytest import fixture, mark
 import logging
 import json
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('idbase.' + __name__)
 
 
 @fixture
@@ -36,6 +36,8 @@ def site_root(live_server):
     return live_server.url
 
 
+@mark.skip(reason='phantomjs is < 2.0 on travis '
+                  'and angular 1.5+ doesn\'t seem to work')
 def test_basic_site(phantom_browser, site_root):
     """
     Check that our home page is able to fetch all of the statics, along with
@@ -123,7 +125,10 @@ def test_login_no_remote_user(firefox_browser, site_root, settings):
 
 
 def wait_for_title(browser, title_substring="Identity.UW enables you to..."):
-    WebDriverWait(browser, 5).until(EC.title_contains(title_substring))
+    try:
+        WebDriverWait(browser, 5).until(EC.title_contains(title_substring))
+    finally:
+        logger.debug('Your title was: {}'.format(browser.title))
 
 
 @fixture(scope='session')
