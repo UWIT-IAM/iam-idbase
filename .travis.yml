@@ -4,6 +4,7 @@ python:
   - 3.5
 install: pip install -r requirements.txt
 before_script:
+  - phantomjs --version
   - pip install python-coveralls selenium
   # the following five tasks are only needed to run functional_tests.
   - python manage.py migrate
