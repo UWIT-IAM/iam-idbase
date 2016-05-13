@@ -45,6 +45,16 @@ def test_logout_clear_cookie(rf):
     assert response.cookies['foo'].value == ''
 
 
+def test_logout_persistent_cookie(rf):
+    req = _get_request(rf, '/logout')
+    req.COOKIES.update({'foo': 'bar',
+                        'fooPersistent': 'boop'})
+    response = logout(req)
+    assert response.cookies['foo'].value == ''
+    # The absence of persistentFoo means the cookie was untouched
+    assert 'fooPersistent' not in response.cookies
+
+
 def test_logout_safe_next(rf):
     response = logout(_get_request(rf, '/logout?next=/home'))
     assert response.status_code == 302
@@ -55,6 +65,20 @@ def test_logout_unsafe_next(rf):
     response = logout(_get_request(rf, '/logout?next=https://example.com'))
     assert response.status_code == 302
     assert response['Location'] == '/'
+
+
+def test_logout_redirect(rf, settings):
+    settings.LOGOUT_REDIRECT = 'https://example.com'
+    response = logout(_get_request(rf, '/logout'))
+    assert response.status_code == 302
+    assert response['Location'] == 'https://example.com'
+
+
+def test_logout_redirect_and_next(rf, settings):
+    settings.LOGOUT_REDIRECT = 'https://example.com'
+    response = logout(_get_request(rf, '/logout?next=/home'))
+    assert response.status_code == 302
+    assert response['Location'] == '/home'
 
 
 def _get_request(rf, url, session=None):
