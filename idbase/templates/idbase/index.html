@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block content %}
+    {% verbatim %}
     <uw-active-tab>Profile</uw-active-tab>
     <div  class="container">
     <!-- NEW PAGE-TITLE -->
@@ -24,6 +25,9 @@
                     type="button" class="btn btn-primary"
                     ng-click="makeError.doIt()">this button!</button></p>
 
+        {% endverbatim %}
         <p>Your session should time out in {{ session_timeout }} seconds.</p>
+        {% verbatim %}
     </div>
+    {% endverbatim %}
 {% endblock %}

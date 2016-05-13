@@ -21,7 +21,7 @@ from pytest import fixture
 import logging
 import json
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('idbase.' + __name__)
 
 
 @fixture
@@ -123,7 +123,10 @@ def test_login_no_remote_user(firefox_browser, site_root, settings):
 
 
 def wait_for_title(browser, title_substring="Identity.UW enables you to..."):
-    WebDriverWait(browser, 5).until(EC.title_contains(title_substring))
+    try:
+        WebDriverWait(browser, 5).until(EC.title_contains(title_substring))
+    finally:
+        logger.debug('Your title was: {}'.format(browser.title))
 
 
 @fixture(scope='session')
