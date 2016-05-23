@@ -41,7 +41,7 @@
           <div role="banner" class="container banner">
               <div class="row banner-row">
                   <div class="col-xs-8 site-name">
-                              <a href="/" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
+                      <a href="/" title="Go to Home">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
                   </div>
                   <div class="col-xs-4 netid-navbar"
                        ng-controller="LoginStatusCtrl as loginStatus" ng-cloak
@@ -58,7 +58,7 @@
           </div> <!-- container -->
 
       </div><!-- jumbotron  -->
-      <div class="idbase-navbar" role="navigation">
+      <div class="idbase-navbar"><div class="container" role="navigation">
       <ul class="nav nav-pills">
           {% block navbar %}
           <li role="presentation"><a href="{{ settings.PROFILE_URL }}">Profile</a></li>
@@ -68,7 +68,7 @@
               <img src="{% static "idbase/assets/images/w-logo-white.png" %}" alt="UW logo">
           </li>
       </ul>
-      </div>
+      </div></div>
 
 
 	
@@ -140,6 +140,5 @@
                     <script src="{% static "idbase/js/identity.js" %}"></script>
                 {% endblock %}
             {% endcompress %}
-        
     </body>
 </html>

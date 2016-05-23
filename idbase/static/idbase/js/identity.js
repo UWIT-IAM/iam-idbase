@@ -148,20 +148,22 @@ app.factory('LocationTabSvc', ['$location', '$window', function($location, $wind
 }]);
 
 
-// Add this directive to activate a tooltip in angular.
+// Usage: <uw-tooltip>Tooltip description goes here</uw-tooltip>
 app.directive('uwTooltip', ['$log', function($log){
     return {
-        restrict: 'A',
-        link: function(scope, element, attrs){
-            $log.info('tooltip set?');
-            $(element).tooltip();
+        restrict: 'E',
+        link: function(scope, element){
+            $(element).children().tooltip();
+        },
+        template: function(element){
+            return  $('<span tabindex="0" data-toggle="tooltip"><i class="fa fa-question-circle fa-lg uw-tooltip-icon" data-toggle="tooltip" /></span>')
+                .attr('title', $(element).text());
         }
     };
 }]);
 
-
 var activateTab = function(text) {
-    var tab = $("div.idbase-navbar > ul > li > a")
+    var tab = $("div.idbase-navbar > * > ul > li > a")
         .filter(function () {return $(this).text().includes(text);});
     if (tab) tab.parent().addClass('active');
 };
