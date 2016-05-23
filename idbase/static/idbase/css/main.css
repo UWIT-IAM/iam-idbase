@@ -729,3 +729,8 @@ select {
 uw-active-tab {
     display: none
 }
+
+.uw-tooltip-icon {
+	color: #aaa;
+	padding-left: 5px;
+}
