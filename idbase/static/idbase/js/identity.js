@@ -161,7 +161,7 @@ app.directive('uwTooltip', ['$log', function($log){
 
 
 var activateTab = function(text) {
-    var tab = $("div.idbase-navbar > ul > li > a")
+    var tab = $("div.idbase-navbar > * > ul > li > a")
         .filter(function () {return $(this).text().includes(text);});
     if (tab) tab.parent().addClass('active');
 };

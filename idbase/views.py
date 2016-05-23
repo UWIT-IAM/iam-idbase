@@ -40,7 +40,7 @@ def login(request):
 def logout(request):
     """
     Logout a user by removing all cookies that don't have the magic string
-    'persistent', and ret
+    'persistent', and redirect to settings.LOGOUT_REDIRECT.
     """
     next_param = request.GET.get('next', None)
     next_url = (next_param
