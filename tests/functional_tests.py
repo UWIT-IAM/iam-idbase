@@ -3,7 +3,6 @@ Functional tests using phantom and firefox.
 
 to run:
 pip install selenium
-python manage.py runserver 0.0.0.0:8000
 py.test tests/functional_tests.py
 
 By convention these tests won't run by the py.test's default test discovery,
@@ -25,14 +24,14 @@ logger = logging.getLogger('idbase.' + __name__)
 
 
 @fixture
-def site_root(live_server):
+def site_root(request, live_server):
     # django live_server always sets DEBUG to False. Override that for test.
     settings_context = override_settings(DEBUG=True)
     settings_context.__enter__()
 
     def fin():
         settings_context.__exit__(None, None, None)
-
+    request.addfinalizer(fin)
     return live_server.url
 
 
