@@ -28,8 +28,3 @@ def datetime_diff_seconds(older_time, newer_time=None):
     if not newer_datetime.tzinfo:
         newer_datetime = pytz.UTC.localize(newer_datetime)
     return (newer_datetime - older_datetime).total_seconds()
-
-
-def mock_get_full_name(request):
-    """Return a full name for demo purposes only."""
-    return 'James Student'

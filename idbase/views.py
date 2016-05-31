@@ -23,12 +23,6 @@ def login(request):
         if not request.user.username.endswith('@washington.edu'):
             # Non-uw possibility when using a federated idp for recovery.
             return _login_error(request)
-        if (request.user.get_full_name() is None and
-                hasattr(settings, 'GET_FULL_NAME_FUNCTION')):
-            mod, func = settings.GET_FULL_NAME_FUNCTION.rsplit('.', 1)
-            module = import_module(mod)
-            full_name_function = getattr(module, func)
-            request.user.set_full_name(full_name_function(request))
         next_url = request.GET.get('next', '/')
         return redirect(next_url if is_safe_url(next_url) else '/')
     else:

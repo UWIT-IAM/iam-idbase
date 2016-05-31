@@ -34,24 +34,6 @@ class LoginUrlMiddleware(object):
         request.user = LoginUrlRemoteUser(
             **request.session.get('_login_url_remote_user', {}))
 
-    def process_response(self, request, response):
-        """
-        Check if the full_name changed and store it on the session.
-        """
-        user = LoginUrlRemoteUser(
-            **request.session.get('_login_url_remote_user', {}))
-        if (hasattr(request, 'user') and
-                user.username == request.user.username and
-                user.full_name != request.user.full_name):
-            # Update full_name if the username is the same both in the session
-            # and in our request, and the full_name is different.
-            # Extra paranoia in the event that our session gets cleared
-            # or the user changes during the request.
-            request.session['_login_url_remote_user'][
-                'full_name'] = request.user.full_name
-            request.session.modified = True
-        return response
-
 
 class SessionTimeoutMiddleware(object):
     """
