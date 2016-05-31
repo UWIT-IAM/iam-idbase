@@ -6,9 +6,8 @@ install: pip install -U -r requirements.txt
 before_script:
   - phantomjs --version
   - pip install python-coveralls selenium
-  # the following five tasks are only needed to run functional_tests.
+  # the following four tasks are only needed to run functional_tests.
   - python manage.py migrate
-  - python manage.py runserver &
   # for firefox
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"

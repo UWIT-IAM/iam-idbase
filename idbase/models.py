@@ -1,37 +1,61 @@
 from __future__ import unicode_literals
-import re
+import inspect
+from idbase.util import get_class
 
 
-class LoginUrlRemoteUser(object):
+class BaseModel(object):
+    _specials = {}
+
+    def __init__(self, **kwargs):
+        """
+        Initialize instance attributes to those of the class attributes
+        unless overridden in kwargs. _specials is a dictionary of
+        attribute name to BaseModel class.
+        """
+        bad_keys = (set(kwargs.keys()) - set(self.get_class_attributes()) or
+                    [x for x in kwargs.keys() if x.startswith('_')])
+        if bad_keys:
+            raise ValueError('Bad value in dictionary: {}'.format(bad_keys))
+        for key in self.get_class_attributes():
+            if key in self._specials and key in kwargs:
+                subobj = get_class(self._specials[key])(**kwargs[key])
+                setattr(self, key, subobj)
+            elif key in kwargs:
+                setattr(self, key, kwargs[key])
+
+    def to_dict(self):
+        """Return a dictionary representation of a model object."""
+        ret = {}
+        for att in self.get_class_attributes():
+            specials = self.__class__._specials
+            if att in specials and getattr(self, att):
+                ret[att] = getattr(self, att).to_dict()
+            else:
+                ret[att] = getattr(self, att)
+        return ret
+
+    @classmethod
+    def get_class_attributes(cls):
+        keys = (x for x in vars(cls).keys() if not x.startswith('_'))
+        return [x for x in keys
+                if not inspect.isfunction(getattr(cls, x)) and
+                not inspect.ismethod(getattr(cls, x))]
+
+
+class LoginUrlRemoteUser(BaseModel):
     """
     An implementation of the django User interface that doesn't save to
     or retrieve from a database.
     """
 
-    _is_authenticated = False
+    authenticated = False
     username = ''
     netid = ''
-    full_name = None
-
-    def __init__(self, remote_user=None, full_name=None, **kwargs):
-        """
-        Initialize a user, giving a remote_user if an authenticated user.
-        """
-        if remote_user:
-            self._is_authenticated = True
-            self.username = remote_user
-            if remote_user and remote_user.endswith('@washington.edu'):
-                self.netid = re.sub(r'@washington.edu$', '', remote_user)
-            self.full_name = full_name
+    is_uw = False
+    is_person = False
 
     def get_username(self):
         return self.username
 
     def is_authenticated(self):
-        return self._is_authenticated
-
-    def get_full_name(self):
-        return self.full_name
-
-    def set_full_name(self, full_name):
-        self.full_name = full_name
+        return self.authenticated

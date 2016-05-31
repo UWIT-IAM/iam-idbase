@@ -24,7 +24,6 @@ A base look-and-feel package for apps designed to run on Identity.UW with django
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
-GET_FULL_NAME_FUNCTION = 'myapp.util.get_full_name'
 INSTALLED_APPS = (
      ...
      'compressor',
@@ -37,6 +36,7 @@ MIDDLEWARE_CLASSES = [
     'idbase.middleware.LoginUrlMiddleware,
     ...
 ]
+IDBASE_IRWS_CLASS = 'yourapp.dao.IRWS'
 
 SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL', 'HOME_URL']
 

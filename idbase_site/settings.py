@@ -34,8 +34,8 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 MOCK_LOGIN_USER = 'javerage@washington.edu'
-GET_FULL_NAME_FUNCTION = 'idbase.util.mock_get_full_name'
 SESSION_TIMEOUT_DEFAULT_SECONDS = 20
+IDBASE_IRWS_CLASS = 'idbase.mock.IRWS'
 
 # Application definition
 

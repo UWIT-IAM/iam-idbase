@@ -1,5 +1,8 @@
 from idbase.views import login, logout
+from idbase.models import LoginUrlRemoteUser
 import pytest
+from mock import patch, ANY
+from django.shortcuts import render
 
 
 @pytest.fixture
@@ -15,17 +18,31 @@ def test_login_redirect(req):
 
 
 def test_login_unauthenticated(req):
-    req.user.is_authenticated = lambda: False
+    req.user = LoginUrlRemoteUser()
     response = login(req)
     assert response.status_code == 401
     assert req.session._session == {}
 
 
 def test_login_not_uw(req):
-    req.user.username = 'joe@example.com'
-    response = login(req)
-    assert response.status_code == 401
-    assert req.session._session == {}
+    req.user = LoginUrlRemoteUser(username='joe@uw.edu')
+    with patch('idbase.views.render', side_effect=render) as mock_render:
+        response = login(req)
+        assert response.status_code == 401
+        assert req.session._session == {}
+        mock_render.assert_called_once_with(req, ANY, status=401,
+                                            context=dict(non_uw_user=True))
+
+
+def test_login_non_person(req):
+    req.user = LoginUrlRemoteUser(username='robot@washington.edu', is_uw=True,
+                                  netid='robot', is_person=False)
+    with patch('idbase.views.render', side_effect=render) as mock_render:
+        response = login(req)
+        assert response.status_code == 401
+        assert req.session._session == {}
+        mock_render.assert_called_once_with(req, ANY, status=401,
+                                            context=dict(non_person='robot'))
 
 
 def test_login_offsite(rf):

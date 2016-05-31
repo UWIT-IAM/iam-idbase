@@ -1,6 +1,5 @@
 from idbase.middleware import LoginUrlMiddleware, SessionTimeoutMiddleware
 import pytest
-from importlib import import_module
 from django.core.exceptions import ImproperlyConfigured
 
 
@@ -22,23 +21,51 @@ def req(rf, session):
 def test_login_url_middleware_is_login_url(rf, session):
     request = rf.get('/foo/login')
     request.session = session
-    request.META.update({'REMOTE_USER': 'foo@washington.edu'})
+    request.META.update({
+        'REMOTE_USER': 'foo@washington.edu',
+        'Shib-Identity-Provider': 'urn:mace:incommon:washington.edu'})
     LoginUrlMiddleware().process_request(request)
     assert request.user.is_authenticated()
     assert request.user.netid == 'foo'
     assert request.session._session == {
-        '_login_url_remote_user': {'remote_user': 'foo@washington.edu'}}
+        '_login_url_remote_user': dict(
+            username='foo@washington.edu', netid='foo', authenticated=True,
+            is_uw=True, is_person=True
+        )}
+
+
+def test_login_url_middleware_bad_idp(rf, session):
+    request = rf.get('/foo/login')
+    request.session = session
+    request.META.update({
+        'REMOTE_USER': 'foo@washington.edu',
+        'Shib-Identity-Provider': 'google.com'})
+    LoginUrlMiddleware().process_request(request)
+    assert not request.user.is_authenticated()
+
+
+def test_login_url_middleware_bad_session_data(req):
+    req.session['_login_url_remote_user'] = dict(
+        remote_user='joe@washington.edu')
+    LoginUrlMiddleware().process_request(req)
+    assert not req.user.is_authenticated()
 
 
 def test_login_url_middleware_existing_user(req):
     req.session['_login_url_remote_user'] = {
-        'remote_user': 'javerage@washington.edu'}
+        'username': 'javerage@washington.edu',
+        'netid': 'javerage',
+        'authenticated': True
+    }
     LoginUrlMiddleware().process_request(req)
     assert req.user.is_authenticated()
     assert req.user.netid == 'javerage'
     assert req.session._session == {
         'active': True,
-        '_login_url_remote_user': {'remote_user': 'javerage@washington.edu'}}
+        '_login_url_remote_user': dict(
+            username='javerage@washington.edu', netid='javerage',
+            authenticated=True)
+    }
 
 
 def test_login_url_middleware_no_user(req):
@@ -53,32 +80,10 @@ def test_login_url_middleware_login_page_unprotected(rf, session):
     LoginUrlMiddleware().process_request(request)
     assert not request.user.is_authenticated()
     assert request.session._session == {
-        '_login_url_remote_user': {'remote_user': ''}}
-
-
-def test_login_url_middleware_save_name(req):
-    req.session['_login_url_remote_user'] = dict(remote_user='foo@uw.edu')
-    req.session.modified = False
-    req.user = lambda: None  # poor man's SimpleNamespace
-    req.user.username = 'foo@uw.edu'
-    req.user.full_name = 'Bob'
-    response = LoginUrlMiddleware().process_response(req, 200)
-    assert response == 200
-    assert req.session['_login_url_remote_user'] == {
-        'remote_user': 'foo@uw.edu', 'full_name': 'Bob'}
-    assert req.session.modified
-
-
-def test_login_url_middleware_name_change_session_flush(req):
-    """Make sure we don't update the name if the session got flushed."""
-    orig_session = {k: v for k, v in req.session._session.items()}
-    req.user = lambda: None
-    req.user.username = 'foo@uw.edu'
-    req.user.full_name = 'Bob'
-    response = LoginUrlMiddleware().process_response(req, 200)
-    assert response == 200
-    assert req.session._session == orig_session
-    assert not req.session.modified
+        '_login_url_remote_user': dict(
+            authenticated=False, username='', netid='',
+            is_person=False, is_uw=False
+        )}
 
 
 @pytest.fixture(autouse=True)
