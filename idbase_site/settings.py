@@ -35,6 +35,7 @@ LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 MOCK_LOGIN_USER = 'javerage@washington.edu'
 SESSION_TIMEOUT_DEFAULT_SECONDS = 20
+IDBASE_IRWS_CLASS = 'idbase.mock.IRWS'
 
 # Application definition
 

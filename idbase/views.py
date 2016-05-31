@@ -3,7 +3,6 @@ from django.conf import settings
 from django.utils.http import is_safe_url
 import logging
 import re
-from importlib import import_module
 
 logger = logging.getLogger(__name__)
 
@@ -20,9 +19,6 @@ def login(request):
     """This view gets SSO-protected and redirects to next."""
     if request.user.is_authenticated():
         logger.info('User %s logged in' % (request.user.username))
-        if not request.user.username.endswith('@washington.edu'):
-            # Non-uw possibility when using a federated idp for recovery.
-            return _login_error(request)
         next_url = request.GET.get('next', '/')
         return redirect(next_url if is_safe_url(next_url) else '/')
     else:
@@ -54,12 +50,16 @@ def logout(request):
 
 def _login_error(request):
     context = {}
-    if not request.user.is_authenticated():
+    if not request.user.get_username():
         logger.error('No REMOTE_USER variable set')
-    else:
+    elif not request.user.is_uw:
         logger.error('incorrect idp!!, REMOTE_USER={}'.format(
             request.user.username))
         context['non_uw_user'] = True
+    elif not request.user.is_person:
+        logger.error('non-person logging in to site, REMOTE_USER={}'.format(
+            request.user.username))
+        context['non_person'] = request.user.netid
 
     # end of the road.
     request.session.flush()

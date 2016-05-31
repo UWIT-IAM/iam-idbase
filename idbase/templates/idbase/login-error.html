@@ -12,6 +12,12 @@
                     <p>Please <a href="{{ settings.LOGOUT_URL }}">log out</a> and log back in with your UW NetID.</p>
                     <p><a href="{{ settings.LOGOUT_URL }}">Log out</a></p>
                     </div>
+                {% elif non_person %}
+                    <div ng-controller="LoginStatusCtrl as loginStatus">
+                    <h1 ng-init="loginStatus.info.netid = '{{ non_person }}'">Unable to use Identity.UW with shared or admin accounts.</h1>
+                    <p>Please <a href="{{ settings.LOGOUT_URL }}">log out</a> and log back in with your personal UW NetID.</p>
+                    <p><a href="{{ settings.LOGOUT_URL }}">Log out</a></p>
+                    </div>
                 {% else %} {# no_remote_user #}
                     <div ng-controller="ErrorCtrl as error"
                          ng-init="error.errorState.isErrorSet = true">

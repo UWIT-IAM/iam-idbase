@@ -1,10 +1,15 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from idbase.util import localized_datetime_string_now, datetime_diff_seconds
+from idbase.util import get_class
 from idbase.models import LoginUrlRemoteUser
 import logging
 
 logger = logging.getLogger(__name__)
+
+
+UW_SAML_ENTITY = getattr(settings, 'SAML_ENTITIES', {}).get(
+    'uw', 'urn:mace:incommon:washington.edu')
 
 
 class LoginUrlMiddleware(object):
@@ -25,14 +30,43 @@ class LoginUrlMiddleware(object):
         stored in the session.
         """
         if request.path == settings.LOGIN_URL:
-            remote_user = request.META.get('REMOTE_USER', '')
-            logger.info('authenticating ' + remote_user)
             request.session.flush()
-            request.session['_login_url_remote_user'] = dict(
-                remote_user=remote_user)
+            user = LoginUrlRemoteUser()
+            user.username = request.META.get('REMOTE_USER', '')
+            saml_idp = request.META.get('Shib-Identity-Provider', '')
+            if (user.username.endswith('@washington.edu') and
+                    saml_idp == UW_SAML_ENTITY):
+                user.netid = user.username.rsplit(
+                    '@washington.edu', 1)[0]
+                user.is_person = self._is_person(netid=user.netid)
+                user.is_uw = True
+                logger.info('authenticating ' + user.username)
+                # a user is only authenticated if is_uw and is_person
+                user.authenticated = user.is_person
+            else:
+                logger.info('unauthenticated user id={id}, idp={idp}'.format(
+                    id=user.username, idp=saml_idp))
+            request.session['_login_url_remote_user'] = user.to_dict()
+            request.user = user
+        else:
+            try:
+                request.user = LoginUrlRemoteUser(
+                    **request.session.get('_login_url_remote_user', {}))
+            except:
+                request.user = LoginUrlRemoteUser()
 
-        request.user = LoginUrlRemoteUser(
-            **request.session.get('_login_url_remote_user', {}))
+    def _is_person(self, netid=None):
+        """
+        Check that the netid given is a personal netid. Return True with an
+        error message for incomplete settings.
+        """
+        if not hasattr(settings, 'IDBASE_IRWS_CLASS'):
+            logger.error('Undefined setting IDBASE_IRWS_CLASS'
+                         ' disables the login check for person')
+            return True
+        irws = get_class(settings.IDBASE_IRWS_CLASS)()
+        regid = irws.get_regid(netid=netid)
+        return regid.entity_name == 'Person'
 
 
 class SessionTimeoutMiddleware(object):
@@ -94,3 +128,4 @@ class MockLoginMiddleware(object):
         if (request.path == settings.LOGIN_URL and
                 'REMOTE_USER' not in request.META):
             request.META['REMOTE_USER'] = settings.MOCK_LOGIN_USER
+            request.META['Shib-Identity-Provider'] = UW_SAML_ENTITY

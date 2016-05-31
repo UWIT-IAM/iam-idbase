@@ -36,6 +36,7 @@ MIDDLEWARE_CLASSES = [
     'idbase.middleware.LoginUrlMiddleware,
     ...
 ]
+IDBASE_IRWS_CLASS = 'yourapp.dao.IRWS'
 
 SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL', 'HOME_URL']
 
