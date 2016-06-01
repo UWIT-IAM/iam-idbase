@@ -53,12 +53,13 @@ def test_login_offsite(rf):
     assert response['Location'] == '/'
 
 
-def test_logout_clear_cookie(rf):
+@patch('idbase.views.render', side_effect=render)
+def test_logout_clear_cookie(mock_render, rf):
     req = _get_request(rf, '/logout')
     req.COOKIES['foo'] = 'bar'
     response = logout(req)
-    assert response.status_code == 302
-    assert response['Location'] == '/'
+    assert response.status_code == 200
+    mock_render.assert_called_once_with(req, 'idbase/logout.html')
     assert response.cookies['foo'].value == ''
 
 
@@ -78,10 +79,12 @@ def test_logout_safe_next(rf):
     assert response['Location'] == '/home'
 
 
-def test_logout_unsafe_next(rf):
-    response = logout(_get_request(rf, '/logout?next=https://example.com'))
-    assert response.status_code == 302
-    assert response['Location'] == '/'
+@patch('idbase.views.render', side_effect=render)
+def test_logout_unsafe_next(mock_render, rf):
+    req = _get_request(rf, '/logout?next=https://example.com')
+    response = logout(req)
+    assert response.status_code == 200
+    mock_render.assert_called_once_with(req, 'idbase/logout.html')
 
 
 def test_logout_redirect(rf, settings):

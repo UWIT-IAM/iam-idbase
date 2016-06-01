@@ -93,7 +93,7 @@ def test_login_status(firefox_browser, site_root):
     Check that a login action shows the user their status.
     """
     browser = firefox_browser
-    browser.get(site_root + '/logout')
+    browser.get(site_root + '/logout/?next=/')
     wait_for_title(browser)
     body = browser.find_element_by_xpath('/html/body').text
     assert "javerage" not in body
@@ -107,7 +107,7 @@ def test_login_status(firefox_browser, site_root):
 def test_login_non_uw(firefox_browser, site_root, settings):
     settings.MOCK_LOGIN_USER = 'joe@example.com'
     browser = firefox_browser
-    browser.get(site_root + '/logout')
+    browser.get(site_root + '/logout/?next=/')
     wait_for_title(browser)
     browser.get(site_root + '/secure')
     wait_for_title(browser,
@@ -117,7 +117,7 @@ def test_login_non_uw(firefox_browser, site_root, settings):
 def test_login_no_remote_user(firefox_browser, site_root, settings):
     settings.MOCK_LOGIN_USER = ''
     browser = firefox_browser
-    browser.get(site_root + '/logout')
+    browser.get(site_root + '/logout/?next=/')
     wait_for_title(browser)
     browser.get(site_root + '/secure')
     wait_for_title(browser,

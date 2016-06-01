@@ -35,8 +35,10 @@ def logout(request):
     next_param = request.GET.get('next', None)
     next_url = (next_param
                 if next_param and is_safe_url(next_param)
-                else getattr(settings, 'LOGOUT_REDIRECT', '/'))
-    response = redirect(next_url)
+                else getattr(settings, 'LOGOUT_REDIRECT', None))
+    response = (redirect(next_url)
+                if next_url
+                else render(request, 'idbase/logout.html'))
     logger.debug('Logging out {} and redirecting to {}'.format(
         request.user.username, next_url))
     # delete all cookies that don't contain the string 'persistent'

@@ -3,8 +3,6 @@
 {% block content %}
 
     <div class="container" ng-cloak>
-
-        <div class="container">
             <div id="error_page">
                 {% if non_uw_user %}
                     <div ng-controller="LoginStatusCtrl as loginStatus">
@@ -29,8 +27,5 @@
                     </div>
                 {% endif %}
             </div>
-
-       </div>
-
     </div>
 {% endblock %}
