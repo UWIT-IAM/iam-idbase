@@ -66,7 +66,7 @@ class LoginUrlMiddleware(object):
             return True
         irws = get_class(settings.IDBASE_IRWS_CLASS)()
         regid = irws.get_regid(netid=netid)
-        return regid.entity_name == 'Person'
+        return regid and regid.entity_name == 'Person'
 
 
 class SessionTimeoutMiddleware(object):

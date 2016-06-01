@@ -15,6 +15,7 @@ Travis-CI. For the other details in running see .travis.yml.
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from django.test import override_settings
 from pytest import fixture, mark
 import logging
@@ -97,6 +98,8 @@ def test_login_status(firefox_browser, site_root):
     body = browser.find_element_by_xpath('/html/body').text
     assert "javerage" not in body
     browser.find_element_by_id('loginLink').click()
+    WebDriverWait(browser, 5).until(EC.text_to_be_present_in_element(
+        (By.CLASS_NAME, 'netid-navbar'), 'UW NetID: javerage'))
     body = browser.find_element_by_xpath('/html/body').text
     assert "javerage" in body
 
