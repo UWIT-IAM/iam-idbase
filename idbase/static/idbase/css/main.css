@@ -704,13 +704,13 @@ select {
 }
 
 .idbase-navbar {
-    background-color: #d9d9d9;
+    background-color: #4b2e83;
     border: 0;
     border-radius: 0;
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-    background-color: #444444;
+    background-color: #85754d;
 }
 
 .nav-pills>li{
@@ -718,7 +718,7 @@ select {
 }
 
 .nav-pills>li>a {
-    color: #0077c2;
+    color: #d9d9d9;
     border-radius: 0;
 }
 
