@@ -125,7 +125,6 @@ class MockLoginMiddleware(object):
         """
         Set a remote_user if on LOGIN_URL.
         """
-        if (request.path == settings.LOGIN_URL and
-                'REMOTE_USER' not in request.META):
-            request.META['REMOTE_USER'] = settings.MOCK_LOGIN_USER
-            request.META['Shib-Identity-Provider'] = UW_SAML_ENTITY
+        if request.path == settings.LOGIN_URL:
+            request.META.setdefault('REMOTE_USER', settings.MOCK_LOGIN_USER)
+            request.META.setdefault('Shib-Identity-Provider', UW_SAML_ENTITY)
