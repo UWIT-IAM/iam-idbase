@@ -1,4 +1,4 @@
-from idbase.views import login, logout
+from idbase.views import login, logout, index
 from idbase.models import LoginUrlRemoteUser
 import pytest
 from mock import patch, ANY
@@ -9,6 +9,20 @@ from django.shortcuts import render
 def req(rf, session):
     """A login request with an authenticated user"""
     return _get_request(rf, '/login/?next=/home', session=session)
+
+
+def test_index(req):
+    with patch('idbase.views.render', side_effect=render) as mock_render:
+        response = index(req)
+        assert response.status_code == 200
+        mock_render.assert_called_once_with(req, 'idbase/index.html', ANY)
+
+
+def test_nonav(req):
+    with patch('idbase.views.render', side_effect=render) as mock_render:
+        response = index(req, template='nonav')
+        assert response.status_code == 200
+        mock_render.assert_called_once_with(req, 'idbase/nonav.html', ANY)
 
 
 def test_login_redirect(req):

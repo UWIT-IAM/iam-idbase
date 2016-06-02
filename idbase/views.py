@@ -11,8 +11,8 @@ def index(request, template=None):
     """Render the Identity home page."""
     conf = {'urls': settings.CORE_URLS,
             'session_timeout': settings.SESSION_TIMEOUT_DEFAULT_SECONDS}
-
-    return render(request, 'idbase/index.html', conf)
+    page = 'idbase/{}.html'.format(template if template else 'index')
+    return render(request, page, conf)
 
 
 def login(request):
