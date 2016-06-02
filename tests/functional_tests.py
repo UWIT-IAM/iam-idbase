@@ -15,6 +15,7 @@ Travis-CI. For the other details in running see .travis.yml.
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from django.test import override_settings
 from pytest import fixture, mark
 import logging
@@ -92,11 +93,13 @@ def test_login_status(firefox_browser, site_root):
     Check that a login action shows the user their status.
     """
     browser = firefox_browser
-    browser.get(site_root + '/logout')
+    browser.get(site_root + '/logout/?next=/')
     wait_for_title(browser)
     body = browser.find_element_by_xpath('/html/body').text
     assert "javerage" not in body
     browser.find_element_by_id('loginLink').click()
+    WebDriverWait(browser, 5).until(EC.text_to_be_present_in_element(
+        (By.CLASS_NAME, 'netid-navbar'), 'UW NetID: javerage'))
     body = browser.find_element_by_xpath('/html/body').text
     assert "javerage" in body
 
@@ -104,7 +107,7 @@ def test_login_status(firefox_browser, site_root):
 def test_login_non_uw(firefox_browser, site_root, settings):
     settings.MOCK_LOGIN_USER = 'joe@example.com'
     browser = firefox_browser
-    browser.get(site_root + '/logout')
+    browser.get(site_root + '/logout/?next=/')
     wait_for_title(browser)
     browser.get(site_root + '/secure')
     wait_for_title(browser,
@@ -114,7 +117,7 @@ def test_login_non_uw(firefox_browser, site_root, settings):
 def test_login_no_remote_user(firefox_browser, site_root, settings):
     settings.MOCK_LOGIN_USER = ''
     browser = firefox_browser
-    browser.get(site_root + '/logout')
+    browser.get(site_root + '/logout/?next=/')
     wait_for_title(browser)
     browser.get(site_root + '/secure')
     wait_for_title(browser,
