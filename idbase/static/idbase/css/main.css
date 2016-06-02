@@ -211,6 +211,7 @@ a{
 
 .banner {
   padding-top: 20px;
+    padding-bottom: 5px;
 }
 
 .banner a {
@@ -706,13 +707,14 @@ select {
 }
 
 .idbase-navbar {
-    background-color: #35215d;
+    background-color: #4b2e83;
     border: 0;
     border-radius: 0;
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
     background-color: #b7a57a;
+    color: #404040;
 }
 
 .nav-pills>li{
@@ -720,11 +722,11 @@ select {
 }
 
 .nav-pills>li>a {
-    color: #ffffff;
+    color: #d9d9d9;
     border-radius: 0;
 }
 
-.nav-pills>li>a:hover {
+.nav-pills>li>a:hover, .nav-pills>li>a:focus {
     color: #35215d;
 }
 

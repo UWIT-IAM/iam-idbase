@@ -40,8 +40,8 @@
           <!-- add the container class back to align the header with the content -->
           <div role="banner" class="container banner">
               <div class="row banner-row">
-                  <div class="col-xs-8 site-name">
-                      <a href="/" title="Go to your profile">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
+                  <div class="col-xs-8">
+                      <a class="site-name" href="/" title="Go to your profile">Identity.UW</a><span class="tagline">Define yourself at the UW</span>
                   </div>
                   <div class="col-xs-4 netid-navbar"
                        ng-controller="LoginStatusCtrl as loginStatus" ng-cloak
@@ -62,7 +62,7 @@
       <ul class="nav nav-pills">
           {% block navbar %}
           <li role="presentation"><a href="{{ settings.PROFILE_URL }}">Profile</a></li>
-          <li role="presentation"><a href="{{ settings.RECOVERY_OPTIONS_URL }}">Recovery options</a></li>
+          <li role="presentation"><a href="{{ settings.RECOVERY_OPTIONS_URL }}">Recovery settings</a></li>
           {% endblock %}
           <li role="presentation" class="pull-right header-w">
               <img src="{% static "idbase/assets/images/w-logo-white.png" %}" alt="UW logo">
