@@ -211,6 +211,7 @@ a{
 
 .banner {
   padding-top: 20px;
+    padding-bottom: 5px;
 }
 
 .banner a {
@@ -712,7 +713,8 @@ select {
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-    background-color: #85754d;
+    background-color: #b7a57a;
+    color: #404040;
 }
 
 .nav-pills>li{
@@ -724,7 +726,7 @@ select {
     border-radius: 0;
 }
 
-.nav-pills>li>a:hover {
+.nav-pills>li>a:hover, .nav-pills>li>a:focus {
     color: #35215d;
 }
 
