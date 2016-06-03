@@ -1,4 +1,4 @@
-var app = angular.module('identityApp', ['ng', 'ngCookies']);
+var app = angular.module('identityApp', ['ng', 'ngCookies', 'ui.bootstrap']);
 
 // add xsrf protection as needed
 app.config(['$httpProvider', function ($httpProvider) {
