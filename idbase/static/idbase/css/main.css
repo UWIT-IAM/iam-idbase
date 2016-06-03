@@ -715,6 +715,7 @@ select {
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
     background-color: #b7a57a;
     color: #404040;
+    font-weight: bold;
 }
 
 .nav-pills>li{
