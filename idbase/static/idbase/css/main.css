@@ -712,41 +712,28 @@ select {
     border-radius: 0;
 }
 
-.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-
-}
-
-.nav-pills>li.active>a:hover {
-    background-color: #ffffff;
-    color: #85754d;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
-}
-
-.nav-pills>li.active>a {
-    font-family: 'Encode Sans Compressed';
+.nav-pills li.active a,
+.nav-pills li.active a:focus,
+.nav-pills li.active a:hover {
     background-color: #ffffff;
     color: #404040;
     font-weight: bold;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
 }
 
-.nav-pills>li{
+.nav-pills li{
     min-height: 41px; /* header-w icon height (33px) plus its offset (8px) */
 }
 
-.nav-pills>li>a {
-    font-family: 'Encode Sans Compressed';
-    color: #ffffff;
-    border-radius: 0;
+.nav-pills li a {
+    font-family: 'Encode Sans Compressed', sans-serif;
+    color: #d9d9d9;
+    border-radius: 3px 3px 0 0;
 }
 
-.nav-pills>li>a:hover, .nav-pills>li>a:focus {
-    color: #85754d;
-    background-color: #4b2e83;
-    border-top-left-radius: 3px;
-    border-top-right-radius: 3px;
+.nav-pills li a:hover,
+.nav-pills li a:focus {
+    background-color: #b7a57a;
+    color: #404040;
 }
 
 uw-active-tab {
