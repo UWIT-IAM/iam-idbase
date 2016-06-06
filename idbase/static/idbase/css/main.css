@@ -713,9 +713,23 @@ select {
 }
 
 .nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
-    background-color: #d9d9d9;
+
+}
+
+.nav-pills>li.active>a:hover {
+    background-color: #ffffff;
+    color: #85754d;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+}
+
+.nav-pills>li.active>a {
+    font-family: 'Encode Sans Compressed';
+    background-color: #ffffff;
     color: #404040;
     font-weight: bold;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 .nav-pills>li{
@@ -723,12 +737,16 @@ select {
 }
 
 .nav-pills>li>a {
-    color: #d9d9d9;
+    font-family: 'Encode Sans Compressed';
+    color: #ffffff;
     border-radius: 0;
 }
 
 .nav-pills>li>a:hover, .nav-pills>li>a:focus {
-    color: #35215d;
+    color: #85754d;
+    background-color: #4b2e83;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
 }
 
 uw-active-tab {

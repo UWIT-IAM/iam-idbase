@@ -63,8 +63,8 @@
       <div class="idbase-navbar"><div class="container" role="navigation">
       <ul class="nav nav-pills">
           {% block navbar %}
-          <li role="presentation"><a href="{{ settings.PROFILE_URL }}">Profile</a></li>
-          <li role="presentation"><a href="{{ settings.RECOVERY_OPTIONS_URL }}">Recovery settings</a></li>
+          <li role="presentation"><a href="{{ settings.PROFILE_URL }}" title="Profile Page">Profile</a></li>
+          <li role="presentation"><a href="{{ settings.RECOVERY_OPTIONS_URL }}" title="Go to Recovery Settings Page">Recovery settings</a></li>
           {% endblock %}
           <li role="presentation" class="pull-right header-w">
               <img src="{% static "idbase/assets/images/w-logo-white.png" %}" alt="UW logo">
@@ -120,11 +120,11 @@
 	        <div class="container">
             <div class="text-muted credit">
                 <ul>
-	                <li><a href="http://www.washington.edu/itconnect/security/uw-netids/about-uw-netids/account-recovery/" target="_blank">Help</a></li>
-                    <li><a href="http://www.washington.edu/online/terms/" target="_blank">Terms </a></li>
-                    <li><a href="http://www.washington.edu/online/privacy/" target="_blank">Privacy</a></li>
-                    <li><a href="http://myuw.washington.edu" target="_blank">MyUW</a></li>
-                    <li><a href="http://www.washington.edu/home/peopledir/" target="_blank">UW Directories</a></li>                    
+	                <li><a href="http://www.washington.edu/itconnect/security/uw-netids/about-uw-netids/account-recovery/" target="_blank" title="Go to Help Services">Help</a></li>
+                    <li><a href="http://www.washington.edu/online/terms/" target="_blank" title="Go to Terms and Agreements">Terms </a></li>
+                    <li><a href="http://www.washington.edu/online/privacy/" target="_blank" title="Go to Privacy at UW">Privacy</a></li>
+                    <li><a href="http://myuw.washington.edu" target="_blank" title="Go to My UW">MyUW</a></li>
+                    <li><a href="http://www.washington.edu/home/peopledir/" target="_blank" title="Go to UW Directories">UW Directories</a></li>
 
                 </ul>
             </div>
