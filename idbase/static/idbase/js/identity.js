@@ -148,16 +148,21 @@ app.factory('LocationTabSvc', ['$location', '$window', function($location, $wind
 }]);
 
 
-// Usage: <uw-tooltip>Tooltip description goes here</uw-tooltip>
+// Usage: <uw-tooltip title="Optional Title">Tooltip description goes here</uw-tooltip>
 app.directive('uwTooltip', ['$log', function($log){
     return {
         restrict: 'E',
         link: function(scope, element){
-            $(element).children().tooltip();
+            $(element).find('a').popover();
         },
-        template: function(element){
-            return  $('<span tabindex="0" data-toggle="tooltip"><i class="fa fa-question-circle fa-lg uw-tooltip-icon" data-toggle="tooltip" /></span>')
-                .attr('title', $(element).text());
+        template: function(element, attrs){
+            var tooltip = $('<a href="" tabindex="0" role="button" data-html="true" data-toggle="popover">' +
+                '<i title="More help" class="fa fa-question-circle fa-lg uw-tooltip-icon" /></a>');
+            tooltip.attr('data-content', $(element).html());
+            tooltip.attr('title', attrs.title ? attrs.title : '');
+
+            return tooltip;
+
         }
     };
 }]);
