@@ -156,7 +156,7 @@ app.directive('uwTooltip', ['$log', function($log){
             $(element).find('a').popover();
         },
         template: function(element, attrs){
-            var tooltip = $('<a href="" tabindex="0" role="button" data-html="true" data-toggle="popover">' +
+            var tooltip = $('<a href="" tabindex="0" role="button" data-placement="top" data-html="true" data-toggle="popover">' +
                 '<i title="More help" class="fa fa-question-circle fa-lg uw-tooltip-icon" /></a>');
             tooltip.attr('data-content', $(element).html());
             tooltip.attr('title', attrs.title ? attrs.title : '');
