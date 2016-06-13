@@ -302,46 +302,12 @@ label, legend.dob{
 	margin-bottom: 5px;
 }
 
-/* TWEAK THE SPACING#gate_form_view .fieldset{
-	padding-bottom: 5px;
-}*/
-
 /* Inline help text - Gate Q form */
 /* ID# help text */
 .help-id{
 	font-size: 75%;
 	line-height: 1;
 }
-
-/* Modal */
-.modal {
-  text-align: center;
-}
-.modal-content {
-	display: inline-block;
-}
-
-@media screen and (min-width: 480px) { 
-  .modal:before {
-    display: inline-block;
-    vertical-align: middle;
-    content: " ";
-    height: 100%;
-  }
-}
-
-.modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-}
-
-/* Shrink the size for modal header */
-.modal-title {
-	font-size: 18px; 
-}
-
-/* style text input fields */
 
 #dobform fieldset{
 	padding-bottom: 0px;
@@ -565,60 +531,6 @@ select {
   color: #007000;
 }
 
-.visuallyhidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px; 
-}
-
- /* Not used modal style */
-.nsspr-opener-overlay {
-  /* A white div that covers the whole screen during startup */
-  position:absolute;
-  z-index:10001;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#ffffff;
-  opacity: 1.0;
-}
-
-.nsspr-expire-overlay {
-  /* A dark translucent div that covers the whole screen */
-  position:absolute;
-  z-index:9999;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#000000;
-  opacity: 0.6;
-}
-.nsspr-expire-dialog {
-  /* A centered div above the overlay with a box shadow. */
-  z-index:10000;
-  position: absolute;
-  width: 50%;
-  /* Center the dialog */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  background-color: #e0e0e0;
-  box-shadow: 4px 4px 80px #000;
-}
-.nsspr-expire-dialog-content {
-  padding:10px;
-  text-align: center;
-}
-
 .idbase-navbar {
     background-color: #4b2e83;
     border: 0;
@@ -656,4 +568,16 @@ uw-active-tab {
 .uw-tooltip-icon {
 	color: #aaa;
 	padding-left: 5px;
+}
+
+
+#timeoutModal {
+    top: 15%;
+}
+
+@media (min-width: 300px) {
+    #timeoutModal .modal-dialog { 
+        width: 270px;
+	margin: 30px auto;
+    }
 }

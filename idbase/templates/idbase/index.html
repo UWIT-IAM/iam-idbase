@@ -24,6 +24,10 @@
             <button id="badButton"
                     type="button" class="btn btn-primary"
                     ng-click="makeError.doIt()">this button!</button></p>
+        <h2>Show the timeout dialog</h2>
+        <p ng-controller="MakeTimeoutCtrl as makeTimeout">By clicking
+            <button type="button" class="btn btn-primary"
+                    ng-click="makeTimeout.doIt()">this button!</button></p>
 
         {% endverbatim %}
         <p>Your session should time out in {{ session_timeout }} seconds.</p>
