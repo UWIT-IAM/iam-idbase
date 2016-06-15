@@ -1,4 +1,4 @@
-var app = angular.module('identityApp', ['ng']);
+var app = angular.module('identityApp', ['ng', 'ngCookies', 'ui.bootstrap', 'ngAnimate']);
 
 // add xsrf protection as needed
 app.config(['$httpProvider', function ($httpProvider) {
@@ -148,15 +148,42 @@ app.factory('LocationTabSvc', ['$location', '$window', function($location, $wind
 }]);
 
 
-// Add this directive to activate a tooltip in angular.
+// Usage: <uw-tooltip title="Optional Title">Tooltip description goes here</uw-tooltip>
 app.directive('uwTooltip', ['$log', function($log){
     return {
-        restrict: 'A',
-        link: function(scope, element, attrs){
-            $log.info('tooltip set?');
-            $(element).tooltip();
+        restrict: 'E',
+        link: function(scope, element){
+            $(element).find('a').popover();
+        },
+        template: function(element, attrs){
+            var tooltip = $('<a href="" tabindex="0" role="button" data-placement="top" data-html="true" data-toggle="popover">' +
+                '<i title="More help" class="fa fa-question-circle fa-lg uw-tooltip-icon" /></a>');
+            tooltip.attr('data-content', $(element).html());
+            tooltip.attr('title', attrs.title ? attrs.title : '');
+
+            return tooltip;
+
         }
     };
+}]);
+
+var activateTab = function(text) {
+    var tab = $("div.idbase-navbar ul li a").each(function(){
+        if($(this).text().indexOf(text) > -1){
+            $(this).parent().addClass('active');
+        }
+    });
+};
+
+app.directive('uwActiveTab', [function(){
+    // Directive that will set the active tab in .idbase-navbar according
+    // to the element's text.
+    return {
+        restrict: 'E',
+        link: function(scope, element){
+            activateTab($(element).text());
+        }
+    }
 }]);
 
 
@@ -164,22 +191,29 @@ function LoginStatus($log, $http, ErrorSvc, config) {
     // Service returning information about an authenticated user.
 
     var loginInfo = {netid: null, name: null};
-    if (config.defaultCheck){
-        $log.info('checkLogin: ' + config.api);
-        $http.get(config.api)
+    var getNetidPromise = null;
+    this.info = loginInfo;
+    this.getNetid = function(){
+        // return a promise for a netid. Null if not logged in.
+        if(getNetidPromise) return getNetidPromise;  // only get once.
+        getNetidPromise = $http.get(config.api)
             .then(function (response) {
                 $log.info(response);
                 loginInfo.netid = response.data.netid;
                 loginInfo.name = response.data.name;
+                return response.data.netid;
             })
             .catch(function (response) {
                 if(response.status != 401) {
                     ErrorSvc.handleError(response.data, response.status);
                 }
+                return null;
             });
+        return getNetidPromise;
+    };
+    if (config.defaultCheck){
+        this.getNetid();
     }
-
-    this.info = loginInfo;
 }
 
 

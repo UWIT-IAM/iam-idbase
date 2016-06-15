@@ -59,6 +59,4 @@ class LoginStatus(RESTDispatch):
         if not request.user.is_authenticated():
             raise InvalidSessionError()
 
-        return {
-            'netid': request.user.netid,
-            'name': request.user.get_full_name()}
+        return {'netid': request.user.netid}

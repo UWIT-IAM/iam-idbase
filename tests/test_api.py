@@ -86,8 +86,7 @@ def test_rest_dispatch_no_login_necessary(req):
 
 def test_login_status_get(req):
     req.user.netid = 'jo'
-    req.user.get_full_name.return_value = 'Jo Blo'
-    assert LoginStatus().GET(req) == {'netid': 'jo', 'name': 'Jo Blo'}
+    assert LoginStatus().GET(req) == {'netid': 'jo'}
 
 
 def test_login_status_no_auth(req):

@@ -123,13 +123,6 @@ p, ul li, ol li, .qna-heading, .req-input-text{
   font-weight: normal;
 }
 
-/* Tweaking  <br> for 2 SMS # and/or emails case */
-.userinfo-br {
-   display: block;
-   line-height:50%;
-   margin-top: 10px;
-   content: "";
-}
 
 /* NTS: New H1 style!   */
 
@@ -180,7 +173,14 @@ h2.section-title{
 	margin-bottom: 5px;
 }
 
-
+.logout-box {
+    color: #444;
+    margin-top: 15px;
+}
+.logout-title {
+    margin-top: 0;
+    font-size: 20px;
+}
 
 /* Sytled links  */
 .fallback-btn-link {
@@ -197,13 +197,14 @@ h2.section-title{
 }
 /* Hyperlink style: overwrite blue color for A11y */
 a{
-  color:#0077c2;
+  color: #3873d2;
   -webkit-transition: 0.25s;
   transition: 0.25s;
 }
 
 .banner {
   padding-top: 20px;
+    padding-bottom: 5px;
 }
 
 .banner a {
@@ -233,9 +234,7 @@ a.graytext, .graytext {
 
 /* W logo in purple banner */
 .header-w {
-  position: absolute;
-  bottom: -1px;
-  right: 0;
+  bottom: -8px;
 }
 
 #navigation a {
@@ -283,6 +282,7 @@ a.graytext, .graytext {
   font-size: 14px;
   color:#e9e6f0;
   font-weight: 200;
+    text-align: right;
 }
 /*  ++++++++++++++++ SECTION OR VIEW +++++++++++++ */
 
@@ -292,70 +292,6 @@ ol.no-number{
 	margin-left: -20px;
 }
 
-/* Terms & Conditions style   */
-.tnc-header {
-	font-size: 16px;
-	font-weight: bold;
-	color:#4b2e83;
-	line-height: 1.3;
-}
-.tnc-title {
-	font-size: 14px;
-	font-weight: bold;
-}
-.tnc-checkbox{
-	margin-bottom: 15px;
-}
-
-.tnc-box {
-	padding-top: 15px;
-	padding-bottom: 15px;
-	padding-left: 20px;
-	padding-right: 20px;
-	border: 1px solid #efefef;
-	border-radius: 3px;
-	background-color: #f5faff;
-	margin: 15px 0px 5px 0px;
-}
-
-/* Recovery opts view H2 styling */
-.option-heading{
-	font-size: 14px;
-	font-weight: 400;
-	margin-top:0px;
-}	
-
-/* Recovery: unverified tag */
-.unverified-tag{
-	color: #c61029;
-	font-size:14px;
-	font-style: italic;
-	padding-left:10px;
-}
-
-
-/* style Module box */
-.graybox{
-	padding-top: 15px;
-	padding-bottom: 20px;
-	padding-left: 20px;
-	padding-right: 20px;
-	margin: 5px 0px;
-	border: 1px solid #efefef;
-	border-radius: 3px;
-}
-
-.graybox2{
-	display: inline-block;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	padding-left: 15px;
-	padding-right: 15px;
-	border: 1px solid #efefef;
-	border-radius: 3px;
-	margin: 15px ;
-}
-	
 label, legend.dob{
 	font-size: 14px; /* 0.83em is tiny bit larger than 14px */
 	font-weight:600;
@@ -366,46 +302,12 @@ label, legend.dob{
 	margin-bottom: 5px;
 }
 
-/* TWEAK THE SPACING#gate_form_view .fieldset{
-	padding-bottom: 5px;
-}*/
-
 /* Inline help text - Gate Q form */
 /* ID# help text */
 .help-id{
 	font-size: 75%;
 	line-height: 1;
 }
-
-/* Modal */
-.modal {
-  text-align: center;
-}
-.modal-content {
-	display: inline-block;
-}
-
-@media screen and (min-width: 480px) { 
-  .modal:before {
-    display: inline-block;
-    vertical-align: middle;
-    content: " ";
-    height: 100%;
-  }
-}
-
-.modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-}
-
-/* Shrink the size for modal header */
-.modal-title {
-	font-size: 18px; 
-}
-
-/* style text input fields */
 
 #dobform fieldset{
 	padding-bottom: 0px;
@@ -428,25 +330,9 @@ fieldset{
 
 	float: right;
 }
-/*.truncate {
-  width: 424px;
-  white-space: nowrap;
-  overflow: hidden;
-}*/
-
-#fieldset_wrapper {
-  padding: 20px;
-  border: 1px solid #efefef;
-  border-radius: 3px;
-}
-
-#fieldset_wrapper legend {
-  font-size: 16px;
-  margin-bottom: 20px;
-}
 
 /* styling the character counter */
-.alert-warning, .alert-info {
+.alert-warning {
   opacity: 0.65;
   border-radius: 2px;
   height: 40px; 
@@ -457,11 +343,6 @@ fieldset{
   opacity: 1;
   border-radius: 2px;
   margin-top: 10px;
-}
-
-
-.alert-info {
-  display: none;
 }
 
 .alert-warning {
@@ -650,56 +531,53 @@ select {
   color: #007000;
 }
 
-.visuallyhidden {
-  border: 0;
-  clip: rect(0 0 0 0);
-  height: 1px;
-  margin: -1px;
-  overflow: hidden;
-  padding: 0;
-  position: absolute;
-  width: 1px; 
+.idbase-navbar {
+    background-color: #4b2e83;
+    border: 0;
+    border-radius: 0;
 }
 
- /* Not used modal style */
-.nsspr-opener-overlay {
-  /* A white div that covers the whole screen during startup */
-  position:absolute;
-  z-index:10001;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#ffffff;
-  opacity: 1.0;
+.nav-pills li.active a,
+.nav-pills li.active a:focus,
+.nav-pills li.active a:hover {
+    background-color: #ffffff;
+    color: #404040;
+    font-weight: bold;
 }
 
-.nsspr-expire-overlay {
-  /* A dark translucent div that covers the whole screen */
-  position:absolute;
-  z-index:9999;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color:#000000;
-  opacity: 0.6;
+.nav-pills li{
+    min-height: 41px; /* header-w icon height (33px) plus its offset (8px) */
 }
-.nsspr-expire-dialog {
-  /* A centered div above the overlay with a box shadow. */
-  z-index:10000;
-  position: absolute;
-  width: 50%;
-  /* Center the dialog */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  -webkit-transform: translate(-50%, -50%);
-  -moz-transform: translate(-50%, -50%);
-  background-color: #e0e0e0;
-  box-shadow: 4px 4px 80px #000;
+
+.nav-pills li a {
+    font-family: 'Encode Sans Compressed', sans-serif;
+    color: #d9d9d9;
+    border-radius: 3px 3px 0 0;
 }
-.nsspr-expire-dialog-content {
-  padding:10px;
-  text-align: center;
+
+.nav-pills li a:hover,
+.nav-pills li a:focus {
+    background-color: #b7a57a;
+    color: #404040;
+}
+
+uw-active-tab {
+    display: none
+}
+
+.uw-tooltip-icon {
+	color: #aaa;
+	padding-left: 5px;
+}
+
+
+#timeoutModal {
+    top: 15%;
+}
+
+@media (min-width: 300px) {
+    #timeoutModal .modal-dialog { 
+        width: 270px;
+	margin: 30px auto;
+    }
 }

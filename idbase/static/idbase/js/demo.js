@@ -6,3 +6,10 @@ app.controller('MakeErrorCtrl', ['ErrorSvc', function(ErrorSvc){
         ErrorSvc.state.isErrorSet = true;
     };
 }]);
+
+
+app.controller('MakeTimeoutCtrl', ['TimeoutSvc', function(TimeoutSvc){
+    this.doIt = function() {
+        TimeoutSvc.showTimeout();
+    };
+}]);

@@ -1,6 +1,7 @@
 import pytz
 from django.utils.timezone import now, localtime
 from django.utils.dateparse import parse_datetime
+from importlib import import_module
 
 
 def localized_datetime_string_now():
@@ -30,6 +31,6 @@ def datetime_diff_seconds(older_time, newer_time=None):
     return (newer_datetime - older_datetime).total_seconds()
 
 
-def mock_get_full_name(request):
-    """Return a full name for demo purposes only."""
-    return 'James Student'
+def get_class(class_name):
+    module, attr = class_name.rsplit('.', 1)
+    return getattr(import_module(module), attr)
