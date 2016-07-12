@@ -124,16 +124,14 @@ p, ul li, ol li, .qna-heading, .req-input-text{
 }
 
 
-/* NTS: New H1 style!   */
-
-h1.page-title, .page-title h1{
+.page-title {
   font-size: 32px;
   color: #4b2e83;
   margin-top: 1em;
   margin-bottom: 10px;
 }
 
-.page-title h1 small{
+.page-title small{
   color: #595959;
   font-size: 20px;
   font-weight: bold;
