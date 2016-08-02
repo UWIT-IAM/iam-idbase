@@ -42,7 +42,7 @@ class LoginUrlMiddleware(object):
                 user.is_uw = True
                 logger.info('authenticating ' + user.username)
                 # a user is only authenticated if is_uw and is_person
-                user.authenticated = user.is_person
+                user.is_authenticated = user.is_person
             else:
                 logger.info('unauthenticated user id={id}, idp={idp}'.format(
                     id=user.username, idp=saml_idp))

@@ -48,7 +48,7 @@ class LoginUrlRemoteUser(BaseModel):
     or retrieve from a database.
     """
 
-    authenticated = False
+    is_authenticated = False
     username = ''
     netid = ''
     is_uw = False
@@ -56,6 +56,3 @@ class LoginUrlRemoteUser(BaseModel):
 
     def get_username(self):
         return self.username
-
-    def is_authenticated(self):
-        return self.authenticated

@@ -17,7 +17,7 @@ def index(request, template=None):
 
 def login(request):
     """This view gets SSO-protected and redirects to next."""
-    if request.user.is_authenticated():
+    if request.user.is_authenticated:
         logger.info('User %s logged in' % (request.user.username))
         next_url = request.GET.get('next', '/')
         return redirect(next_url if is_safe_url(next_url) else '/')
