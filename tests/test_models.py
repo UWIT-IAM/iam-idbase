@@ -1,18 +1,37 @@
 from idbase.models import LoginUrlRemoteUser, BaseModel
 from pytest import raises, mark
+from django.contrib.auth.decorators import login_required
 
 
 def test_login_url_remote_user_no_auth():
     user = LoginUrlRemoteUser()
-    assert not user.is_authenticated()
+    assert not user.is_authenticated
 
 
 def test_login_url_remote_user_basic():
     user = LoginUrlRemoteUser(username='foo@washington.edu',
-                              authenticated=True, netid='foo')
-    assert user.is_authenticated()
+                              is_authenticated=True, netid='foo')
+    assert user.is_authenticated
     assert user.get_username() == 'foo@washington.edu'
     assert user.netid == 'foo'
+
+
+def test_login_url_model_with_login_required(rf):
+    """
+    Make sure our LoginUrlRemoteUser is handled correctly by Django 1.10
+    login_required. 1.10 changed their model such that is_authenticated
+    is an attribute rather than a method. Failure to adapt our model would
+    mean the method is_authenticated would evaluate to True.
+    """
+    @login_required
+    def fake_view(request):
+        return 'is_auth'
+    req = rf.get('/')
+    req.user = LoginUrlRemoteUser()
+    response = fake_view(req)
+    assert response.status_code == 302
+    req.user.is_authenticated = True
+    assert fake_view(req) == 'is_auth'
 
 
 class FooModel(BaseModel):

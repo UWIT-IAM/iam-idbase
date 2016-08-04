@@ -1,5 +1,6 @@
 from idbase.api import RESTDispatch, LoginStatus
 from idbase import exceptions
+from idbase.models import LoginUrlRemoteUser
 from django.http import HttpResponse
 from mock import MagicMock
 import pytest
@@ -9,8 +10,7 @@ import json
 @pytest.fixture
 def req(rf):
     request = rf.get('/')
-    request.user = MagicMock()
-    request.user.is_authenticated.return_value = True
+    request.user = LoginUrlRemoteUser(is_authenticated=True)
     return request
 
 
@@ -69,13 +69,13 @@ def test_rest_dispatch_run_exception(rest_dispatch, req):
 
 
 def test_rest_dispatch_not_logged_in(rest_dispatch, req):
-    req.user.is_authenticated.return_value = False
+    req.user.is_authenticated = False
     response = rest_dispatch.run(req)
     assert response.status_code == 401
 
 
 def test_rest_dispatch_no_login_necessary(req):
-    req.user.is_authenticated.return_value = False
+    req.user.is_authenticated = False
     rest_dispatch = RESTDispatch(login_required=False)
     rest_dispatch.GET = lambda x: {'foo': 'bar'}
     response = rest_dispatch.run(req)
@@ -84,12 +84,19 @@ def test_rest_dispatch_no_login_necessary(req):
     assert json.loads(response.content.decode()) == {'foo': 'bar'}
 
 
+def test_rest_dispatch_with_login_model(rest_dispatch, req):
+    req.user = LoginUrlRemoteUser()
+    assert rest_dispatch.run(req).status_code == 401
+    req.user.is_authenticated = True
+    assert rest_dispatch.run(req).status_code == 200
+
+
 def test_login_status_get(req):
     req.user.netid = 'jo'
     assert LoginStatus().GET(req) == {'netid': 'jo'}
 
 
 def test_login_status_no_auth(req):
-    req.user.is_authenticated.return_value = False
+    req.user.is_authenticated = False
     with pytest.raises(exceptions.InvalidSessionError):
         LoginStatus().GET(req)

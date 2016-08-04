@@ -14,7 +14,7 @@ A base look-and-feel package for apps designed to run on Identity.UW with django
 
 ## Using it within a project
 * Add 'compressor' and 'idbase' to your settings.INSTALLED_APPS
-* Add 'idbase.middleware.SessionTimeoutMiddleware' to settings.MIDDLEWARE_CLASSES after SessionMiddleware.
+* Add 'idbase.middleware.SessionTimeoutMiddleware' to settings.MIDDLEWARE_CLASSES after SessionMiddleware and set SESSION_EXPIRE_AT_BROWSER_CLOSE to True.
 * Replace any authentication middleware in settings.MIDDLEWARE_CLASSES with 'idbase.middleware.LoginUrlMiddleware'.
 * Add 'idbase.context_processors.settings_context' to your settings.TEMPLATES list of context_processors.
 * Declare a settings.LOGIN_URL and a settings.LOGOUT_URL
@@ -24,6 +24,7 @@ A base look-and-feel package for apps designed to run on Identity.UW with django
 
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 INSTALLED_APPS = (
      ...
      'compressor',
@@ -49,6 +50,8 @@ TEMPLATES = [
                 'idbase.context_processors.settings_context'
             ]}}]
 COMPRESS_ENABLED = True
+STATIC_URL = '/static-yourapp/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static-yourapp')
 STATICFILES_FINDERS = (
     ...
     'compressor.finders.CompressorFinder',
