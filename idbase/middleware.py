@@ -2,7 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from idbase.util import localized_datetime_string_now, datetime_diff_seconds
 from idbase.util import get_class
-from idbase.models import LoginUrlRemoteUser
+from idbase.models import UwUser
 import logging
 
 logger = logging.getLogger(__name__)
@@ -30,8 +30,9 @@ class LoginUrlMiddleware(object):
         stored in the session.
         """
         if request.path == settings.LOGIN_URL:
+            postlogin_url = request.session.pop('_uw_postlogin', default=None)
             request.session.flush()
-            user = LoginUrlRemoteUser()
+            user = UwUser()
             user.username = request.META.get('REMOTE_USER', '')
             saml_idp = request.META.get('Shib-Identity-Provider', '')
             if (user.username.endswith('@washington.edu') and
@@ -46,14 +47,16 @@ class LoginUrlMiddleware(object):
             else:
                 logger.info('unauthenticated user id={id}, idp={idp}'.format(
                     id=user.username, idp=saml_idp))
-            request.session['_login_url_remote_user'] = user.to_dict()
-            request.user = user
+            request.session['_uw_user'] = user.to_dict()
+            if postlogin_url:
+                request.session['_uw_postlogin'] = postlogin_url
+            request.uw_user = user
         else:
             try:
-                request.user = LoginUrlRemoteUser(
-                    **request.session.get('_login_url_remote_user', {}))
+                request.uw_user = UwUser(
+                    **request.session.get('_uw_user', {}))
             except:
-                request.user = LoginUrlRemoteUser()
+                request.uw_user = UwUser()
 
     def _is_person(self, netid=None):
         """
