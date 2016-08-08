@@ -17,9 +17,9 @@ def index(request, template=None):
 
 def login(request):
     """This view gets SSO-protected and redirects to next."""
-    if request.user.is_authenticated:
-        logger.info('User %s logged in' % (request.user.username))
-        next_url = request.GET.get('next', '/')
+    if request.uw_user.is_authenticated:
+        logger.info('User %s logged in' % (request.uw_user.username))
+        next_url = request.session.pop('_uw_postlogin', default='/')
         return redirect(next_url if is_safe_url(next_url) else '/')
     else:
         # This can happen if a user gets past weblogin but comes in with
@@ -40,7 +40,7 @@ def logout(request):
                 if next_url
                 else render(request, 'idbase/logout.html'))
     logger.debug('Logging out {} and redirecting to {}'.format(
-        request.user.username, next_url))
+        request.uw_user.username, next_url))
     # delete all cookies that don't contain the string 'persistent'
     delete_keys = [key for key in request.COOKIES
                    if not re.search(r'persistent', key, re.IGNORECASE)]
@@ -52,16 +52,17 @@ def logout(request):
 
 def _login_error(request):
     context = {}
-    if not request.user.get_username():
+    user = request.uw_user
+    if not user.username:
         logger.error('No REMOTE_USER variable set')
-    elif not request.user.is_uw:
+    elif not user.is_uw:
         logger.error('incorrect idp!!, REMOTE_USER={}'.format(
-            request.user.username))
+            user.username))
         context['non_uw_user'] = True
-    elif not request.user.is_person:
+    elif not user.is_person:
         logger.error('non-person logging in to site, REMOTE_USER={}'.format(
-            request.user.username))
-        context['non_person'] = request.user.netid
+            user.username))
+        context['non_person'] = user.netid
 
     # end of the road.
     request.session.flush()

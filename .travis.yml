@@ -1,11 +1,17 @@
 language: python
-python:
-  - 2.7
-  - 3.5
+matrix:
+  include:
+    - python: 2.7
+      env: DJANGO_VERSION='<1.10'
+    - python: 2.7
+      env: DJANGO_VERSION='>=1.10'
+    - python: 3.5
+      env: DJANGO_VERSION='>=1.10'
 install: pip install -U -r requirements.txt
 before_script:
   - phantomjs --version
   - pip install python-coveralls selenium
+  - pip install -U "Django$DJANGO_VERSION"
   # the following four tasks are only needed to run functional_tests.
   - python manage.py migrate
   # for firefox
