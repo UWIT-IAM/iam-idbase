@@ -1,5 +1,5 @@
 from idbase.views import login, logout, index
-from idbase.models import LoginUrlRemoteUser
+from idbase.models import UwUser
 import pytest
 from mock import patch, ANY
 from django.shortcuts import render
@@ -8,7 +8,7 @@ from django.shortcuts import render
 @pytest.fixture
 def req(rf, session):
     """A login request with an authenticated user"""
-    return _get_request(rf, '/login/?next=/home', session=session)
+    return _get_request(rf, '/login/', session=session)
 
 
 def test_index(req):
@@ -26,20 +26,21 @@ def test_nonav(req):
 
 
 def test_login_redirect(req):
+    req.session['_uw_postlogin'] = '/home'
     response = login(req)
     assert response.status_code == 302
     assert response['Location'] == '/home'
 
 
 def test_login_unauthenticated(req):
-    req.user = LoginUrlRemoteUser()
+    req.uw_user = UwUser()
     response = login(req)
     assert response.status_code == 401
     assert req.session._session == {}
 
 
 def test_login_not_uw(req):
-    req.user = LoginUrlRemoteUser(username='joe@uw.edu')
+    req.uw_user = UwUser(username='joe@uw.edu')
     with patch('idbase.views.render', side_effect=render) as mock_render:
         response = login(req)
         assert response.status_code == 401
@@ -49,22 +50,14 @@ def test_login_not_uw(req):
 
 
 def test_login_non_person(req):
-    req.user = LoginUrlRemoteUser(username='robot@washington.edu', is_uw=True,
-                                  netid='robot', is_person=False)
+    req.uw_user = UwUser(username='robot@washington.edu', is_uw=True,
+                         netid='robot', is_person=False)
     with patch('idbase.views.render', side_effect=render) as mock_render:
         response = login(req)
         assert response.status_code == 401
         assert req.session._session == {}
         mock_render.assert_called_once_with(req, ANY, status=401,
                                             context=dict(non_person='robot'))
-
-
-def test_login_offsite(rf):
-    req = _get_request(rf, '/login/?next=http://example.com')
-    req.COOKIES['foo'] = 'bar'
-    response = login(req)
-    assert response.status_code == 302
-    assert response['Location'] == '/'
 
 
 @patch('idbase.views.render', side_effect=render)
@@ -117,10 +110,8 @@ def test_logout_redirect_and_next(rf, settings):
 
 def _get_request(rf, url, session=None):
     req = rf.get(url)
-    req.user = lambda: None
-    req.user.username = 'joe@washington.edu'
-    req.user.is_authenticated = lambda: True
-    req.user.get_full_name = lambda: None
-    req.user.set_full_name = lambda x: None
+    req.uw_user = lambda: None
+    req.uw_user.username = 'joe@washington.edu'
+    req.uw_user.is_authenticated = True
     req.session = session
     return req

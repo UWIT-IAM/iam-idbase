@@ -4,6 +4,11 @@ from idbase.util import get_class
 
 
 class BaseModel(object):
+    """
+    A base class which, when inherited, can serialize to and deserialize
+    from a dictionary. The _specials dictionary is a mapping of attribute
+    name to another BaseModel for embedding other objects.
+    """
     _specials = {}
 
     def __init__(self, **kwargs):
@@ -42,20 +47,13 @@ class BaseModel(object):
                 not inspect.ismethod(getattr(cls, x))]
 
 
-class LoginUrlRemoteUser(BaseModel):
+class UwUser(BaseModel):
     """
     An implementation of the django User interface that doesn't save to
     or retrieve from a database.
     """
-
-    authenticated = False
+    is_authenticated = False
     username = ''
     netid = ''
     is_uw = False
     is_person = False
-
-    def get_username(self):
-        return self.username
-
-    def is_authenticated(self):
-        return self.authenticated

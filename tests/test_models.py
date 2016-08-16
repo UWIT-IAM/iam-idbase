@@ -1,17 +1,18 @@
-from idbase.models import LoginUrlRemoteUser, BaseModel
+from idbase.models import UwUser, BaseModel
 from pytest import raises, mark
+from idbase.decorators import uw_login_required
 
 
 def test_login_url_remote_user_no_auth():
-    user = LoginUrlRemoteUser()
-    assert not user.is_authenticated()
+    user = UwUser()
+    assert not user.is_authenticated
 
 
 def test_login_url_remote_user_basic():
-    user = LoginUrlRemoteUser(username='foo@washington.edu',
-                              authenticated=True, netid='foo')
-    assert user.is_authenticated()
-    assert user.get_username() == 'foo@washington.edu'
+    user = UwUser(username='foo@washington.edu',
+                  is_authenticated=True, netid='foo')
+    assert user.is_authenticated
+    assert user.username == 'foo@washington.edu'
     assert user.netid == 'foo'
 
 

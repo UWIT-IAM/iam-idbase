@@ -21,17 +21,20 @@ def req(rf, session):
 def test_login_url_middleware_is_login_url(rf, session):
     request = rf.get('/foo/login')
     request.session = session
+    request.session['_uw_postlogin'] = '/home'
     request.META.update({
         'REMOTE_USER': 'foo@washington.edu',
         'Shib-Identity-Provider': 'urn:mace:incommon:washington.edu'})
     LoginUrlMiddleware().process_request(request)
-    assert request.user.is_authenticated()
-    assert request.user.netid == 'foo'
+    assert request.uw_user.is_authenticated
+    assert request.uw_user.netid == 'foo'
     assert request.session._session == {
-        '_login_url_remote_user': dict(
-            username='foo@washington.edu', netid='foo', authenticated=True,
+        '_uw_user': dict(
+            username='foo@washington.edu', netid='foo', is_authenticated=True,
             is_uw=True, is_person=True
-        )}
+        ),
+        '_uw_postlogin': '/home'
+    }
 
 
 def test_login_url_middleware_bad_idp(rf, session):
@@ -41,36 +44,36 @@ def test_login_url_middleware_bad_idp(rf, session):
         'REMOTE_USER': 'foo@washington.edu',
         'Shib-Identity-Provider': 'google.com'})
     LoginUrlMiddleware().process_request(request)
-    assert not request.user.is_authenticated()
+    assert not request.uw_user.is_authenticated
 
 
 def test_login_url_middleware_bad_session_data(req):
     req.session['_login_url_remote_user'] = dict(
         remote_user='joe@washington.edu')
     LoginUrlMiddleware().process_request(req)
-    assert not req.user.is_authenticated()
+    assert not req.uw_user.is_authenticated
 
 
 def test_login_url_middleware_existing_user(req):
-    req.session['_login_url_remote_user'] = {
+    req.session['_uw_user'] = {
         'username': 'javerage@washington.edu',
         'netid': 'javerage',
-        'authenticated': True
+        'is_authenticated': True
     }
     LoginUrlMiddleware().process_request(req)
-    assert req.user.is_authenticated()
-    assert req.user.netid == 'javerage'
+    assert req.uw_user.is_authenticated
+    assert req.uw_user.netid == 'javerage'
     assert req.session._session == {
         'active': True,
-        '_login_url_remote_user': dict(
+        '_uw_user': dict(
             username='javerage@washington.edu', netid='javerage',
-            authenticated=True)
+            is_authenticated=True)
     }
 
 
 def test_login_url_middleware_no_user(req):
     LoginUrlMiddleware().process_request(req)
-    assert not req.user.is_authenticated()
+    assert not req.uw_user.is_authenticated
 
 
 def test_login_url_middleware_login_page_unprotected(rf, session):
@@ -78,10 +81,10 @@ def test_login_url_middleware_login_page_unprotected(rf, session):
     request = rf.get('/foo/login')
     request.session = session
     LoginUrlMiddleware().process_request(request)
-    assert not request.user.is_authenticated()
+    assert not request.uw_user.is_authenticated
     assert request.session._session == {
-        '_login_url_remote_user': dict(
-            authenticated=False, username='', netid='',
+        '_uw_user': dict(
+            is_authenticated=False, username='', netid='',
             is_person=False, is_uw=False
         )}
 

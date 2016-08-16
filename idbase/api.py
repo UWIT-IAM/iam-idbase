@@ -25,7 +25,7 @@ class RESTDispatch:
             if (method not in ('GET', 'POST', 'PUT', 'DELETE') or
                     not hasattr(self, method)):
                 raise BadRequestError('invalid method {}'.format(method))
-            if self.login_required and not request.user.is_authenticated():
+            if self.login_required and not request.uw_user.is_authenticated:
                 raise InvalidSessionError('Unauthenticated user')
             response = getattr(self, method)(request, *args, **named_args)
 
@@ -56,7 +56,7 @@ class RESTDispatch:
 
 class LoginStatus(RESTDispatch):
     def GET(self, request):
-        if not request.user.is_authenticated():
+        if not request.uw_user.is_authenticated:
             raise InvalidSessionError()
 
-        return {'netid': request.user.netid}
+        return {'netid': request.uw_user.netid}
