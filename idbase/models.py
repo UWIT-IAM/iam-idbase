@@ -45,15 +45,3 @@ class BaseModel(object):
         return [x for x in keys
                 if not inspect.isfunction(getattr(cls, x)) and
                 not inspect.ismethod(getattr(cls, x))]
-
-
-class UwUser(BaseModel):
-    """
-    An implementation of the django User interface that doesn't save to
-    or retrieve from a database.
-    """
-    is_authenticated = False
-    username = ''
-    netid = ''
-    is_uw = False
-    is_person = False

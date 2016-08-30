@@ -1,14 +1,16 @@
 from idbase.views import login, logout, index
-from idbase.models import UwUser
-import pytest
+from idbase.exceptions import LoginNotPerson, InvalidSessionError
+from pytest import fixture, mark
 from mock import patch, ANY
 from django.shortcuts import render
 
 
-@pytest.fixture
+@fixture
 def req(rf, session):
     """A login request with an authenticated user"""
-    return _get_request(rf, '/login/', session=session)
+    req = _get_request(rf, '/login/', session=session)
+    req.uwnetid = None
+    return req
 
 
 def test_index(req):
@@ -26,21 +28,24 @@ def test_nonav(req):
 
 
 def test_login_redirect(req):
+    req.uwnetid = 'fake!!!'
     req.session['_uw_postlogin'] = '/home'
     response = login(req)
     assert response.status_code == 302
     assert response['Location'] == '/home'
 
 
-def test_login_unauthenticated(req):
-    req.uw_user = UwUser()
+@mark.parametrize('is_exception_raised', [True, False])
+def test_login_error(req, is_exception_raised):
+    if is_exception_raised:
+        req.login_url_error = Exception()
     response = login(req)
-    assert response.status_code == 401
+    assert response.status_code == 500
     assert req.session._session == {}
 
 
 def test_login_not_uw(req):
-    req.uw_user = UwUser(username='joe@uw.edu')
+    req.login_url_error = InvalidSessionError()
     with patch('idbase.views.render', side_effect=render) as mock_render:
         response = login(req)
         assert response.status_code == 401
@@ -50,8 +55,8 @@ def test_login_not_uw(req):
 
 
 def test_login_non_person(req):
-    req.uw_user = UwUser(username='robot@washington.edu', is_uw=True,
-                         netid='robot', is_person=False)
+    req.uwnetid = None
+    req.login_url_error = LoginNotPerson(netid='robot')
     with patch('idbase.views.render', side_effect=render) as mock_render:
         response = login(req)
         assert response.status_code == 401
@@ -110,8 +115,6 @@ def test_logout_redirect_and_next(rf, settings):
 
 def _get_request(rf, url, session=None):
     req = rf.get(url)
-    req.uw_user = lambda: None
-    req.uw_user.username = 'joe@washington.edu'
-    req.uw_user.is_authenticated = True
+    req.uwnetid = 'joe'
     req.session = session
     return req

@@ -1,101 +1,118 @@
-from idbase.middleware import LoginUrlMiddleware, SessionTimeoutMiddleware
-import pytest
+from idbase.middleware import (LoginUrlMiddleware, SessionTimeoutMiddleware,
+                               get_authenticated_uwnetid)
+from pytest import fixture, raises, mark
 from django.core.exceptions import ImproperlyConfigured
+from idbase.exceptions import InvalidSessionError, LoginNotPerson, ServiceError
 
 
-@pytest.fixture(autouse=True)
+@fixture(autouse=True)
 def settings(settings):
     settings.LOGIN_URL = '/foo/login'
     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
     return settings
 
 
-@pytest.fixture
-def req(rf, session):
-    """A mock Django request get with a mock session."""
-    request = rf.get('/')
-    request.session = session
-    return request
+@fixture
+def req_func(rf, session):
+    def func(url='/'):
+        request = rf.get(url)
+        request.session = session
+        return request
+    return func
 
 
-def test_login_url_middleware_is_login_url(rf, session):
-    request = rf.get('/foo/login')
-    request.session = session
-    request.session['_uw_postlogin'] = '/home'
-    request.META.update({
+@fixture
+def login_req(req_func):
+    req = req_func(url='/foo/login')
+    req.META.update({
         'REMOTE_USER': 'foo@washington.edu',
         'Shib-Identity-Provider': 'urn:mace:incommon:washington.edu'})
-    LoginUrlMiddleware().process_request(request)
-    assert request.uw_user.is_authenticated
-    assert request.uw_user.netid == 'foo'
-    assert request.session._session == {
-        '_uw_user': dict(
-            username='foo@washington.edu', netid='foo', is_authenticated=True,
-            is_uw=True, is_person=True
-        ),
+    req.session['_uw_postlogin'] = '/home'
+    return req
+
+
+@fixture
+def req(req_func):
+    """A mock Django request get with a mock session."""
+    return req_func()
+
+
+def test_login_url_middleware_is_login_url(login_req):
+    LoginUrlMiddleware().process_request(login_req)
+    assert login_req.uwnetid == 'foo'
+    assert login_req.session._session == {
+        '_login_url_uwnetid': 'foo',
         '_uw_postlogin': '/home'
     }
 
 
-def test_login_url_middleware_bad_idp(rf, session):
-    request = rf.get('/foo/login')
-    request.session = session
-    request.META.update({
-        'REMOTE_USER': 'foo@washington.edu',
-        'Shib-Identity-Provider': 'google.com'})
-    LoginUrlMiddleware().process_request(request)
-    assert not request.uw_user.is_authenticated
-
-
-def test_login_url_middleware_bad_session_data(req):
-    req.session['_login_url_remote_user'] = dict(
-        remote_user='joe@washington.edu')
-    LoginUrlMiddleware().process_request(req)
-    assert not req.uw_user.is_authenticated
+def test_login_url_middleware_bad_idp(login_req):
+    login_req.META['Shib-Identity-Provider'] = 'google.com'
+    LoginUrlMiddleware().process_request(login_req)
+    assert not login_req.uwnetid
+    assert isinstance(login_req.login_url_error, InvalidSessionError)
 
 
 def test_login_url_middleware_existing_user(req):
-    req.session['_uw_user'] = {
-        'username': 'javerage@washington.edu',
-        'netid': 'javerage',
-        'is_authenticated': True
-    }
+    req.session['_login_url_uwnetid'] = 'javerage'
     LoginUrlMiddleware().process_request(req)
-    assert req.uw_user.is_authenticated
-    assert req.uw_user.netid == 'javerage'
-    assert req.session._session == {
-        'active': True,
-        '_uw_user': dict(
-            username='javerage@washington.edu', netid='javerage',
-            is_authenticated=True)
-    }
+    assert req.uwnetid == 'javerage'
 
 
 def test_login_url_middleware_no_user(req):
     LoginUrlMiddleware().process_request(req)
-    assert not req.uw_user.is_authenticated
+    assert not req.uwnetid
 
 
-def test_login_url_middleware_login_page_unprotected(rf, session):
+def test_login_url_middleware_login_page_unprotected(login_req):
     """A case where someone set a login page that's not SSO-protected."""
-    request = rf.get('/foo/login')
-    request.session = session
-    LoginUrlMiddleware().process_request(request)
-    assert not request.uw_user.is_authenticated
-    assert request.session._session == {
-        '_uw_user': dict(
-            is_authenticated=False, username='', netid='',
-            is_person=False, is_uw=False
-        )}
+    login_req.META = {}
+    login_req.session.flush()
+    LoginUrlMiddleware().process_request(login_req)
+    assert not login_req.uwnetid
+    assert login_req.session._session == {}
 
 
-@pytest.fixture(autouse=True)
+def test_login_url_middleware_broken_irws(login_req, monkeypatch):
+
+    def blowup(self, netid=None):
+        raise Exception()
+    monkeypatch.setattr('idbase.mock.IRWS.get_regid', blowup)
+    LoginUrlMiddleware().process_request(login_req)
+    assert not login_req.uwnetid
+    assert isinstance(login_req.login_url_error, Exception)
+
+
+def test_get_authenticated_uwnetid_basic(monkeypatch):
+    monkeypatch.setattr('idbase.middleware.is_personal_netid',
+                        lambda **args: True)
+    netid = get_authenticated_uwnetid(
+        remote_user='joe@washington.edu',
+        saml_idp='urn:mace:incommon:washington.edu')
+    assert netid == 'joe'
+
+
+@mark.parametrize('remote_user,saml_idp,is_person,expected_error', [
+    ('', '', True, ServiceError),
+    ('joe@washington.edu', 'google.com', True, InvalidSessionError),
+    ('joe', 'urn:mace:incommon:washington.edu', True, InvalidSessionError),
+    ('joe@washington.edu', 'urn:mace:incommon:washington.edu', False,
+     LoginNotPerson)])
+def test_get_authenticated_uwnetid_error(
+        remote_user, saml_idp, is_person, expected_error, monkeypatch):
+    monkeypatch.setattr('idbase.middleware.is_personal_netid',
+                        lambda **args: is_person)
+    with raises(expected_error):
+        get_authenticated_uwnetid(remote_user=remote_user, saml_idp=saml_idp)
+
+
+@fixture(autouse=True)
 def mock_localized_datetime(monkeypatch):
     monkeypatch.setattr('idbase.middleware.localized_datetime_string_now',
                         lambda: 'just now')
 
 
-@pytest.fixture(autouse=True)
+@fixture(autouse=True)
 def mock_date_diff(monkeypatch):
     monkeypatch.setattr('idbase.middleware.datetime_diff_seconds',
                         lambda x: (10
@@ -105,7 +122,7 @@ def mock_date_diff(monkeypatch):
 
 def test_session_timeout_middleware_init(settings):
     settings.SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-    with pytest.raises(ImproperlyConfigured):
+    with raises(ImproperlyConfigured):
         SessionTimeoutMiddleware()
 
 
