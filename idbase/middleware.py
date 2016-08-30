@@ -2,14 +2,46 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from idbase.util import localized_datetime_string_now, datetime_diff_seconds
 from idbase.util import get_class
-from idbase.models import UwUser
 import logging
+from idbase.exceptions import InvalidSessionError, LoginNotPerson, ServiceError
+from idbase.decorators import POSTLOGIN_KEY
 
 logger = logging.getLogger(__name__)
 
 
 UW_SAML_ENTITY = getattr(settings, 'SAML_ENTITIES', {}).get(
     'uw', 'urn:mace:incommon:washington.edu')
+
+
+def get_authenticated_uwnetid(remote_user='', saml_idp=''):
+    """
+    Given a remote_user and saml_idp, return a personal UWNetID or raise
+    an Exception.
+    """
+    if not remote_user:
+        raise ServiceError('No REMOTE_USER variable set')
+    if (not remote_user.endswith('@washington.edu') or
+            saml_idp != UW_SAML_ENTITY):
+        raise InvalidSessionError(
+            'unauthenticated user id={id}, idp={idp}'.format(
+                id=remote_user, idp=saml_idp))
+    netid = remote_user.rsplit('@washington.edu', 1)[0]
+    if not is_personal_netid(netid=netid):
+        raise LoginNotPerson(
+            'non-person logging in to site, REMOTE_USER={}'.format(
+                remote_user),
+            netid=netid)
+    return netid
+
+
+def is_personal_netid(netid=None):
+    """
+    Check in IRWS that a given netid belongs to a person. Non-persons
+    don't get to log in.
+    """
+    irws = get_class(settings.IDBASE_IRWS_CLASS)()
+    regid = irws.get_regid(netid=netid)
+    return regid and regid.entity_name == 'Person'
 
 
 class LoginUrlMiddleware(object):
@@ -23,53 +55,39 @@ class LoginUrlMiddleware(object):
     and multiple other SSO-protected pages that check federation status.
     Authenticate only the REMOTE_USER variable when on the configured
     LOGIN_URL.
+
+    We store only authenticated personal UWNetIDs as request.uwnetid, or
+    None if not authenticated. All errors are stored in request.login_url_error
+    for handling in views.login.
     """
+    UWNETID_KEY = '_login_url_uwnetid'
+
     def process_request(self, request):
         """
         Create a new login if on LOGIN_URL. Otherwise use an existing user if
         stored in the session.
         """
         if request.path == settings.LOGIN_URL:
-            postlogin_url = request.session.pop('_uw_postlogin', default=None)
-            request.session.flush()
-            user = UwUser()
-            user.username = request.META.get('REMOTE_USER', '')
-            saml_idp = request.META.get('Shib-Identity-Provider', '')
-            if (user.username.endswith('@washington.edu') and
-                    saml_idp == UW_SAML_ENTITY):
-                user.netid = user.username.rsplit(
-                    '@washington.edu', 1)[0]
-                user.is_person = self._is_person(netid=user.netid)
-                user.is_uw = True
-                logger.info('authenticating ' + user.username)
-                # a user is only authenticated if is_uw and is_person
-                user.is_authenticated = user.is_person
-            else:
-                logger.info('unauthenticated user id={id}, idp={idp}'.format(
-                    id=user.username, idp=saml_idp))
-            request.session['_uw_user'] = user.to_dict()
-            if postlogin_url:
-                request.session['_uw_postlogin'] = postlogin_url
-            request.uw_user = user
-        else:
+            self.flush_session(request)
             try:
-                request.uw_user = UwUser(
-                    **request.session.get('_uw_user', {}))
-            except:
-                request.uw_user = UwUser()
+                uwnetid = get_authenticated_uwnetid(
+                    remote_user=request.META.get('REMOTE_USER', ''),
+                    saml_idp=request.META.get('Shib-Identity-Provider', ''))
+                request.session[self.UWNETID_KEY] = uwnetid
+            except (LoginNotPerson, InvalidSessionError) as e:
+                logger.info(e)
+                request.login_url_error = e
+            except Exception as e:
+                logger.exception(e)
+                request.login_url_error = e
+        request.uwnetid = request.session.get(self.UWNETID_KEY, None)
 
-    def _is_person(self, netid=None):
-        """
-        Check that the netid given is a personal netid. Return True with an
-        error message for incomplete settings.
-        """
-        if not hasattr(settings, 'IDBASE_IRWS_CLASS'):
-            logger.error('Undefined setting IDBASE_IRWS_CLASS'
-                         ' disables the login check for person')
-            return True
-        irws = get_class(settings.IDBASE_IRWS_CLASS)()
-        regid = irws.get_regid(netid=netid)
-        return regid and regid.entity_name == 'Person'
+    @staticmethod
+    def flush_session(request):
+        postlogin_url = request.session.pop(POSTLOGIN_KEY, default=None)
+        request.session.flush()
+        if postlogin_url:
+            request.session[POSTLOGIN_KEY] = postlogin_url
 
 
 class SessionTimeoutMiddleware(object):

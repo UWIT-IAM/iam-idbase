@@ -1,10 +1,10 @@
 from __future__ import absolute_import  # available in python 3+
 from mock import MagicMock
 
-mock_entity_name = 'Person'
 
+class IRWS(object):
 
-def IRWS():
-    irws = MagicMock()
-    irws.get_regid.return_value.entity_name = mock_entity_name
-    return irws
+    def get_regid(self, netid=None):
+        regid = MagicMock()
+        regid.entity_name = 'Person'
+        return regid

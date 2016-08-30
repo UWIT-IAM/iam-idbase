@@ -16,7 +16,7 @@
                     <p>Please <a href="{{ settings.LOGOUT_URL }}">log out</a> and log back in with your personal UW NetID.</p>
                     <p><a href="{{ settings.LOGOUT_URL }}">Log out</a></p>
                     </div>
-                {% else %} {# no_remote_user #}
+                {% else %} {# no_remote_user or other unrecoverable error #}
                     <div ng-controller="ErrorCtrl as error"
                          ng-init="error.errorState.isErrorSet = true">
                         <h1>Error logging in.</h1>

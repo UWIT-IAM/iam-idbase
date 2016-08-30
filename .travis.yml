@@ -12,6 +12,7 @@ before_script:
   - phantomjs --version
   - pip install python-coveralls selenium
   - pip install -U "Django$DJANGO_VERSION"
+  - "export DJANGO_SETTINGS_MODULE=idbase_site.settings"
   # the following four tasks are only needed to run functional_tests.
   - python manage.py migrate
   # for firefox

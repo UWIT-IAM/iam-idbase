@@ -1,6 +1,5 @@
 from idbase.api import RESTDispatch, LoginStatus
 from idbase import exceptions
-from idbase.models import UwUser
 from django.http import HttpResponse
 from mock import MagicMock
 import pytest
@@ -10,7 +9,7 @@ import json
 @pytest.fixture
 def req(rf):
     request = rf.get('/')
-    request.uw_user = UwUser(is_authenticated=True)
+    request.uwnetid = 'joe'
     return request
 
 
@@ -69,13 +68,13 @@ def test_rest_dispatch_run_exception(rest_dispatch, req):
 
 
 def test_rest_dispatch_not_logged_in(rest_dispatch, req):
-    req.uw_user.is_authenticated = False
+    req.uwnetid = None
     response = rest_dispatch.run(req)
     assert response.status_code == 401
 
 
 def test_rest_dispatch_no_login_necessary(req):
-    req.uw_user.is_authenticated = False
+    req.uwnetid = None
     rest_dispatch = RESTDispatch(login_required=False)
     rest_dispatch.GET = lambda x: {'foo': 'bar'}
     response = rest_dispatch.run(req)
@@ -85,18 +84,18 @@ def test_rest_dispatch_no_login_necessary(req):
 
 
 def test_rest_dispatch_with_login_model(rest_dispatch, req):
-    req.uw_user = UwUser()
+    req.uwnetid = None
     assert rest_dispatch.run(req).status_code == 401
-    req.uw_user.is_authenticated = True
+    req.uwnetid = 'foo'
     assert rest_dispatch.run(req).status_code == 200
 
 
 def test_login_status_get(req):
-    req.uw_user.netid = 'jo'
+    req.uwnetid = 'jo'
     assert LoginStatus().GET(req) == {'netid': 'jo'}
 
 
 def test_login_status_no_auth(req):
-    req.uw_user.is_authenticated = False
+    req.uwnetid = None
     with pytest.raises(exceptions.InvalidSessionError):
         LoginStatus().GET(req)

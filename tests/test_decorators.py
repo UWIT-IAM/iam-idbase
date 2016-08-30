@@ -1,5 +1,4 @@
 from idbase.decorators import uw_login_required
-from idbase.models import UwUser
 
 
 def test_uw_login_required(rf):
@@ -16,8 +15,8 @@ def test_uw_login_required(rf):
         return 'is_auth'
     req = rf.get('/')
     req.session = {}
-    req.uw_user = UwUser()
+    req.uwnetid = None
     response = fake_view(req)
     assert response.status_code == 302
-    req.uw_user.is_authenticated = True
+    req.uwnetid = 'joe'
     assert fake_view(req) == 'is_auth'
