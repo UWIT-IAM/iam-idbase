@@ -7,6 +7,8 @@ matrix:
       env: DJANGO_VERSION='>=1.10'
     - python: 3.5
       env: DJANGO_VERSION='>=1.10'
+addons:
+  firefox: "45.0"  # selenium doesn't work with later versions of firefox
 install: pip install -U -r requirements.txt
 before_script:
   - phantomjs --version
