@@ -3,6 +3,8 @@ from django.conf import settings
 from django.utils.http import is_safe_url
 import logging
 import re
+from idbase.exceptions import LoginNotPerson, InvalidSessionError
+from idbase.decorators import POSTLOGIN_KEY
 
 logger = logging.getLogger(__name__)
 
@@ -17,14 +19,24 @@ def index(request, template=None):
 
 def login(request):
     """This view gets SSO-protected and redirects to next."""
-    if request.uw_user.is_authenticated:
-        logger.info('User %s logged in' % (request.uw_user.username))
-        next_url = request.session.pop('_uw_postlogin', default='/')
+    if request.uwnetid:
+        logger.info('User %s@washington.edu logged in' % (request.uwnetid))
+        next_url = request.session.pop(POSTLOGIN_KEY, default='/')
         return redirect(next_url if is_safe_url(next_url) else '/')
     else:
-        # This can happen if a user gets past weblogin but comes in with
-        # no attributes, which indicates a problem upstream.
-        return _login_error(request)
+        error = getattr(request, 'login_url_error', None)
+        status = 401
+        context = {}
+        if isinstance(error, LoginNotPerson):
+            context['non_person'] = error.netid
+        elif isinstance(error, InvalidSessionError):
+            context['non_uw_user'] = True
+        else:
+            status = 500
+        # end of the road.
+        request.session.flush()
+        return render(request, 'idbase/login-error.html', status=status,
+                      context=context)
 
 
 def logout(request):
@@ -39,8 +51,8 @@ def logout(request):
     response = (redirect(next_url)
                 if next_url
                 else render(request, 'idbase/logout.html'))
-    logger.debug('Logging out {} and redirecting to {}'.format(
-        request.uw_user.username, next_url))
+    logger.debug('Logging out {}@washington.edu and redirecting to {}'.format(
+        request.uwnetid, next_url))
     # delete all cookies that don't contain the string 'persistent'
     delete_keys = [key for key in request.COOKIES
                    if not re.search(r'persistent', key, re.IGNORECASE)]
@@ -48,23 +60,3 @@ def logout(request):
         response.delete_cookie(key)
 
     return response
-
-
-def _login_error(request):
-    context = {}
-    user = request.uw_user
-    if not user.username:
-        logger.error('No REMOTE_USER variable set')
-    elif not user.is_uw:
-        logger.error('incorrect idp!!, REMOTE_USER={}'.format(
-            user.username))
-        context['non_uw_user'] = True
-    elif not user.is_person:
-        logger.error('non-person logging in to site, REMOTE_USER={}'.format(
-            user.username))
-        context['non_person'] = user.netid
-
-    # end of the road.
-    request.session.flush()
-    return render(request, 'idbase/login-error.html', status=401,
-                  context=context)
