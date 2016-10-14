@@ -2,25 +2,18 @@ language: python
 matrix:
   include:
     - python: 2.7
-      env: DJANGO_VERSION='<1.10'
-    - python: 2.7
-      env: DJANGO_VERSION='>=1.10'
     - python: 3.5
-      env: DJANGO_VERSION='>=1.10'
 install: pip install -U -r requirements.txt
 before_script:
-  - phantomjs --version
+  - phantomjs --version  # angular works with 2.0+ and travis only offers 1.9.8
+  - npm install phantomjs-prebuilt
+  - export PHANTOMJS_PATH=`pwd`/node_modules/.bin/phantomjs
+  - $PHANTOMJS_PATH --version
   - pip install python-coveralls selenium
-  - pip install -U "Django$DJANGO_VERSION"
   - "export DJANGO_SETTINGS_MODULE=idbase_site.settings"
-  # the following four tasks are only needed to run functional_tests.
   - python manage.py migrate
-  # for firefox
-  # - "export DISPLAY=:99.0"
-  # - "sh -e /etc/init.d/xvfb start"
-  # - sleep 3 # give xvfb some time to start
 script:
   - py.test --pep8 --cov idbase
-  # - py.test tests/functional_tests.py
+  - py.test tests/functional_tests.py
 after_success:
   - coveralls
