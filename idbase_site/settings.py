@@ -30,6 +30,7 @@ SETTINGS_CONTEXT_ATTRIBUTES = ['DEBUG', 'LOGOUT_URL', 'PROFILE_URL',
                                'RECOVERY_OPTIONS_URL']
 PROFILE_URL = '/'
 RECOVERY_OPTIONS_URL = '/secure/'
+SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'

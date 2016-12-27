@@ -575,6 +575,6 @@ uw-active-tab {
 @media (min-width: 300px) {
     #timeoutModal .modal-dialog {
         width: 270px;
-	margin: 30px auto;
+	    margin: 30px auto;
     }
 }

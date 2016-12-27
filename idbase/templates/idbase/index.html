@@ -9,32 +9,30 @@
 {% block content %}
     {% verbatim %}
     <uw-active-tab>Profile</uw-active-tab>
-    <div  class="container" ng-cloak>
-		<h1 class="page-title">Identity.UW enables you to...</h1>
+    <h1 class="page-title">Identity.UW enables you to...</h1>
 
-        <h2>Demo pages</h2>
-        <p>Such as this one!</p>
-        <h2>Demo logins</h2>
-        <p>By clicking <a id="loginLink" href="/secure">this link!</a></p>
-        <h2>Test errors</h2>
-        <p ng-controller="MakeErrorCtrl as makeError">By clicking
-            <button id="badButton"
-                    type="button" class="btn btn-primary"
-                    ng-click="makeError.doIt()">this button!</button></p>
-        <h2>Show the timeout dialog</h2>
-        <p ng-controller="MakeTimeoutCtrl as makeTimeout">By clicking
-            <button type="button" class="btn btn-primary"
-                    ng-click="makeTimeout.doIt()">this button!</button></p>
+    <h2>Demo pages</h2>
+    <p>Such as this one!</p>
+    <h2>Demo logins</h2>
+    <p>By clicking <a id="loginLink" href="/secure">this link!</a></p>
+    <h2>Test errors</h2>
+    <p ng-controller="MakeErrorCtrl as makeError">By clicking
+        <button id="badButton"
+                type="button" class="btn btn-primary"
+                ng-click="makeError.doIt()">this button!</button></p>
+    <h2>Show the timeout dialog</h2>
+    <p ng-controller="MakeTimeoutCtrl as makeTimeout">By clicking
+        <button type="button" class="btn btn-primary"
+                ng-click="makeTimeout.doIt()">this button!</button></p>
 
-        {% endverbatim %}
-        <p>Your session should time out in {{ session_timeout }} seconds.</p>
-        {% verbatim %}
-        <h2>Demo tooltips</h2>
-        <p>Here's a tooltip demo: <uw-tooltip>This is the tooltip text <a href="http://uw.edu">UW</a></uw-tooltip></p>
-        <h2>Demo no navbar</h2>
-        <p>By clicking on <a href="/nonav">this link.</a></p>
-        <h2>label testing</h2>
-        <p>A label such as <label>This label RIGHT HERE</label> should appear as bolded.</p>
-    </div>
+    {% endverbatim %}
+    <p>Your session should time out in {{ session_timeout }} seconds.</p>
+    {% verbatim %}
+    <h2>Demo tooltips</h2>
+    <p>Here's a tooltip demo: <uw-tooltip>This is the tooltip text <a href="http://uw.edu">UW</a></uw-tooltip></p>
+    <h2>Demo no navbar</h2>
+    <p>By clicking on <a href="/nonav">this link.</a></p>
+    <h2>label testing</h2>
+    <p>A label such as <label>This label RIGHT HERE</label> should appear as bolded.</p>
     {% endverbatim %}
 {% endblock %}
