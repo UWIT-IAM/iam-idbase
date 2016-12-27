@@ -1,0 +1,14 @@
+<!-- ERROR modal -->
+<div class="modal fade bs-modal-sm" id="{{ modal.name }}" tabindex="-1" role="dialog"
+     aria-labelledby="{{ modal.name }}_title">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" ng-click="modal.hide()">
+                    <span aria-hidden="true">&times;</span></button>
+                <h2 class="modal-title" id="{{ modal.name }}_title">{{ modal.title }}</h2>
+            </div>
+            <div class="modal-body" id="{{ modal.name }}_body" ng-transclude></div>
+        </div>
+    </div>
+</div>

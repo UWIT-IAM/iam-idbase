@@ -1,15 +1,15 @@
 // javascript file for demo purposes only
 var app = angular.module('identityApp');
 
-app.controller('MakeErrorCtrl', ['ErrorSvc', function(ErrorSvc){
+app.controller('MakeErrorCtrl', function(errorService){
     this.doIt = function() {
-        ErrorSvc.state.isErrorSet = true;
+        errorService.showError();
     };
-}]);
+});
 
 
-app.controller('MakeTimeoutCtrl', ['TimeoutSvc', function(TimeoutSvc){
+app.controller('MakeTimeoutCtrl', function(errorService){
     this.doIt = function() {
-        TimeoutSvc.showTimeout();
+        errorService.showTimeout();
     };
-}]);
+});

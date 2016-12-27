@@ -1,31 +1,26 @@
 {% extends "idbase/base.html" %}
 
 {% block content %}
-
-    <div class="container" ng-cloak>
-            <div id="error_page">
-                {% if non_uw_user %}
-                    <div ng-controller="LoginStatusCtrl as loginStatus">
-                    <h1 ng-init="loginStatus.info.netid = 'external user'">You're still logged in as a non-UW user.</h1>
-                    <p>Please <a href="{{ settings.LOGOUT_URL }}">log out</a> and log back in with your UW NetID.</p>
-                    <p><a href="{{ settings.LOGOUT_URL }}">Log out</a></p>
-                    </div>
-                {% elif non_person %}
-                    <div ng-controller="LoginStatusCtrl as loginStatus">
-                    <h1 ng-init="loginStatus.info.netid = '{{ non_person }}'">Unable to use Identity.UW with shared or admin accounts.</h1>
-                    <p>Please <a href="{{ settings.LOGOUT_URL }}">log out</a> and log back in with your personal UW NetID.</p>
-                    <p><a href="{{ settings.LOGOUT_URL }}">Log out</a></p>
-                    </div>
-                {% else %} {# no_remote_user or other unrecoverable error #}
-                    <div ng-controller="ErrorCtrl as error"
-                         ng-init="error.errorState.isErrorSet = true">
-                        <h1>Error logging in.</h1>
-                        <p>There was an error with your account. If the problem persists, please contact
-                            the UW-IT Service Center for assistance.
-                        </p>
-                        <p><a href="{{ settings.LOGOUT_URL }}">Try logging in again.</a></p>
-                    </div>
-                {% endif %}
+    <div id="error_page">
+        {% if non_uw_user %}
+            <div ng-controller="LoginStatusCtrl as loginStatus">
+            <h1 ng-init="loginStatus.info.netid = 'external user'">You're still logged in as a non-UW user.</h1>
+            <p>Please <a href="{{ settings.LOGOUT_URL }}">log out</a> and log back in with your UW NetID.</p>
+            <p><a href="{{ settings.LOGOUT_URL }}">Log out</a></p>
             </div>
+        {% elif non_person %}
+            <div ng-controller="LoginStatusCtrl as loginStatus">
+            <h1 ng-init="loginStatus.info.netid = '{{ non_person }}'">Unable to use Identity.UW with shared or admin accounts.</h1>
+            <p>Please <a href="{{ settings.LOGOUT_URL }}">log out</a> and log back in with your personal UW NetID.</p>
+            <p><a href="{{ settings.LOGOUT_URL }}">Log out</a></p>
+            </div>
+        {% else %} {# no_remote_user or other unrecoverable error #}
+            <idbase-error show="1"></idbase-error>
+            <h1>Error logging in.</h1>
+            <p>There was an error with your account. If the problem persists, please contact
+                the UW-IT Service Center for assistance.
+            </p>
+            <p><a href="{{ settings.LOGOUT_URL }}">Try logging in again.</a></p>
+        {% endif %}
     </div>
 {% endblock %}

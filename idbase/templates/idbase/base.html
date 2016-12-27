@@ -75,46 +75,11 @@
 
 
 	
-        <div id="content" role="main" >
-            <!-- Unrecoverable error alert that persists for the duration of the page. -->
-            <div class="container" ng-controller="ErrorCtrl as errorHandler" ng-show="errorHandler.errorState.isErrorSet" ng-cloak>
-                <div id="serverError" class="alert alert-danger global-error" role="alert" aria-live="assertive">
-                    We are experiencing technical issues. Please try later or contact UW-IT Service Center (206) 221-5000.
-                </div> <!-- ./alert-danger -->
-            </div> <!-- ./container -->
-
+        <div id="content" role="main" class="container" ng-cloak>
+            <idbase-error></idbase-error>
             <!-- Child page content gets injected here. -->
             {% block content %}{% endblock %}
-
-<!-- ERROR modal -->
-            <div class="modal fade bs-modal-sm" id="timeoutModal" tabindex="-1" role="dialog"
-                 ng-controller="TimeoutCtrl as timeout"
-                 aria-labelledby="timeoutModalTitle">
-                <div class="modal-dialog modal-sm" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                    aria-hidden="true">&times;</span></button>
-                            <h2 class="modal-title" id="timeoutModalTitle">Error</h2>
-                        </div>
-                        <!-- /.modal-header -->
-                        <div class="modal-body" id="expired_message">
-                            <p> Your session became invalid. </p>
-
-                            <P>
-                                <form><button type="button" class="btn btn-primary first-btn"
-                                        ng-click="timeout.reload()">
-                                    Restart
-                                </button></form>
-                        </div>
-                        <!-- /.modal-body -->
-                    </div>
-                    <!-- /.modal-content -->
-                </div>
-                <!-- /.modal-dialog -->
-            </div>
-            <!-- /.modal -->
-        
+            <idbase-timeout></idbase-timeout>
         </div>
                      
         <div id="footer" role="contentinfo">
@@ -139,6 +104,9 @@
             <script src={% static "vendor/bootstrap/3.3.6/js/bootstrap.min.js" %}></script>
             {% compress js %}
                 {% block js %}
+                    <script>
+                        var STATIC_ROOT = '{% static "" %}';
+                    </script>
                     <script src="{% static "idbase/js/identity.js" %}"></script>
                 {% endblock %}
             {% endcompress %}

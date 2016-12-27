@@ -19,55 +19,31 @@ app.factory('TitleSvc', function(){
   };
 });
 
-app.factory('TimeoutSvc', ['$window', function($window){
+app.service('errorService', function($log){
     var _this = this;
-    _this.reloadFunc = function() {$window.location.reload();};
-
-    return {
-        setReloadFunc: function(func) { _this.reloadFunc = func; },
-        reload: function() {_this.reloadFunc();},
-        showTimeout: function() {
-            $('#timeoutModal')
-                .modal('show')
-                .on('shown.bs.modal', function() { $('#timeoutModal').find('button.btn-primary').focus();
-            });
-        }
+    _this.inactivity = {show: 0};
+    _this.error = {show: 0};
+    _this.showTimeout = function() {
+        _this.inactivity.show++;
     };
-}]);
+    _this.showError = function() {
+        _this.error.show++;
+    };
+    _this.handleError = function(response) {
+        if(response.status === 401){
+            $log.info('expired session');
+            _this.showTimeout();
+        }
+        else if (response.status >= 500){
+            $log.info('500 error from the server');
+            _this.showError();
+        }
+    }
+});
 
 app.controller('TitleCtrl', ['TitleSvc', function(TitleSvc){
     var _this = this;
     this.Page = TitleSvc;
-}]);
-
-app.controller('TimeoutCtrl', ['TimeoutSvc', function(TimeoutSvc){
-    this.reload = function() {
-        TimeoutSvc.reload();
-    };
-}]);
-
-// Our service to handle general errors (401 - invalid session, 500 - server error)
-app.factory('ErrorSvc', ['$log', 'TimeoutSvc', function($log, TimeoutSvc){
-    var _this = this;
-    this.state = {isErrorSet: false};
-    this.handleError = function(data, status) {
-        if (status == 401) {
-            $log.info('expired session, ', data);
-            TimeoutSvc.showTimeout();
-        } else if (status == 500) {
-            $log.info('500 error from server,', data);
-            _this.state.isErrorSet = true;
-        }
-    };
-
-    return {
-        handleError: _this.handleError,
-        state: _this.state
-    };
-}]);
-
-app.controller('ErrorCtrl', ['ErrorSvc', function(ErrorSvc){
-    this.errorState = ErrorSvc.state;
 }]);
 
 // This only works well when there's only one set-focus directive in the DOM (which we do through ng-if)
@@ -187,7 +163,7 @@ app.directive('uwActiveTab', [function(){
 }]);
 
 
-function LoginStatus($log, $http, ErrorSvc, config) {
+function LoginStatus($log, $http, errorService, config) {
     // Service returning information about an authenticated user.
 
     var loginInfo = {netid: null, name: null};
@@ -205,7 +181,7 @@ function LoginStatus($log, $http, ErrorSvc, config) {
             })
             .catch(function (response) {
                 if(response.status != 401) {
-                    ErrorSvc.handleError(response.data, response.status);
+                    errorService.handleError(response);
                 }
                 return null;
             });
@@ -228,12 +204,71 @@ app.provider('loginStatus', function loginStatusProvider() {
         config.defaultCheck = value;
     };
 
-    this.$get = ['$log', '$http', 'ErrorSvc',
-        function loginStatusFactory($log, $http, ErrorSvc) {
-            return new LoginStatus($log, $http, ErrorSvc, config);
+    this.$get = ['$log', '$http', 'errorService',
+        function loginStatusFactory($log, $http, errorService) {
+            return new LoginStatus($log, $http, errorService, config);
         }];
 });
 
 app.controller('LoginStatusCtrl', ['loginStatus', function(loginStatus){
     this.info = loginStatus.info;
 }]);
+
+app.component('idbaseError', {
+    bindings: {'show': '<'},
+    controller: function(errorService){
+        var ctrl = this;
+        ctrl.$onInit = function() {
+            ctrl.error = errorService.error;
+        };
+    },
+    templateUrl: STATIC_ROOT + 'idbase/html/error.html'
+});
+
+app.component('idbaseTimeout', {
+    controllerAs: 'timeout',
+    controller: function(errorService, $window){
+        var ctrl = this;
+        ctrl.$onInit = function() {
+            ctrl.inactivity = errorService.inactivity;
+        };
+        ctrl.restart = function() {
+            $window.location.href = '.';
+        };
+    },
+    templateUrl: STATIC_ROOT + 'idbase/html/timeout.html'
+});
+
+/**
+ * idbase-modal creates a bootstrap modal with an id of name and an h2 title
+ * of title. The modal is triggered by changes to the value pointed at by
+ * show.
+ */
+app.component('idbaseModal', {
+    bindings: {name: '@', title: '@', show: '<'},
+    transclude: true,
+    controllerAs: 'modal',
+    controller: function($log, $timeout) {
+        var ctrl = this;
+        ctrl.showModal = function() {
+            // wrapping in a $timeout ensures #ctrl.name will be in the DOM.
+            $timeout(function(){
+                var element = $('#' + ctrl.name);
+                element
+                    .modal('show')
+                    .on('shown.bs.modal', function() {
+                        var button = element.find('button.btn-primary');
+                        if(button){
+                            button.focus();
+                        }
+                    });
+            });
+        };
+        ctrl.$onChanges = function(changes){
+            if(changes.show && changes.show.currentValue){
+                ctrl.showModal();
+            }
+        };
+    },
+    templateUrl: STATIC_ROOT + 'idbase/html/modal.html'
+});
