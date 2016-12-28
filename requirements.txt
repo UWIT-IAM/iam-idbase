@@ -5,4 +5,5 @@ mock
 pytest
 pytest-django
 pytest-pep8
+pytest-flake8
 pytest-cov
