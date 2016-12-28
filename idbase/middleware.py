@@ -44,7 +44,7 @@ def is_personal_netid(netid=None):
     return regid and regid.entity_name == 'Person'
 
 
-class LoginUrlMiddleware(object):
+def login_url_middleware(get_response):
     """
     Middleware to check the REMOTE_USER variable only when on LOGIN_URL,
     storing the user in the session. This should negate the need for
@@ -62,35 +62,37 @@ class LoginUrlMiddleware(object):
     """
     UWNETID_KEY = '_login_url_uwnetid'
 
-    def process_request(self, request):
+    def middleware(request):
         """
         Create a new login if on LOGIN_URL. Otherwise use an existing user if
         stored in the session.
         """
         if request.path == settings.LOGIN_URL:
-            self.flush_session(request)
+            flush_session(request)
             try:
                 uwnetid = get_authenticated_uwnetid(
                     remote_user=request.META.get('REMOTE_USER', ''),
                     saml_idp=request.META.get('Shib-Identity-Provider', ''))
-                request.session[self.UWNETID_KEY] = uwnetid
+                request.session[UWNETID_KEY] = uwnetid
             except (LoginNotPerson, InvalidSessionError) as e:
                 logger.info(e)
                 request.login_url_error = e
             except Exception as e:
                 logger.exception(e)
                 request.login_url_error = e
-        request.uwnetid = request.session.get(self.UWNETID_KEY, None)
+        request.uwnetid = request.session.get(UWNETID_KEY, None)
+        return get_response(request)
 
-    @staticmethod
     def flush_session(request):
         postlogin_url = request.session.pop(POSTLOGIN_KEY, default=None)
         request.session.flush()
         if postlogin_url:
             request.session[POSTLOGIN_KEY] = postlogin_url
 
+    return middleware
 
-class SessionTimeoutMiddleware(object):
+
+def session_timeout_middleware(get_response):
     """
     Middleware to supplement built-in session expiration with an
     independently-managed timeout. This allows us to set
@@ -99,20 +101,19 @@ class SessionTimeoutMiddleware(object):
     setting SESSION_TIMEOUT_DEFAULT_SECONDS, the absence of which will set a
     timeout of 20 minutes.
     """
-    def __init__(self):
-        if not settings.SESSION_EXPIRE_AT_BROWSER_CLOSE:
-            raise ImproperlyConfigured(
-                'SessionTimeoutMiddleware expects '
-                'SESSION_EXPIRE_AT_BROWSER_CLOSE to be True.')
+    if not settings.SESSION_EXPIRE_AT_BROWSER_CLOSE:
+        raise ImproperlyConfigured(
+            'SessionTimeoutMiddleware expects '
+            'SESSION_EXPIRE_AT_BROWSER_CLOSE to be True.')
 
-    def process_request(self, request):
+    def middleware(request):
         """
         Invalidate a session if expiration is beyond the last session update.
         """
         last_update = request.session.get('_session_timeout_last_update',
                                           localized_datetime_string_now())
 
-        expiry = getattr(settings, 'SESSION_TIMEOUT_DEFAULT_SECONDS', 20*60)
+        expiry = getattr(settings, 'SESSION_TIMEOUT_DEFAULT_SECONDS', 20 * 60)
 
         diff = datetime_diff_seconds(last_update)
         if diff > expiry:
@@ -121,31 +122,40 @@ class SessionTimeoutMiddleware(object):
                     diff, expiry))
             request.session.flush()
 
-    def process_response(self, request, response):
-        """
-        Reset the timeout if the session has been modified.
-        """
+        response = get_response(request)
+
         if request.session.modified:
-            request.session['_session_timeout_last_update'] = \
-                localized_datetime_string_now()
+            now = localized_datetime_string_now()
+            request.session['_session_timeout_last_update'] = now
         return response
 
+    return middleware
 
-class MockLoginMiddleware(object):
-    """
-    Middleware to fake a shib-protected LOGIN_URL.
-    """
-    def __init__(self):
-        if not settings.DEBUG:
-            logger.error('MockLoginMiddleware shouldn\'t be set in a '
-                         'production environment')
-        if not hasattr(settings, 'MOCK_LOGIN_USER'):
-            raise ImproperlyConfigured('MOCK_LOGIN_USER required.')
 
-    def process_request(self, request):
+def mock_login_middleware(get_response):
+    """
+    Middleware to fake a shib-protected LOGIN_URL. Disabled unless both
+    USE_MOCK_LOGIN and MOCK_LOGIN_USER are set.
+    """
+    use_mock_login = getattr(settings, 'USE_MOCK_LOGIN', False)
+    mock_login_user = getattr(settings, 'MOCK_LOGIN_USER', '')
+    if not all((use_mock_login, mock_login_user)):
+        logger.info('mock_login_middleware is disabled for this environment.')
+
+        def neutered_middleware(request):
+            return get_response(request)
+        return neutered_middleware
+    if not settings.DEBUG:
+        logger.error('MockLoginMiddleware shouldn\'t be set in a '
+                     'production environment')
+
+    def middleware(request):
         """
         Set a remote_user if on LOGIN_URL.
         """
         if request.path == settings.LOGIN_URL:
             request.META.setdefault('REMOTE_USER', settings.MOCK_LOGIN_USER)
             request.META.setdefault('Shib-Identity-Provider', UW_SAML_ENTITY)
+        return get_response(request)
+
+    return middleware

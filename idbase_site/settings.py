@@ -34,6 +34,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
+USE_MOCK_LOGIN = True
 MOCK_LOGIN_USER = 'javerage@washington.edu'
 SESSION_TIMEOUT_DEFAULT_SECONDS = 20
 IDBASE_IRWS_CLASS = 'idbase.mock.IRWS'
@@ -50,13 +51,13 @@ INSTALLED_APPS = [
     'idbase',
 ]
 
-MIDDLEWARE_CLASSES = [
-    'idbase.middleware.MockLoginMiddleware',
+MIDDLEWARE = [
+    'idbase.middleware.mock_login_middleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'idbase.middleware.SessionTimeoutMiddleware',
+    'idbase.middleware.session_timeout_middleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'idbase.middleware.LoginUrlMiddleware',
+    'idbase.middleware.login_url_middleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -128,8 +129,8 @@ LOGGING = {
             'format': ('%(asctime)s %(levelname)s '
                        '%(module)s.%(funcName)s():%(lineno)d: '
                        '%(message)s')
-            },
         },
+    },
     'handlers': {
         'console': {
             'level': 'DEBUG',
