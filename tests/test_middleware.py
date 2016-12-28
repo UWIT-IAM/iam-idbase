@@ -3,7 +3,7 @@ from idbase.middleware import (login_url_middleware,
                                mock_login_middleware,
                                get_authenticated_uwnetid)
 from pytest import fixture, raises, mark
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, MiddlewareNotUsed
 from idbase.exceptions import InvalidSessionError, LoginNotPerson, ServiceError
 
 
@@ -176,12 +176,21 @@ def test_mock_login_middleware_enabled(req, settings):
             'urn:mace:incommon:washington.edu')
 
 
+def test_mock_login_middleware_prefixes(req, settings):
+    settings.USE_MOCK_LOGIN = True
+    settings.MOCK_LOGIN_USER = 'foo@washington.edu'
+    settings.MOCK_LOGIN_PREFIXES = ('/foo/login/',)
+    req.path = '/foo/login/blah'
+    mock_login_middleware(gr)(req)
+    assert req.META.get('REMOTE_USER') == 'foo@washington.edu'
+    assert (req.META.get('Shib-Identity-Provider') ==
+            'urn:mace:incommon:washington.edu')
+
+
 def test_mock_login_middleware_disabled(req, settings):
     settings.USE_MOCK_LOGIN = False
-
-    req.path = settings.LOGIN_URL
-    mock_login_middleware(gr)(req)
-    assert not req.META.get('REMOTE_USER')
+    with raises(MiddlewareNotUsed):
+        mock_login_middleware(gr)
 
 
 def gr(request):
