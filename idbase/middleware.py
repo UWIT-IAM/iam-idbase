@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
+from django.core.exceptions import ImproperlyConfigured, MiddlewareNotUsed
 from idbase.util import localized_datetime_string_now, datetime_diff_seconds
 from idbase.util import get_class
 import logging
@@ -11,6 +11,7 @@ logger = logging.getLogger(__name__)
 
 UW_SAML_ENTITY = getattr(settings, 'SAML_ENTITIES', {}).get(
     'uw', 'urn:mace:incommon:washington.edu')
+MOCK_LOGIN_SAML = UW_SAML_ENTITY
 
 
 def get_authenticated_uwnetid(remote_user='', saml_idp=''):
@@ -136,26 +137,27 @@ def mock_login_middleware(get_response):
     """
     Middleware to fake a shib-protected LOGIN_URL. Disabled unless both
     USE_MOCK_LOGIN and MOCK_LOGIN_USER are set.
+    Optional setting MOCK_LOGIN_PREFIXES is a list of url prefixes for which
+    we also set fake shib credentials.
     """
     use_mock_login = getattr(settings, 'USE_MOCK_LOGIN', False)
     mock_login_user = getattr(settings, 'MOCK_LOGIN_USER', '')
     if not all((use_mock_login, mock_login_user)):
-        logger.info('mock_login_middleware is disabled for this environment.')
-
-        def neutered_middleware(request):
-            return get_response(request)
-        return neutered_middleware
+        raise MiddlewareNotUsed()
     if not settings.DEBUG:
-        logger.error('MockLoginMiddleware shouldn\'t be set in a '
+        logger.error('mock_login_middleware shouldn\'t be set in a '
                      'production environment')
 
     def middleware(request):
         """
         Set a remote_user if on LOGIN_URL.
         """
-        if request.path == settings.LOGIN_URL:
+        prefixes = getattr(settings, 'MOCK_LOGIN_PREFIXES', ())
+        path = request.path or ''
+        if (path == settings.LOGIN_URL or
+                any(path.startswith(prefix) for prefix in prefixes)):
             request.META.setdefault('REMOTE_USER', settings.MOCK_LOGIN_USER)
-            request.META.setdefault('Shib-Identity-Provider', UW_SAML_ENTITY)
+            request.META.setdefault('Shib-Identity-Provider', MOCK_LOGIN_SAML)
         return get_response(request)
 
     return middleware

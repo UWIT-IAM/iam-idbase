@@ -8,14 +8,14 @@ A base look-and-feel package for apps designed to run on Identity.UW with django
 ## What it includes:
 * template idbase/base.html and the common site-wide statics for dependent apps to include.
 * Angular app in identity.js for common site-wide behaviors.
-* middleware LoginUrlMiddleware and SessionTimeoutMiddleware for managing logins and sessions in a common way.
+* middleware login_url_middleware and session_timeout_middleware for managing logins and sessions in a common way.
 * RESTDispatch class for creating new api endpoints.
 * settings_context context_processor for exposing settings to templates.
 
 ## Using it within a project
 * Add 'compressor' and 'idbase' to your settings.INSTALLED_APPS
-* Add 'idbase.middleware.SessionTimeoutMiddleware' to settings.MIDDLEWARE_CLASSES after SessionMiddleware and set SESSION_EXPIRE_AT_BROWSER_CLOSE to True.
-* Replace any authentication middleware in settings.MIDDLEWARE_CLASSES with 'idbase.middleware.LoginUrlMiddleware'.
+* Add 'idbase.middleware.session_timeout_middleware' to settings.MIDDLEWARE after SessionMiddleware and set SESSION_EXPIRE_AT_BROWSER_CLOSE to True.
+* Replace any authentication middleware in settings.MIDDLEWARE with 'idbase.middleware.login_url_middleware'.
 * Add 'idbase.context_processors.settings_context' to your settings.TEMPLATES list of context_processors.
 * Declare a settings.LOGIN_URL and a settings.LOGOUT_URL
 * Declare the settings you want exposed to your templates...
@@ -31,10 +31,10 @@ INSTALLED_APPS = (
      'idbase',
      ...)
 
-MIDDLEWARE_CLASSES = [
+MIDDLEWARE = [
     ...
-    'idbase.middleware.SessionTimeoutMiddleware',
-    'idbase.middleware.LoginUrlMiddleware,
+    'idbase.middleware.session_timeout_middleware',
+    'idbase.middleware.login_url_middleware,
     ...
 ]
 IDBASE_IRWS_CLASS = 'yourapp.dao.IRWS'
